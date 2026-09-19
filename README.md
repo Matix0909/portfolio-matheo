@@ -2,6 +2,7 @@
 
 Site vitrine statique (HTML / CSS / JS pur, aucune dépendance, aucun build) prêt à être publié gratuitement.
 
+
 ## Structure
 
 ```
