@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mathéo Guéant — BTS SIO SISR</title>
+<title>CV — Mathéo Guéant</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
 
@@ -420,6 +420,21 @@
     html { scroll-behavior: auto; }
     #netbg { display: none; }
   }
+
+  /* ---- Page interne (CV / Lettre / Stage) ---- */
+  .subpage-hero { padding: 120px 0 20px; }
+  .breadcrumb { font-family: 'IBM Plex Mono', monospace; font-size: 0.8rem; color: var(--ink-faint); margin-bottom: 22px; }
+  .breadcrumb a { color: var(--ink-dim); text-decoration: none; }
+  .breadcrumb a:hover { color: var(--signal); }
+  .subpage-hero h1 { font-size: clamp(2rem, 4.4vw, 2.8rem); font-weight: 700; letter-spacing: -0.02em; margin-bottom: 14px; }
+  .subpage-hero p { color: var(--ink-dim); max-width: 56ch; font-size: 1rem; }
+  .empty-frame {
+    background: var(--panel);
+    border: 1px dashed var(--line-strong);
+    border-radius: 16px;
+    min-height: 440px;
+    margin: 40px 0 90px;
+  }
 </style>
 </head>
 <body>
@@ -433,151 +448,38 @@
   <header>
     <div class="brand">
       <div class="dot"></div>
-      <span class="mono">matheo.gueant</span>
+      <a href="../index.html" style="text-decoration:none;color:inherit;"><span class="mono">matheo.gueant</span></a>
     </div>
     <nav>
-      <a href="#competences">Compétences</a>
-      <a href="#projets">Projets</a>
-      <a href="#formation">Formation</a>
-      <a href="#contact">Contact</a>
+      <a href="../index.html#competences">Compétences</a>
+      <a href="../index.html#projets">Projets</a>
+      <a href="../index.html#formation">Formation</a>
+      <a href="../index.html#contact">Contact</a>
     </nav>
 
     <div class="docs-group">
-      <a href="cv/" class="doc-pill" title="Voir le CV">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+      <a href="../cv/" class="doc-pill doc-pill-live" title="CV">
+        <span class="doc-pill-dot"></span>
         <span>CV</span>
       </a>
-      <a href="lettredemotivation/" class="doc-pill" title="Lire la lettre de motivation">
+      <a href="../lettredemotivation/" class="doc-pill" title="Lettre">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 9.4 6.2a1.6 1.6 0 0 0 1.9 0L22.6 7" transform="translate(-0.6 0)"/></svg>
         <span>Lettre</span>
       </a>
-      <a href="stage/" class="doc-pill" title="Recherche de stage">
+      <a href="../stage/" class="doc-pill" title="Stage">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
         <span>Stage</span>
       </a>
     </div>
   </header>
 
-  <section class="hero" style="border-top:none;">
-    <div class="tag">
-      <span class="dot"></span>
-      BTS SIO — option SISR
-    </div>
-    <h1>Mathéo Guéant</h1>
-    <p>Étudiant en Solutions d'Infrastructure, Systèmes et Réseaux. J'installe, configure et sécurise des infrastructures réseau — du plan d'adressage à la supervision.</p>
-    <div class="hero-cta">
-      <a href="#projets" class="btn btn-primary">Voir mes projets</a>
-      <a href="#contact" class="btn btn-ghost">Me contacter</a>
-    </div>
-    <div class="hero-stats">
-      <div><span class="num mono">3</span><span class="lbl">projets réseau</span></div>
-      <div><span class="num mono">2</span><span class="lbl">ans de formation</span></div>
-      <div><span class="num mono">SISR</span><span class="lbl">option</span></div>
-    </div>
+  <section class="subpage-hero" style="border-top:none;">
+    <div class="breadcrumb"><a href="../index.html">Accueil</a> / CV</div>
+    <h1>CV</h1>
+    <p>Curriculum vitae — BTS SIO option SISR.</p>
   </section>
 
-  <section id="competences">
-    <div class="section-head">
-      <span class="idx mono">01</span>
-      <h2>Compétences</h2>
-    </div>
-    <div class="skills">
-      <div class="skill">
-        <h3>Réseaux</h3>
-        <ul>
-          <li>Adressage IP / VLSM<span class="bar"><span style="width:88%"></span></span></li>
-          <li>Routage &amp; VLAN<span class="bar"><span style="width:85%"></span></span></li>
-          <li>Pare-feu / ACL<span class="bar"><span style="width:60%"></span></span></li>
-        </ul>
-      </div>
-      <div class="skill">
-        <h3>Systèmes</h3>
-        <ul>
-          <li>Windows Server / AD DS<span class="bar"><span style="width:82%"></span></span></li>
-          <li>Administration Linux<span class="bar"><span style="width:80%"></span></span></li>
-          <li>Scripting Bash / PS<span class="bar"><span style="width:55%"></span></span></li>
-        </ul>
-      </div>
-      <div class="skill">
-        <h3>Sécurité</h3>
-        <ul>
-          <li>Sécurisation des accès<span class="bar"><span style="width:58%"></span></span></li>
-          <li>Supervision (Zabbix)<span class="bar"><span style="width:55%"></span></span></li>
-          <li>Sauvegarde &amp; PRA<span class="bar"><span style="width:35%"></span></span></li>
-        </ul>
-      </div>
-      <div class="skill">
-        <h3>Outils</h3>
-        <ul>
-          <li>Packet Tracer / GNS3<span class="bar"><span style="width:85%"></span></span></li>
-          <li>Proxmox<span class="bar"><span style="width:62%"></span></span></li>
-          <li>GLPI<span class="bar"><span style="width:35%"></span></span></li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <section id="projets">
-    <div class="section-head">
-      <span class="idx mono">02</span>
-      <h2>Projets</h2>
-    </div>
-    <div class="projects">
-      <div class="project">
-        <div class="stack mono">VLAN · ROUTAGE INTER-VLAN</div>
-        <h3>Refonte réseau d'un site école</h3>
-        <p>Segmentation en VLAN par service, routage inter-VLAN et plan d'adressage complet sous Packet Tracer.</p>
-      </div>
-      <div class="project">
-        <div class="stack mono">AD DS · GPO</div>
-        <h3>Déploiement Active Directory</h3>
-        <p>Mise en place d'un domaine, gestion des utilisateurs et stratégies de groupe pour un parc de postes simulé.</p>
-      </div>
-      <div class="project">
-        <div class="stack mono">PROXMOX · SUPERVISION</div>
-        <h3>Infrastructure virtualisée de test</h3>
-        <p>Cluster Proxmox avec VM de services (DNS, DHCP, supervision) pour reproduire une infra en conditions réelles.</p>
-      </div>
-    </div>
-  </section>
-
-  <section id="formation">
-    <div class="section-head">
-      <span class="idx mono">03</span>
-      <h2>Formation</h2>
-    </div>
-    <div class="timeline">
-      <div class="tl-item">
-        <span class="period">2024 — 2026</span>
-        <h3>BTS SIO — option SISR</h3>
-        <p>Solutions d'Infrastructure, Systèmes et Réseaux.</p>
-      </div>
-      <div class="tl-item">
-        <span class="period">2021 — 2024</span>
-        <h3>Bac Pro SN — Lycée Savary Ferry</h3>
-        <p>Systèmes Numériques.</p>
-      </div>
-    </div>
-  </section>
-
-  <section id="contact">
-    <div class="section-head">
-      <span class="idx mono">04</span>
-      <h2>Contact</h2>
-    </div>
-    <div class="contact-panel">
-      <div>
-        <div class="status"><span class="dot"></span>recherche alternance — disponible</div>
-        <h3>On en discute ?</h3>
-        <p>Ouvert aux stages, alternances et projets réseau.</p>
-      </div>
-      <div class="contact-links">
-        <a href="mailto:gueantmatheo0@gmail.com">gueantmatheo0@gmail.com</a>
-        <a href="#">linkedin.com/in/matheo-gueant</a>
-        <a href="#">github.com/mgueant</a>
-      </div>
-    </div>
-  </section>
+  <div class="empty-frame"></div>
 
   <footer>
     <span class="mono">Mathéo Guéant — BTS SIO SISR</span>
@@ -587,8 +489,6 @@
 
 <script>
 (function () {
-  // Fond "circuit imprimé" : un maillage de traces à angle droit avec des
-  // impulsions lumineuses qui voyagent le long des pistes, façon PCB / réseau.
   var canvas = document.getElementById('netbg');
   if (!canvas) return;
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
