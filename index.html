@@ -24,6 +24,10 @@
     --line: rgba(238,242,246,0.08);
     --line-strong: rgba(238,242,246,0.15);
     --shadow: rgba(0,0,0,0.35);
+    --header-bg: rgba(10,14,20,0.68);
+    --glow-a: rgba(95,211,163,0.16);
+    --glow-b: rgba(139,127,232,0.13);
+    --glow-c: rgba(224,166,73,0.07);
   }
   :root[data-theme="light"] {
     --bg: #F2F4F6;
@@ -36,6 +40,10 @@
     --line: rgba(21,32,43,0.09);
     --line-strong: rgba(21,32,43,0.17);
     --shadow: rgba(21,32,43,0.08);
+    --header-bg: rgba(242,244,246,0.75);
+    --glow-a: rgba(95,211,163,0.22);
+    --glow-b: rgba(139,127,232,0.17);
+    --glow-c: rgba(224,166,73,0.09);
   }
   @media (prefers-color-scheme: light) {
     :root:not([data-theme="dark"]) {
@@ -49,6 +57,10 @@
       --line: rgba(21,32,43,0.09);
       --line-strong: rgba(21,32,43,0.17);
       --shadow: rgba(21,32,43,0.08);
+      --header-bg: rgba(242,244,246,0.75);
+      --glow-a: rgba(95,211,163,0.22);
+      --glow-b: rgba(139,127,232,0.17);
+      --glow-c: rgba(224,166,73,0.09);
     }
   }
 
@@ -68,20 +80,27 @@
   .wrap { max-width: 980px; margin: 0 auto; padding: 0 32px; position: relative; z-index: 1; }
 
   /* ---- Background layers ---- */
-  #netbg {
-    position: fixed;
-    inset: 0;
-    z-index: 0;
+  /* Halos colorés répartis sur TOUTE la hauteur de la page (ils défilent avec le contenu) */
+  .bg-glow {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
-    opacity: 0.6;
+    z-index: 0;
     pointer-events: none;
-  }
-  :root[data-theme="light"] #netbg { opacity: 0.4; }
-  @media (prefers-color-scheme: light) {
-    :root:not([data-theme="dark"]) #netbg { opacity: 0.4; }
+    background:
+      radial-gradient(640px 480px at 12% 3%, var(--glow-a), transparent 65%),
+      radial-gradient(700px 520px at 90% 6%, var(--glow-b), transparent 65%),
+      radial-gradient(780px 520px at 50% 30%, var(--glow-c), transparent 70%),
+      radial-gradient(620px 520px at 6% 28%, var(--glow-b), transparent 65%),
+      radial-gradient(680px 540px at 94% 46%, var(--glow-a), transparent 65%),
+      radial-gradient(640px 520px at 10% 66%, var(--glow-c), transparent 65%),
+      radial-gradient(700px 560px at 90% 82%, var(--glow-b), transparent 65%),
+      radial-gradient(760px 520px at 50% 98%, var(--glow-a), transparent 65%);
   }
 
+  /* Grille double échelle, plein écran, qui glisse à des vitesses différentes au scroll */
   .bg-grid {
     position: fixed;
     inset: 0;
@@ -89,47 +108,36 @@
     pointer-events: none;
     background-image:
       linear-gradient(var(--line) 1px, transparent 1px),
-      linear-gradient(90deg, var(--line) 1px, transparent 1px);
-    background-size: 42px 42px;
-    -webkit-mask-image: radial-gradient(ellipse 75% 55% at 50% 0%, #000 0%, transparent 72%);
-            mask-image: radial-gradient(ellipse 75% 55% at 50% 0%, #000 0%, transparent 72%);
-    opacity: 0.7;
+      linear-gradient(90deg, var(--line) 1px, transparent 1px),
+      linear-gradient(var(--line-strong) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line-strong) 1px, transparent 1px);
+    background-size: 42px 42px, 42px 42px, 210px 210px, 210px 210px;
+    background-position:
+      0 calc(var(--sy, 0) * -0.08px), 0 calc(var(--sy, 0) * -0.08px),
+      0 calc(var(--sy, 0) * -0.2px), 0 calc(var(--sy, 0) * -0.2px);
+    -webkit-mask-image: radial-gradient(ellipse 95% 85% at 50% 45%, #000 0%, transparent 100%);
+            mask-image: radial-gradient(ellipse 95% 85% at 50% 45%, #000 0%, transparent 100%);
+    opacity: 0.55;
   }
 
-  .bg-glow {
+  /* Canvas : 4 couches de profondeur (lointain → premier plan), plein écran en permanence */
+  #netbg {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+
+  /* Vignette légère sur les bords : renforce la profondeur sans masquer le fond */
+  .bg-vignette {
     position: fixed;
     inset: 0;
     z-index: 0;
     pointer-events: none;
-    background:
-      radial-gradient(560px 420px at 14% 8%, rgba(95,211,163,0.16), transparent 65%),
-      radial-gradient(620px 460px at 88% 2%, rgba(139,127,232,0.13), transparent 65%),
-      radial-gradient(700px 500px at 50% 30%, rgba(224,166,73,0.06), transparent 70%);
-    filter: blur(6px);
-  }
-  :root[data-theme="light"] .bg-glow {
-    background:
-      radial-gradient(560px 420px at 14% 8%, rgba(95,211,163,0.20), transparent 65%),
-      radial-gradient(620px 460px at 88% 2%, rgba(139,127,232,0.16), transparent 65%),
-      radial-gradient(700px 500px at 50% 30%, rgba(224,166,73,0.08), transparent 70%);
-  }
-  @media (prefers-color-scheme: light) {
-    :root:not([data-theme="dark"]) .bg-glow {
-      background:
-        radial-gradient(560px 420px at 14% 8%, rgba(95,211,163,0.20), transparent 65%),
-        radial-gradient(620px 460px at 88% 2%, rgba(139,127,232,0.16), transparent 65%),
-        radial-gradient(700px 500px at 50% 30%, rgba(224,166,73,0.08), transparent 70%);
-    }
-  }
-
-  .bg-fade {
-    position: fixed;
-    inset: 0;
-    z-index: 0;
-    pointer-events: none;
-    background:
-      radial-gradient(ellipse 70% 50% at 50% 0%, transparent 0%, var(--bg) 80%),
-      linear-gradient(180deg, transparent 0%, var(--bg) 94%);
+    opacity: 0.65;
+    background: radial-gradient(ellipse 130% 110% at 50% 50%, transparent 58%, var(--bg) 100%);
   }
   /* ---- end background layers ---- */
 
@@ -141,13 +149,9 @@
     justify-content: space-between;
     align-items: center;
     padding: 20px 0;
-    background: rgba(10,14,20,0.68);
+    background: var(--header-bg);
     backdrop-filter: blur(14px);
     border-bottom: 1px solid var(--line);
-  }
-  :root[data-theme="light"] header { background: rgba(242,244,246,0.75); }
-  @media (prefers-color-scheme: light) {
-    :root:not([data-theme="dark"]) header { background: rgba(242,244,246,0.75); }
   }
   .brand { display: flex; align-items: center; gap: 10px; }
   .brand .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--signal); box-shadow: 0 0 10px var(--signal); animation: pulse 2.4s ease-in-out infinite; }
@@ -388,7 +392,7 @@
   .stage-fact .val { font-size: 0.88rem; color: var(--ink); }
 
   @media print {
-    header, .hero-cta, #netbg, .bg-glow, .bg-grid, .bg-fade, footer, #stage, #contact,
+    header, .hero-cta, #netbg, .bg-glow, .bg-grid, .bg-vignette, footer, #stage, #contact,
     section:not(#cv):not(#lettre) { display: none !important; }
     body { background: #fff; color: #111; }
     .cv-card, .letter-card { box-shadow: none; border: none; }
@@ -429,7 +433,7 @@
 <div class="bg-glow"></div>
 <div class="bg-grid"></div>
 <canvas id="netbg"></canvas>
-<div class="bg-fade"></div>
+<div class="bg-vignette"></div>
 
 <div class="wrap">
   <header>
@@ -589,26 +593,68 @@
 
 <script>
 (function () {
-  // Fond "circuit imprimé" : un maillage de traces à angle droit avec des
-  // impulsions lumineuses qui voyagent le long des pistes, façon PCB / réseau.
+  // Fond "circuit imprimé" en 4 couches de profondeur.
+  // Chaque couche est un maillage de traces avec des impulsions lumineuses ;
+  // plus la couche est proche, plus les nœuds sont gros, flous et rapides.
+  // Les couches défilent à des vitesses différentes (parallaxe au scroll + souris)
+  // et se répètent à l'infini : le fond couvre toute la page, de haut en bas.
   var canvas = document.getElementById('netbg');
   if (!canvas) return;
-  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (reduceMotion) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
   var ctx = canvas.getContext('2d');
+  var root = document.documentElement;
+  var lightMQ = window.matchMedia('(prefers-color-scheme: light)');
+  var TAU = Math.PI * 2;
   var w, h, dpr;
-  var CELL = 96;
-  var cols, rows;
-  var nodePts = [];
-  var edges = [];
-  var pulses = [];
+  var sy = window.pageYOffset || 0;
+  var mx = 0, my = 0, tmx = 0, tmy = 0, last = 0;
+  var layers = [];
 
-  function isLight() {
-    var theme = document.documentElement.getAttribute('data-theme');
-    if (theme === 'light') return true;
-    if (theme === 'dark') return false;
-    return window.matchMedia('(prefers-color-scheme: light)').matches;
+  var COLORS = {
+    signal: '95,211,163',
+    amber: '224,166,73',
+    violet: '139,127,232',
+    inkD: '238,242,246',
+    inkL: '21,32,43'
+  };
+
+  // cell : taille de maille · par : parallaxe au scroll · drift : dérive (px/s)
+  // line/lw : opacité/épaisseur des traces · nr/na : rayon/opacité des nœuds
+  // halo/ha : rayon/opacité du halo des nœuds · hs : rayon du halo des impulsions
+  // tail : longueur de traînée · sp : vitesse · keep : densité des traces
+  // pf : quantité d'impulsions · on : proportion de nœuds actifs
+  var LAYERS = [
+    { cell: 84,  par: 0.05, drift: 3,  line: 0.05, lw: 0.6, nr: 0.9, na: 0.22, halo: 0,  ha: 0,    hs: 9,  tail: 14, sp: 0.5, keep: 0.55, pf: 0.05, on: 0.5 },
+    { cell: 130, par: 0.16, drift: 6,  line: 0.09, lw: 1,   nr: 1.8, na: 0.34, halo: 16, ha: 0.30, hs: 17, tail: 32, sp: 0.9, keep: 0.50, pf: 0.07, on: 0.5 },
+    { cell: 230, par: 0.42, drift: 11, line: 0.13, lw: 1.8, nr: 3.4, na: 0.48, halo: 40, ha: 0.55, hs: 36, tail: 76, sp: 1.5, keep: 0.42, pf: 0.10, on: 0.6 },
+    { cell: 380, par: 0.80, drift: 16, line: 0,    lw: 0,   nr: 0,   na: 0,    halo: 90, ha: 0.16, hs: 0,  tail: 0,  sp: 0,   keep: 0,    pf: 0,    on: 0.45 }
+  ];
+
+  var sprites = {};
+  Object.keys(COLORS).forEach(function (k) { sprites[k] = makeSprite(COLORS[k]); });
+
+  function makeSprite(rgb) {
+    var s = document.createElement('canvas');
+    s.width = s.height = 64;
+    var g = s.getContext('2d');
+    var grad = g.createRadialGradient(32, 32, 0, 32, 32, 32);
+    grad.addColorStop(0, 'rgba(' + rgb + ',1)');
+    grad.addColorStop(0.18, 'rgba(' + rgb + ',0.55)');
+    grad.addColorStop(0.5, 'rgba(' + rgb + ',0.14)');
+    grad.addColorStop(1, 'rgba(' + rgb + ',0)');
+    g.fillStyle = grad;
+    g.fillRect(0, 0, 64, 64);
+    return s;
+  }
+
+  function pickHue() {
+    var r = Math.random();
+    return r < 0.5 ? 'signal' : (r < 0.78 ? 'violet' : 'amber');
+  }
+  function pulseHue() {
+    var r = Math.random();
+    return r < 0.72 ? 'signal' : (r < 0.86 ? 'amber' : 'violet');
   }
 
   function resize() {
@@ -622,121 +668,195 @@
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   }
 
-  function colorFor(hue, alpha) {
-    if (hue === 'amber') return 'rgba(224,166,73,' + alpha + ')';
-    if (hue === 'violet') return 'rgba(139,127,232,' + alpha + ')';
-    return 'rgba(95,211,163,' + alpha + ')';
+  function addEdge(L, a, b) {
+    var A = L.nodes[a], B = L.nodes[b];
+    var dx = B.x - A.x, dy = B.y - A.y;
+    if (dy < -L.tileH / 2) dy += L.tileH;
+    L.edges.push({ a: a, b: b, len: Math.sqrt(dx * dx + dy * dy) || 1, ax: 0, ay: 0, bx: 0, by: 0 });
   }
 
-  function buildGrid() {
-    cols = Math.ceil(w / CELL) + 2;
-    rows = Math.ceil((h * 0.85) / CELL) + 2;
-    nodePts = [];
-    var grid = [];
-    for (var gy = 0; gy < rows; gy++) {
-      grid[gy] = [];
-      for (var gx = 0; gx < cols; gx++) {
-        var jitter = CELL * 0.28;
-        var x = gx * CELL + (Math.random() - 0.5) * jitter;
-        var y = gy * CELL + (Math.random() - 0.5) * jitter;
-        var idx = nodePts.length;
-        nodePts.push({ x: x, y: y, active: Math.random() < 0.5 });
-        grid[gy][gx] = idx;
+  function spawn(L, startRandom) {
+    L.pulses.push({
+      e: L.edges[(Math.random() * L.edges.length) | 0],
+      t: startRandom ? Math.random() : 0,
+      v: (0.4 + Math.random() * 0.5) * L.sp,
+      hue: pulseHue()
+    });
+  }
+
+  function build() {
+    var k = w < 760 ? 0.72 : 1;
+    layers = LAYERS.map(function (cfg) {
+      var L = {}, key;
+      for (key in cfg) L[key] = cfg[key];
+      L.cell = cfg.cell * k;
+      L.halo = cfg.halo * k;
+      var cols = Math.ceil(w / L.cell) + 3;
+      var rows = Math.ceil((h + 2 * L.cell) / L.cell) + 1;
+      L.tileH = rows * L.cell;
+      L.nodes = [];
+      L.edges = [];
+      L.pulses = [];
+
+      var grid = [], jit = L.cell * 0.32, gx, gy;
+      for (gy = 0; gy < rows; gy++) {
+        grid[gy] = [];
+        for (gx = 0; gx < cols; gx++) {
+          grid[gy][gx] = L.nodes.length;
+          L.nodes.push({
+            x: (gx - 1) * L.cell + (Math.random() - 0.5) * jit,
+            y: gy * L.cell + (Math.random() - 0.5) * jit,
+            on: Math.random() < L.on,
+            ph: Math.random() * TAU,
+            tw: 0.5 + Math.random() * 1.3,
+            hue: pickHue()
+          });
+        }
       }
-    }
 
-    edges = [];
-    var keepChance = 0.55;
-    for (var gy = 0; gy < rows; gy++) {
-      for (var gx = 0; gx < cols; gx++) {
-        var a = grid[gy][gx];
-        if (gx < cols - 1 && Math.random() < keepChance) edges.push({ a: a, b: grid[gy][gx + 1] });
-        if (gy < rows - 1 && Math.random() < keepChance) edges.push({ a: a, b: grid[gy + 1][gx] });
+      if (L.keep) {
+        for (gy = 0; gy < rows; gy++) {
+          for (gx = 0; gx < cols; gx++) {
+            var a = grid[gy][gx];
+            if (gx < cols - 1 && Math.random() < L.keep) addEdge(L, a, grid[gy][gx + 1]);
+            // la dernière rangée se raccorde à la première : la couche boucle sans coupure
+            if (Math.random() < L.keep) addEdge(L, a, grid[(gy + 1) % rows][gx]);
+          }
+        }
       }
-    }
 
-    pulses = [];
-    var PULSE_COUNT = Math.max(10, Math.round(edges.length * 0.06));
-    for (var i = 0; i < PULSE_COUNT; i++) spawnPulse();
+      L.pos = new Float32Array(L.nodes.length * 2);
+      if (L.pf && L.edges.length) {
+        var count = Math.max(5, Math.round(L.edges.length * L.pf));
+        for (var i = 0; i < count; i++) spawn(L, true);
+      }
+      return L;
+    });
   }
 
-  function spawnPulse() {
-    if (!edges.length) return;
-    var e = edges[Math.floor(Math.random() * edges.length)];
-    var hue = Math.random() < 0.78 ? 'signal' : (Math.random() < 0.5 ? 'amber' : 'violet');
-    pulses.push({ edge: e, t: 0, speed: 0.004 + Math.random() * 0.006, hue: hue });
-  }
-
-  function step() {
-    var light = isLight();
-    var lineColor = light ? 'rgba(21,32,43,' : 'rgba(238,242,246,';
-    var nodeColor = light ? 'rgba(21,32,43,' : 'rgba(238,242,246,';
+  function draw(now, dt) {
+    var theme = root.getAttribute('data-theme');
+    var light = theme === 'light' || (theme !== 'dark' && lightMQ.matches);
+    var ink = light ? COLORS.inkL : COLORS.inkD;
 
     ctx.clearRect(0, 0, w, h);
+    ctx.globalCompositeOperation = light ? 'source-over' : 'lighter';
 
-    ctx.lineWidth = 1;
-    for (var i = 0; i < edges.length; i++) {
-      var e = edges[i];
-      var a = nodePts[e.a], b = nodePts[e.b];
-      ctx.strokeStyle = lineColor + '0.07)';
-      ctx.beginPath();
-      ctx.moveTo(a.x, a.y);
-      ctx.lineTo(b.x, b.y);
-      ctx.stroke();
+    for (var li = 0; li < layers.length; li++) {
+      var L = layers[li], nodes = L.nodes, edges = L.edges, P = L.pos;
+      var i, e, n, ax, ay, bx, by;
+      var off = sy * L.par + now * 0.001 * L.drift;
+      var ox = mx * L.par * 60, oy = my * L.par * 40;
+      var half = L.tileH / 2;
+
+      // position écran de chaque nœud (répétition verticale infinie)
+      for (i = 0; i < nodes.length; i++) {
+        n = nodes[i];
+        P[2 * i] = n.x + ox;
+        P[2 * i + 1] = (((n.y - off) % L.tileH) + L.tileH) % L.tileH - L.cell + oy;
+      }
+
+      // traces
+      if (L.line) {
+        ctx.lineWidth = L.lw;
+        ctx.strokeStyle = 'rgba(' + ink + ',' + L.line + ')';
+        ctx.beginPath();
+        for (i = 0; i < edges.length; i++) {
+          e = edges[i];
+          ax = P[2 * e.a]; ay = P[2 * e.a + 1];
+          bx = P[2 * e.b]; by = P[2 * e.b + 1];
+          if (by - ay > half) by -= L.tileH;
+          else if (by - ay < -half) by += L.tileH;
+          e.ax = ax; e.ay = ay; e.bx = bx; e.by = by;
+          ctx.moveTo(ax, ay);
+          ctx.lineTo(bx, by);
+        }
+        ctx.stroke();
+      }
+
+      // nœuds : petits points au loin, grosses "étoiles" à halo et scintillement au premier plan
+      var pad = L.halo + 8;
+      for (i = 0; i < nodes.length; i++) {
+        n = nodes[i];
+        if (!n.on) continue;
+        var x = P[2 * i], y = P[2 * i + 1];
+        if (x < -pad || x > w + pad || y < -pad || y > h + pad) continue;
+        var tw = 0.65 + 0.35 * Math.sin(now * 0.001 * n.tw + n.ph);
+        if (L.halo) {
+          ctx.globalAlpha = L.ha * tw;
+          ctx.drawImage(sprites[n.hue], x - L.halo, y - L.halo, L.halo * 2, L.halo * 2);
+        }
+        if (L.nr) {
+          ctx.globalAlpha = 1;
+          ctx.fillStyle = 'rgba(' + ink + ',' + (L.na * tw).toFixed(3) + ')';
+          ctx.beginPath();
+          ctx.arc(x, y, L.nr, 0, TAU);
+          ctx.fill();
+        }
+      }
+      ctx.globalAlpha = 1;
+
+      // impulsions lumineuses
+      for (i = L.pulses.length - 1; i >= 0; i--) {
+        var p = L.pulses[i];
+        e = p.e;
+        p.t += p.v * dt / e.len;
+        if (p.t >= 1) { L.pulses.splice(i, 1); spawn(L, false); continue; }
+        var fade = Math.sin(p.t * Math.PI);
+        var px = e.ax + (e.bx - e.ax) * p.t;
+        var py = e.ay + (e.by - e.ay) * p.t;
+        var tt = Math.max(0, p.t - L.tail / e.len);
+        var tx = e.ax + (e.bx - e.ax) * tt;
+        var ty = e.ay + (e.by - e.ay) * tt;
+
+        ctx.strokeStyle = 'rgba(' + COLORS[p.hue] + ',' + (0.4 * fade).toFixed(3) + ')';
+        ctx.lineWidth = L.lw + 0.8;
+        ctx.beginPath();
+        ctx.moveTo(tx, ty);
+        ctx.lineTo(px, py);
+        ctx.stroke();
+
+        ctx.globalAlpha = 0.2 + 0.8 * fade;
+        ctx.drawImage(sprites[p.hue], px - L.hs, py - L.hs, L.hs * 2, L.hs * 2);
+        ctx.globalAlpha = 1;
+      }
     }
-
-    for (var i = 0; i < nodePts.length; i++) {
-      var n = nodePts[i];
-      if (!n.active) continue;
-      ctx.beginPath();
-      ctx.arc(n.x, n.y, 1.3, 0, Math.PI * 2);
-      ctx.fillStyle = nodeColor + '0.22)';
-      ctx.fill();
-    }
-
-    for (var i = pulses.length - 1; i >= 0; i--) {
-      var p = pulses[i];
-      p.t += p.speed;
-      if (p.t >= 1) { pulses.splice(i, 1); spawnPulse(); continue; }
-      var a = nodePts[p.edge.a], b = nodePts[p.edge.b];
-      var px = a.x + (b.x - a.x) * p.t;
-      var py = a.y + (b.y - a.y) * p.t;
-      var fade = Math.sin(p.t * Math.PI);
-
-      ctx.beginPath();
-      ctx.arc(px, py, 2.4, 0, Math.PI * 2);
-      ctx.fillStyle = colorFor(p.hue, 0.9 * fade + 0.1);
-      ctx.shadowColor = colorFor(p.hue, 0.9);
-      ctx.shadowBlur = 10;
-      ctx.fill();
-      ctx.shadowBlur = 0;
-
-      var tailT = Math.max(0, p.t - 0.12);
-      var tx = a.x + (b.x - a.x) * tailT;
-      var ty = a.y + (b.y - a.y) * tailT;
-      ctx.strokeStyle = colorFor(p.hue, 0.35 * fade);
-      ctx.lineWidth = 1.6;
-      ctx.beginPath();
-      ctx.moveTo(tx, ty);
-      ctx.lineTo(px, py);
-      ctx.stroke();
-    }
-
-    requestAnimationFrame(step);
+    ctx.globalCompositeOperation = 'source-over';
   }
 
-  resize();
-  buildGrid();
-  requestAnimationFrame(step);
+  function frame(now) {
+    var dt = last ? Math.min(3, (now - last) / 16.667) : 1;
+    last = now;
+    mx += (tmx - mx) * 0.05 * dt;
+    my += (tmy - my) * 0.05 * dt;
+    draw(now, dt);
+    requestAnimationFrame(frame);
+  }
+
+  window.addEventListener('scroll', function () {
+    sy = window.pageYOffset || 0;
+    root.style.setProperty('--sy', sy);
+  }, { passive: true });
+
+  window.addEventListener('pointermove', function (ev) {
+    if (ev.pointerType === 'touch') return;
+    tmx = (ev.clientX / w - 0.5) * 2;
+    tmy = (ev.clientY / h - 0.5) * 2;
+  }, { passive: true });
 
   var resizeTimer;
   window.addEventListener('resize', function () {
     clearTimeout(resizeTimer);
     resizeTimer = setTimeout(function () {
       resize();
-      buildGrid();
+      build();
     }, 200);
   });
+
+  root.style.setProperty('--sy', sy);
+  resize();
+  build();
+  requestAnimationFrame(frame);
 })();
 </script>
 
