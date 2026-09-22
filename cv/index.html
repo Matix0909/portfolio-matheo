@@ -206,30 +206,6 @@
 
   @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
 
-  .hero { padding: 132px 0 100px; max-width: 700px; }
-  .hero .tag {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-family: 'IBM Plex Mono', monospace;
-    color: var(--signal);
-    font-size: 0.84rem;
-    margin-bottom: 26px;
-    padding: 7px 14px;
-    background: var(--signal-dim);
-    border-radius: 100px;
-    border: 1px solid rgba(95,211,163,0.22);
-  }
-  .hero .tag .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--signal); }
-  .hero h1 {
-    font-size: clamp(2.6rem, 6vw, 4rem);
-    font-weight: 700;
-    line-height: 1.05;
-    margin-bottom: 22px;
-    letter-spacing: -0.025em;
-  }
-  .hero p { color: var(--ink-dim); max-width: 48ch; font-size: 1.08rem; margin-bottom: 34px; }
-  .hero-cta { display: flex; gap: 12px; margin-bottom: 56px; }
   .btn {
     display: inline-flex;
     align-items: center;
@@ -246,49 +222,11 @@
   .btn-ghost { border: 1px solid var(--line-strong); color: var(--ink); }
   .btn-ghost:hover { border-color: var(--signal); color: var(--signal); }
 
-  .hero-stats { display: flex; gap: 36px; padding-top: 32px; border-top: 1px solid var(--line); }
-  .hero-stats div { display: flex; flex-direction: column; gap: 4px; }
-  .hero-stats .num { font-family: 'IBM Plex Mono', monospace; font-size: 1.5rem; font-weight: 500; color: var(--signal); }
-  .hero-stats .lbl { font-size: 0.8rem; color: var(--ink-faint); }
-
   section { padding: 76px 0; border-top: 1px solid var(--line); }
-  .section-head { display: flex; align-items: baseline; gap: 14px; margin-bottom: 40px; }
-  .section-head .idx { font-family: 'IBM Plex Mono', monospace; color: var(--signal); font-size: 0.86rem; }
-  .section-head h2 { font-size: 1.6rem; font-weight: 700; letter-spacing: -0.015em; }
-
-  .skills { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
-  .skill {
-    background: var(--panel);
-    border: 1px solid var(--line);
-    border-radius: 12px;
-    padding: 24px 20px;
-    box-shadow: 0 8px 20px -12px var(--shadow);
-    transition: border-color 0.18s ease, transform 0.18s ease, background 0.18s ease;
-  }
-  .skill:hover { border-color: var(--line-strong); background: var(--panel-hover); transform: translateY(-3px); }
-  .skill h3 { font-size: 0.96rem; font-weight: 600; margin-bottom: 16px; }
-  .skill ul { list-style: none; display: flex; flex-direction: column; gap: 11px; }
-  .skill li { font-size: 0.84rem; color: var(--ink-dim); }
-  .skill li .bar { display: block; height: 3px; background: var(--line); border-radius: 3px; margin-top: 7px; overflow: hidden; }
-  .skill li .bar span { display: block; height: 100%; background: linear-gradient(90deg, var(--signal), #8de8c8); border-radius: 3px; }
-
-  .projects { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
-  .project {
-    border: 1px solid var(--line);
-    border-radius: 12px;
-    padding: 26px;
-    background: var(--panel);
-    box-shadow: 0 8px 20px -12px var(--shadow);
-    transition: border-color 0.18s ease, transform 0.18s ease, background 0.18s ease;
-  }
-  .project:hover { border-color: rgba(95,211,163,0.32); background: var(--panel-hover); transform: translateY(-4px); }
-  .project .stack { font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem; color: var(--amber); margin-bottom: 16px; letter-spacing: 0.02em; }
-  .project h3 { font-size: 1.05rem; font-weight: 600; margin-bottom: 10px; line-height: 1.35; }
-  .project p { font-size: 0.87rem; color: var(--ink-dim); }
 
   .timeline { position: relative; padding-left: 30px; }
   .timeline::before { content: ""; position: absolute; left: 5px; top: 6px; bottom: 6px; width: 1px; background: var(--line-strong); }
-  .tl-item { position: relative; padding-bottom: 36px; }
+  .tl-item { position: relative; padding-bottom: 32px; }
   .tl-item:last-child { padding-bottom: 0; }
   .tl-item::before {
     content: "";
@@ -303,34 +241,11 @@
     box-shadow: 0 0 0 4px var(--signal-dim);
   }
   .tl-item .period { font-family: 'IBM Plex Mono', monospace; color: var(--signal); font-size: 0.79rem; margin-bottom: 7px; display: block; }
-  .tl-item h3 { font-size: 1.06rem; font-weight: 600; margin-bottom: 7px; }
-  .tl-item p { color: var(--ink-dim); font-size: 0.92rem; }
-
-  .contact-panel {
-    background: var(--panel);
-    border: 1px solid var(--line);
-    border-radius: 16px;
-    padding: 44px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 28px;
-    box-shadow: 0 12px 30px -14px var(--shadow);
-  }
-  .contact-panel h3 { font-size: 1.35rem; font-weight: 700; margin-bottom: 8px; }
-  .contact-panel p { color: var(--ink-dim); font-size: 0.92rem; }
-  .contact-links { display: flex; flex-direction: column; gap: 11px; align-items: flex-end; }
-  .contact-links a {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.9rem;
-    color: var(--ink-dim);
-    text-decoration: none;
-    transition: color 0.15s ease;
-  }
-  .contact-links a:hover { color: var(--signal); }
-  .status { display: inline-flex; align-items: center; gap: 8px; font-family: 'IBM Plex Mono', monospace; font-size: 0.79rem; color: var(--signal); margin-bottom: 16px; }
-  .status .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--signal); box-shadow: 0 0 8px var(--signal); }
+  .tl-item h4 { font-size: 1.02rem; font-weight: 600; margin-bottom: 2px; }
+  .tl-item .place { color: var(--ink-faint); font-size: 0.82rem; margin-bottom: 12px; }
+  .tl-item ul { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+  .tl-item ul li { color: var(--ink-dim); font-size: 0.87rem; padding-left: 16px; position: relative; }
+  .tl-item ul li::before { content: "—"; position: absolute; left: 0; color: var(--ink-faint); }
 
   footer { padding: 32px 0 54px; display: flex; justify-content: space-between; color: var(--ink-faint); font-size: 0.8rem; font-family: 'IBM Plex Mono', monospace; }
 
@@ -342,61 +257,31 @@
     padding: 36px;
     box-shadow: 0 12px 30px -14px var(--shadow);
   }
-  .cv-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; flex-wrap: wrap; margin-bottom: 32px; padding-bottom: 28px; border-bottom: 1px solid var(--line); }
-  .cv-top h3 { font-size: 1.3rem; font-weight: 700; margin-bottom: 6px; }
-  .cv-role { color: var(--signal); font-size: 0.85rem; }
+  .cv-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; flex-wrap: wrap; margin-bottom: 26px; padding-bottom: 26px; border-bottom: 1px solid var(--line); }
+  .cv-top h3 { font-size: 1.4rem; font-weight: 700; margin-bottom: 6px; }
+  .cv-role { color: var(--signal); font-size: 0.85rem; font-family: 'IBM Plex Mono', monospace; }
   .cv-top .btn { white-space: nowrap; }
-  .cv-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
-  .cv-col h4 { font-size: 0.78rem; color: var(--ink-faint); letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 14px; }
+  .cv-profile { color: var(--ink-dim); font-size: 0.92rem; max-width: 62ch; margin-bottom: 36px; }
+  .cv-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-bottom: 40px; }
+  .cv-col h4 { font-size: 0.76rem; color: var(--ink-faint); letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 14px; }
+  .cv-col + .cv-col-spacer, .cv-col h4.spaced { margin-top: 26px; }
   .cv-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
-  .cv-list li { font-size: 0.88rem; color: var(--ink); display: flex; flex-direction: column; gap: 3px; }
+  .cv-list li { font-size: 0.87rem; color: var(--ink); display: flex; flex-direction: column; gap: 3px; }
   .cv-list .cv-period { color: var(--signal); font-size: 0.75rem; }
   .cv-list.plain li { color: var(--ink-dim); }
   .cv-tags { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; }
   .cv-tags li { font-size: 0.78rem; font-family: 'IBM Plex Mono', monospace; color: var(--ink-dim); background: var(--bg-soft); border: 1px solid var(--line); padding: 6px 11px; border-radius: 100px; }
-
-  /* ---- Lettre de motivation ---- */
-  .letter-card {
-    background: var(--panel);
-    border: 1px solid var(--line);
-    border-radius: 16px;
-    padding: 44px;
-    max-width: 720px;
-    margin: 0 auto;
-    box-shadow: 0 12px 30px -14px var(--shadow);
-  }
-  .letter-meta { display: flex; flex-direction: column; gap: 6px; font-size: 0.78rem; color: var(--ink-faint); margin-bottom: 26px; padding-bottom: 20px; border-bottom: 1px dashed var(--line-strong); }
-  .letter-body p { color: var(--ink-dim); font-size: 0.94rem; margin-bottom: 16px; }
-  .letter-body .letter-sign { color: var(--ink); font-weight: 600; margin-top: 20px; margin-bottom: 0; }
-  .letter-print { margin-top: 10px; }
-
-  /* ---- Stage ---- */
-  .stage-card {
-    background: var(--panel);
-    border: 1px solid var(--line);
-    border-radius: 16px;
-    padding: 40px;
-    box-shadow: 0 12px 30px -14px var(--shadow);
-  }
-  .stage-card h3 { font-size: 1.25rem; font-weight: 700; margin-bottom: 10px; max-width: 44ch; }
-  .stage-card > p { color: var(--ink-dim); font-size: 0.94rem; max-width: 56ch; margin-bottom: 28px; }
-  .stage-facts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 30px; }
-  .stage-fact { background: var(--bg-soft); border: 1px solid var(--line); border-radius: 10px; padding: 16px; display: flex; flex-direction: column; gap: 6px; }
-  .stage-fact .lbl { font-size: 0.72rem; color: var(--ink-faint); letter-spacing: 0.03em; text-transform: uppercase; }
-  .stage-fact .val { font-size: 0.88rem; color: var(--ink); }
+  .cv-section-title { font-size: 0.76rem; color: var(--ink-faint); letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 22px; }
 
   @media print {
-    header, .hero-cta, #netbg, .bg-glow, .bg-grid, .bg-fade, footer, #stage, #contact,
-    section:not(#cv):not(#lettre) { display: none !important; }
+    header, #netbg, .bg-glow, .bg-grid, .bg-fade, footer, .cv-top .btn { display: none !important; }
     body { background: #fff; color: #111; }
-    .cv-card, .letter-card { box-shadow: none; border: none; }
+    .cv-card { box-shadow: none; border: none; padding: 0; }
+    section { padding: 0; border-top: none; }
+    .subpage-hero { display: none; }
   }
 
   @media (max-width: 760px) {
-    .hero { padding: 84px 0 64px; }
-    .hero-stats { gap: 24px; flex-wrap: wrap; }
-    .skills { grid-template-columns: 1fr 1fr; }
-    .projects { grid-template-columns: 1fr; }
     nav a { padding: 8px 10px; }
     header { flex-wrap: wrap; gap: 10px; }
     nav { order: 3; width: 100%; justify-content: center; }
@@ -404,14 +289,10 @@
     .doc-pill span { display: none; }
     .doc-pill { padding: 8px; }
     .doc-pill svg, .doc-pill-dot { margin: 0; }
-    .contact-panel { flex-direction: column; align-items: flex-start; text-align: left; }
-    .contact-links { align-items: flex-start; }
     footer { flex-direction: column; gap: 8px; }
     .cv-grid { grid-template-columns: 1fr; gap: 24px; }
     .cv-top { flex-direction: column; align-items: stretch; }
     .cv-top .btn { width: 100%; justify-content: center; }
-    .letter-card { padding: 28px; }
-    .stage-facts { grid-template-columns: 1fr 1fr; }
   }
 
   :focus-visible { outline: 2px solid var(--signal); outline-offset: 3px; }
@@ -428,13 +309,6 @@
   .breadcrumb a:hover { color: var(--signal); }
   .subpage-hero h1 { font-size: clamp(2rem, 4.4vw, 2.8rem); font-weight: 700; letter-spacing: -0.02em; margin-bottom: 14px; }
   .subpage-hero p { color: var(--ink-dim); max-width: 56ch; font-size: 1rem; }
-  .empty-frame {
-    background: var(--panel);
-    border: 1px dashed var(--line-strong);
-    border-radius: 16px;
-    min-height: 440px;
-    margin: 40px 0 90px;
-  }
 </style>
 </head>
 <body>
@@ -476,10 +350,106 @@
   <section class="subpage-hero" style="border-top:none;">
     <div class="breadcrumb"><a href="../index.html">Accueil</a> / CV</div>
     <h1>CV</h1>
-    <p>Curriculum vitae — BTS SIO option SISR.</p>
+    <p>Curriculum vitae — BTS SIO option SISR. Version en ligne et PDF téléchargeable.</p>
   </section>
 
-  <div class="empty-frame"></div>
+  <section style="padding-top:0;border-top:none;">
+    <div class="cv-card">
+      <div class="cv-top">
+        <div>
+          <h3>Mathéo Guéant</h3>
+          <div class="cv-role">RÉSEAU — BTS SIO SISR</div>
+        </div>
+        <a href="CV-Matheo-Gueant.pdf" download class="btn btn-primary">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v13"/><path d="m7 12 5 5 5-5"/><path d="M4 21h16"/></svg>
+          Télécharger le CV (PDF)
+        </a>
+      </div>
+
+      <p class="cv-profile">Motivé, sérieux et dynamique, je suis une personne à l'écoute et ponctuelle. J'aime apprendre, travailler en équipe et acquérir de nouvelles compétences.</p>
+
+      <div class="cv-grid">
+        <div class="cv-col">
+          <h4>Formation</h4>
+          <ul class="cv-list">
+            <li>
+              <span class="cv-period">2025</span>
+              Bac Professionnel Systèmes Numériques — Lycée Professionnel Savary-Ferry, Dainville
+            </li>
+          </ul>
+          <h4 class="spaced" style="margin-top:28px;">Langues</h4>
+          <ul class="cv-list plain">
+            <li>Anglais — niveau scolaire</li>
+            <li>Espagnol — niveau scolaire</li>
+          </ul>
+        </div>
+
+        <div class="cv-col">
+          <h4>Compétences techniques</h4>
+          <ul class="cv-tags">
+            <li>Windows</li>
+            <li>Linux</li>
+            <li>Machines virtuelles</li>
+            <li>IP</li>
+            <li>DHCP</li>
+            <li>DNS</li>
+            <li>Modèle OSI</li>
+            <li>Maintenance</li>
+            <li>Dépannage</li>
+            <li>Configuration</li>
+          </ul>
+          <h4 class="spaced" style="margin-top:28px;">Centres d'intérêt</h4>
+          <ul class="cv-tags">
+            <li>Jeu vidéo</li>
+            <li>Voyage</li>
+          </ul>
+        </div>
+
+        <div class="cv-col">
+          <h4>Contact</h4>
+          <ul class="cv-list plain">
+            <li>9 rue de Gommecourt, Puisieux</li>
+            <li>gueantmatheo0@gmail.com</li>
+            <li>06 71 25 85 36</li>
+            <li>Permis B</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="cv-section-title">Expérience</div>
+      <div class="timeline">
+        <div class="tl-item">
+          <span class="period">10/10/2025 — 11 semaines</span>
+          <h4>Stage — La Télétechnique</h4>
+          <div class="place">9 rue aux Ours, Arras</div>
+          <ul>
+            <li>Dépannage et interventions directement chez les clients</li>
+            <li>Diagnostic des pannes et recherche de solutions</li>
+            <li>Réparation et entretien d'appareils électroménagers et de téléviseurs</li>
+            <li>Utilisation d'outils et de matériel adaptés aux interventions</li>
+            <li>Respect des consignes de sécurité</li>
+            <li>Identification des risques et adaptation face aux imprévus</li>
+            <li>Contact et échanges avec les clients</li>
+          </ul>
+        </div>
+        <div class="tl-item">
+          <span class="period">10/12/2024 — 10 semaines</span>
+          <h4>Stage — Ami-Pro</h4>
+          <div class="place">Boréal Parc, Beaurains</div>
+          <ul>
+            <li>Dépannage et assistance informatique chez les clients</li>
+            <li>Diagnostic et résolution de problèmes informatiques</li>
+            <li>Réparation et maintenance d'ordinateurs</li>
+            <li>Intervention sur différents équipements électroniques</li>
+            <li>Installation et vérification du matériel</li>
+            <li>Respect des consignes de sécurité</li>
+            <li>Identification des risques et réaction face aux imprévus</li>
+            <li>Écoute et accompagnement des clients</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <footer>
     <span class="mono">Mathéo Guéant — BTS SIO SISR</span>
