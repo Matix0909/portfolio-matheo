@@ -133,15 +133,22 @@
 
   header {
     position: sticky;
-    top: 0;
+    top: 14px;
     z-index: 10;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px 0;
-    background: rgba(10,14,20,0.68);
-    backdrop-filter: blur(14px);
-    border-bottom: 1px solid var(--line);
+    margin-top: 14px;
+    padding: 12px 14px 12px 22px;
+    background: var(--header-bg);
+    backdrop-filter: blur(18px) saturate(160%);
+    -webkit-backdrop-filter: blur(18px) saturate(160%);
+    border: 1px solid var(--line-strong);
+    border-radius: 18px;
+    box-shadow:
+      0 10px 30px -12px rgba(0,0,0,0.45),
+      inset 0 1px 0 rgba(255,255,255,0.04);
+    transition: background 0.2s ease, border-color 0.2s ease;
   }
   :root[data-theme="light"] header { background: rgba(242,244,246,0.75); }
   @media (prefers-color-scheme: light) {
@@ -156,7 +163,7 @@
     padding: 8px 14px;
     font-size: 0.85rem;
     color: var(--ink-dim);
-    border-radius: 7px;
+    border-radius: 100px;
     transition: color 0.15s ease, background 0.15s ease;
   }
   nav a:hover { color: var(--ink); background: var(--panel); }
