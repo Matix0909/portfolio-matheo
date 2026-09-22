@@ -243,6 +243,40 @@
   .letter-body p { color: var(--ink-dim); font-size: 0.94rem; margin-bottom: 16px; }
   .letter-body .letter-sign { color: var(--ink); font-weight: 600; margin-top: 20px; margin-bottom: 0; }
 
+  .cv-photo {
+    width: 86px;
+    height: 86px;
+    border-radius: 14px;
+    object-fit: cover;
+    border: 1px solid var(--line-strong);
+    box-shadow: 0 8px 20px -10px var(--shadow);
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: transform 0.18s ease, border-color 0.18s ease;
+  }
+  .cv-photo:hover { transform: translateY(-2px); border-color: var(--signal); }
+  .letter-meta-row { display: flex; align-items: center; gap: 18px; margin-bottom: 26px; }
+
+  .lightbox {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    background: rgba(5,7,11,0.86);
+    backdrop-filter: blur(6px);
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    cursor: zoom-out;
+  }
+  .lightbox.open { display: flex; }
+  .lightbox img {
+    max-width: min(420px, 90vw);
+    max-height: 80vh;
+    border-radius: 18px;
+    box-shadow: 0 24px 60px -20px rgba(0,0,0,0.6);
+  }
+
   @media print {
     header, #netbg, .bg-glow, .bg-grid, .bg-vignette, footer, .letter-top { display: none !important; }
     body { background: #fff; color: #111; }
@@ -330,12 +364,16 @@
         </a>
       </div>
 
-      <div class="letter-meta">
-        <strong>Mathéo Guéant</strong>
-        <span>9 rue de Gommecourt, Puisieux</span>
-        <span>06 71 25 85 36</span>
-        <span>gueantmatheo0@gmail.com</span>
+      <div class="letter-meta-row">
+        <img src="photo-matheo.jpg" alt="Photo de Mathéo Guéant" class="cv-photo" onclick="document.getElementById('photo-lightbox').classList.add('open')">
+        <div class="letter-meta" style="border-bottom:none;padding-bottom:0;margin-bottom:0;">
+          <strong>Mathéo Guéant</strong>
+          <span>9 rue de Gommecourt, Puisieux</span>
+          <span>06 71 25 85 36</span>
+          <span>gueantmatheo0@gmail.com</span>
+        </div>
       </div>
+      <div style="border-bottom:1px dashed var(--line-strong); margin-bottom:26px;"></div>
 
       <div class="letter-date mono">Le 22 septembre 2026,</div>
 
@@ -365,6 +403,10 @@
     <span class="mono">Mathéo Guéant — BTS SIO SISR</span>
     <span class="mono">2026</span>
   </footer>
+</div>
+
+<div class="lightbox" id="photo-lightbox" onclick="this.classList.remove('open')">
+  <img src="photo-matheo.jpg" alt="Photo de Mathéo Guéant">
 </div>
 
 <script>
