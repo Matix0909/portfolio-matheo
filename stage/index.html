@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Recherche de stage — Mathéo Guéant</title>
+<title>Rapport de stage — Mathéo Guéant</title>
 <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
 <link rel="alternate icon" href="../assets/favicon.svg">
 <style>
@@ -24,6 +24,10 @@
     --line: rgba(238,242,246,0.08);
     --line-strong: rgba(238,242,246,0.15);
     --shadow: rgba(0,0,0,0.35);
+    --header-bg: rgba(14,20,28,0.55);
+    --glow-a: rgba(95,211,163,0.16);
+    --glow-b: rgba(139,127,232,0.13);
+    --glow-c: rgba(224,166,73,0.07);
   }
   :root[data-theme="light"] {
     --bg: #F2F4F6;
@@ -36,6 +40,10 @@
     --line: rgba(21,32,43,0.09);
     --line-strong: rgba(21,32,43,0.17);
     --shadow: rgba(21,32,43,0.08);
+    --header-bg: rgba(242,244,246,0.75);
+    --glow-a: rgba(95,211,163,0.22);
+    --glow-b: rgba(139,127,232,0.17);
+    --glow-c: rgba(224,166,73,0.09);
   }
   @media (prefers-color-scheme: light) {
     :root:not([data-theme="dark"]) {
@@ -49,6 +57,10 @@
       --line: rgba(21,32,43,0.09);
       --line-strong: rgba(21,32,43,0.17);
       --shadow: rgba(21,32,43,0.08);
+      --header-bg: rgba(242,244,246,0.75);
+      --glow-a: rgba(95,211,163,0.22);
+      --glow-b: rgba(139,127,232,0.17);
+      --glow-c: rgba(224,166,73,0.09);
     }
   }
 
@@ -67,19 +79,23 @@
   a { color: inherit; }
   .wrap { max-width: 980px; margin: 0 auto; padding: 0 32px; position: relative; z-index: 1; }
 
-  /* ---- Background layers ---- */
-  #netbg {
-    position: fixed;
-    inset: 0;
-    z-index: 0;
+  .bg-glow {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
-    opacity: 0.6;
+    z-index: 0;
     pointer-events: none;
-  }
-  :root[data-theme="light"] #netbg { opacity: 0.4; }
-  @media (prefers-color-scheme: light) {
-    :root:not([data-theme="dark"]) #netbg { opacity: 0.4; }
+    background:
+      radial-gradient(640px 480px at 12% 3%, var(--glow-a), transparent 65%),
+      radial-gradient(700px 520px at 90% 6%, var(--glow-b), transparent 65%),
+      radial-gradient(780px 520px at 50% 30%, var(--glow-c), transparent 70%),
+      radial-gradient(620px 520px at 6% 28%, var(--glow-b), transparent 65%),
+      radial-gradient(680px 540px at 94% 46%, var(--glow-a), transparent 65%),
+      radial-gradient(640px 520px at 10% 66%, var(--glow-c), transparent 65%),
+      radial-gradient(700px 560px at 90% 82%, var(--glow-b), transparent 65%),
+      radial-gradient(760px 520px at 50% 98%, var(--glow-a), transparent 65%);
   }
 
   .bg-grid {
@@ -89,49 +105,35 @@
     pointer-events: none;
     background-image:
       linear-gradient(var(--line) 1px, transparent 1px),
-      linear-gradient(90deg, var(--line) 1px, transparent 1px);
-    background-size: 42px 42px;
-    -webkit-mask-image: radial-gradient(ellipse 75% 55% at 50% 0%, #000 0%, transparent 72%);
-            mask-image: radial-gradient(ellipse 75% 55% at 50% 0%, #000 0%, transparent 72%);
-    opacity: 0.7;
+      linear-gradient(90deg, var(--line) 1px, transparent 1px),
+      linear-gradient(var(--line-strong) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line-strong) 1px, transparent 1px);
+    background-size: 42px 42px, 42px 42px, 210px 210px, 210px 210px;
+    background-position:
+      0 calc(var(--sy, 0) * -0.08px), 0 calc(var(--sy, 0) * -0.08px),
+      0 calc(var(--sy, 0) * -0.2px), 0 calc(var(--sy, 0) * -0.2px);
+    -webkit-mask-image: radial-gradient(ellipse 95% 85% at 50% 45%, #000 0%, transparent 100%);
+            mask-image: radial-gradient(ellipse 95% 85% at 50% 45%, #000 0%, transparent 100%);
+    opacity: 0.55;
   }
 
-  .bg-glow {
+  #netbg {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+
+  .bg-vignette {
     position: fixed;
     inset: 0;
     z-index: 0;
     pointer-events: none;
-    background:
-      radial-gradient(560px 420px at 14% 8%, rgba(95,211,163,0.16), transparent 65%),
-      radial-gradient(620px 460px at 88% 2%, rgba(139,127,232,0.13), transparent 65%),
-      radial-gradient(700px 500px at 50% 30%, rgba(224,166,73,0.06), transparent 70%);
-    filter: blur(6px);
+    opacity: 0.65;
+    background: radial-gradient(ellipse 130% 110% at 50% 50%, transparent 58%, var(--bg) 100%);
   }
-  :root[data-theme="light"] .bg-glow {
-    background:
-      radial-gradient(560px 420px at 14% 8%, rgba(95,211,163,0.20), transparent 65%),
-      radial-gradient(620px 460px at 88% 2%, rgba(139,127,232,0.16), transparent 65%),
-      radial-gradient(700px 500px at 50% 30%, rgba(224,166,73,0.08), transparent 70%);
-  }
-  @media (prefers-color-scheme: light) {
-    :root:not([data-theme="dark"]) .bg-glow {
-      background:
-        radial-gradient(560px 420px at 14% 8%, rgba(95,211,163,0.20), transparent 65%),
-        radial-gradient(620px 460px at 88% 2%, rgba(139,127,232,0.16), transparent 65%),
-        radial-gradient(700px 500px at 50% 30%, rgba(224,166,73,0.08), transparent 70%);
-    }
-  }
-
-  .bg-fade {
-    position: fixed;
-    inset: 0;
-    z-index: 0;
-    pointer-events: none;
-    background:
-      radial-gradient(ellipse 70% 50% at 50% 0%, transparent 0%, var(--bg) 80%),
-      linear-gradient(180deg, transparent 0%, var(--bg) 94%);
-  }
-  /* ---- end background layers ---- */
 
   header {
     position: sticky;
@@ -151,10 +153,6 @@
       0 10px 30px -12px rgba(0,0,0,0.45),
       inset 0 1px 0 rgba(255,255,255,0.04);
     transition: background 0.2s ease, border-color 0.2s ease;
-  }
-  :root[data-theme="light"] header { background: rgba(242,244,246,0.75); }
-  @media (prefers-color-scheme: light) {
-    :root:not([data-theme="dark"]) header { background: rgba(242,244,246,0.75); }
   }
   .brand { display: flex; align-items: center; gap: 10px; }
   .brand .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--signal); box-shadow: 0 0 10px var(--signal); animation: pulse 2.4s ease-in-out infinite; }
@@ -215,30 +213,6 @@
 
   @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
 
-  .hero { padding: 132px 0 100px; max-width: 700px; }
-  .hero .tag {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-family: 'IBM Plex Mono', monospace;
-    color: var(--signal);
-    font-size: 0.84rem;
-    margin-bottom: 26px;
-    padding: 7px 14px;
-    background: var(--signal-dim);
-    border-radius: 100px;
-    border: 1px solid rgba(95,211,163,0.22);
-  }
-  .hero .tag .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--signal); }
-  .hero h1 {
-    font-size: clamp(2.6rem, 6vw, 4rem);
-    font-weight: 700;
-    line-height: 1.05;
-    margin-bottom: 22px;
-    letter-spacing: -0.025em;
-  }
-  .hero p { color: var(--ink-dim); max-width: 48ch; font-size: 1.08rem; margin-bottom: 34px; }
-  .hero-cta { display: flex; gap: 12px; margin-bottom: 56px; }
   .btn {
     display: inline-flex;
     align-items: center;
@@ -255,157 +229,146 @@
   .btn-ghost { border: 1px solid var(--line-strong); color: var(--ink); }
   .btn-ghost:hover { border-color: var(--signal); color: var(--signal); }
 
-  .hero-stats { display: flex; gap: 36px; padding-top: 32px; border-top: 1px solid var(--line); }
-  .hero-stats div { display: flex; flex-direction: column; gap: 4px; }
-  .hero-stats .num { font-family: 'IBM Plex Mono', monospace; font-size: 1.5rem; font-weight: 500; color: var(--signal); }
-  .hero-stats .lbl { font-size: 0.8rem; color: var(--ink-faint); }
-
   section { padding: 76px 0; border-top: 1px solid var(--line); }
-  .section-head { display: flex; align-items: baseline; gap: 14px; margin-bottom: 40px; }
-  .section-head .idx { font-family: 'IBM Plex Mono', monospace; color: var(--signal); font-size: 0.86rem; }
-  .section-head h2 { font-size: 1.6rem; font-weight: 700; letter-spacing: -0.015em; }
-
-  .skills { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
-  .skill {
-    background: var(--panel);
-    border: 1px solid var(--line);
-    border-radius: 12px;
-    padding: 24px 20px;
-    box-shadow: 0 8px 20px -12px var(--shadow);
-    transition: border-color 0.18s ease, transform 0.18s ease, background 0.18s ease;
-  }
-  .skill:hover { border-color: var(--line-strong); background: var(--panel-hover); transform: translateY(-3px); }
-  .skill h3 { font-size: 0.96rem; font-weight: 600; margin-bottom: 16px; }
-  .skill ul { list-style: none; display: flex; flex-direction: column; gap: 11px; }
-  .skill li { font-size: 0.84rem; color: var(--ink-dim); }
-  .skill li .bar { display: block; height: 3px; background: var(--line); border-radius: 3px; margin-top: 7px; overflow: hidden; }
-  .skill li .bar span { display: block; height: 100%; background: linear-gradient(90deg, var(--signal), #8de8c8); border-radius: 3px; }
-
-  .projects { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
-  .project {
-    border: 1px solid var(--line);
-    border-radius: 12px;
-    padding: 26px;
-    background: var(--panel);
-    box-shadow: 0 8px 20px -12px var(--shadow);
-    transition: border-color 0.18s ease, transform 0.18s ease, background 0.18s ease;
-  }
-  .project:hover { border-color: rgba(95,211,163,0.32); background: var(--panel-hover); transform: translateY(-4px); }
-  .project .stack { font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem; color: var(--amber); margin-bottom: 16px; letter-spacing: 0.02em; }
-  .project h3 { font-size: 1.05rem; font-weight: 600; margin-bottom: 10px; line-height: 1.35; }
-  .project p { font-size: 0.87rem; color: var(--ink-dim); }
-
-  .timeline { position: relative; padding-left: 30px; }
-  .timeline::before { content: ""; position: absolute; left: 5px; top: 6px; bottom: 6px; width: 1px; background: var(--line-strong); }
-  .tl-item { position: relative; padding-bottom: 36px; }
-  .tl-item:last-child { padding-bottom: 0; }
-  .tl-item::before {
-    content: "";
-    position: absolute;
-    left: -30px;
-    top: 4px;
-    width: 11px;
-    height: 11px;
-    border-radius: 50%;
-    background: var(--bg);
-    border: 2px solid var(--signal);
-    box-shadow: 0 0 0 4px var(--signal-dim);
-  }
-  .tl-item .period { font-family: 'IBM Plex Mono', monospace; color: var(--signal); font-size: 0.79rem; margin-bottom: 7px; display: block; }
-  .tl-item h3 { font-size: 1.06rem; font-weight: 600; margin-bottom: 7px; }
-  .tl-item p { color: var(--ink-dim); font-size: 0.92rem; }
-
-  .contact-panel {
-    background: var(--panel);
-    border: 1px solid var(--line);
-    border-radius: 16px;
-    padding: 44px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 28px;
-    box-shadow: 0 12px 30px -14px var(--shadow);
-  }
-  .contact-panel h3 { font-size: 1.35rem; font-weight: 700; margin-bottom: 8px; }
-  .contact-panel p { color: var(--ink-dim); font-size: 0.92rem; }
-  .contact-links { display: flex; flex-direction: column; gap: 11px; align-items: flex-end; }
-  .contact-links a {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.9rem;
-    color: var(--ink-dim);
-    text-decoration: none;
-    transition: color 0.15s ease;
-  }
-  .contact-links a:hover { color: var(--signal); }
-  .status { display: inline-flex; align-items: center; gap: 8px; font-family: 'IBM Plex Mono', monospace; font-size: 0.79rem; color: var(--signal); margin-bottom: 16px; }
-  .status .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--signal); box-shadow: 0 0 8px var(--signal); }
 
   footer { padding: 32px 0 54px; display: flex; justify-content: space-between; color: var(--ink-faint); font-size: 0.8rem; font-family: 'IBM Plex Mono', monospace; }
 
-  /* ---- CV ---- */
-  .cv-card {
-    background: var(--panel);
-    border: 1px solid var(--line);
-    border-radius: 16px;
-    padding: 36px;
-    box-shadow: 0 12px 30px -14px var(--shadow);
-  }
-  .cv-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; flex-wrap: wrap; margin-bottom: 32px; padding-bottom: 28px; border-bottom: 1px solid var(--line); }
-  .cv-top h3 { font-size: 1.3rem; font-weight: 700; margin-bottom: 6px; }
-  .cv-role { color: var(--signal); font-size: 0.85rem; }
-  .cv-top .btn { white-space: nowrap; }
-  .cv-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
-  .cv-col h4 { font-size: 0.78rem; color: var(--ink-faint); letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 14px; }
-  .cv-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
-  .cv-list li { font-size: 0.88rem; color: var(--ink); display: flex; flex-direction: column; gap: 3px; }
-  .cv-list .cv-period { color: var(--signal); font-size: 0.75rem; }
-  .cv-list.plain li { color: var(--ink-dim); }
-  .cv-tags { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; }
-  .cv-tags li { font-size: 0.78rem; font-family: 'IBM Plex Mono', monospace; color: var(--ink-dim); background: var(--bg-soft); border: 1px solid var(--line); padding: 6px 11px; border-radius: 100px; }
 
-  /* ---- Lettre de motivation ---- */
-  .letter-card {
-    background: var(--panel);
-    border: 1px solid var(--line);
-    border-radius: 16px;
-    padding: 44px;
-    max-width: 720px;
-    margin: 0 auto;
-    box-shadow: 0 12px 30px -14px var(--shadow);
+  /* ================= STAGE ================= */
+  .subpage-hero { padding: 120px 0 20px; }
+  .breadcrumb { font-family: 'IBM Plex Mono', monospace; font-size: 0.8rem; color: var(--ink-faint); margin-bottom: 22px; }
+  .breadcrumb a { color: var(--ink-dim); text-decoration: none; }
+  .breadcrumb a:hover { color: var(--signal); }
+  .subpage-hero h1 { font-size: clamp(2rem, 4.4vw, 2.8rem); font-weight: 700; letter-spacing: -0.02em; margin-bottom: 14px; }
+  .subpage-hero p { color: var(--ink-dim); max-width: 60ch; font-size: 1rem; }
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.8rem; color: var(--signal);
+    padding: 6px 13px; margin-bottom: 20px;
+    background: var(--signal-dim); border: 1px solid rgba(95,211,163,0.22); border-radius: 100px;
   }
-  .letter-meta { display: flex; flex-direction: column; gap: 6px; font-size: 0.78rem; color: var(--ink-faint); margin-bottom: 26px; padding-bottom: 20px; border-bottom: 1px dashed var(--line-strong); }
-  .letter-body p { color: var(--ink-dim); font-size: 0.94rem; margin-bottom: 16px; }
-  .letter-body .letter-sign { color: var(--ink); font-weight: 600; margin-top: 20px; margin-bottom: 0; }
-  .letter-print { margin-top: 10px; }
+  .hero-tag .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--signal); box-shadow: 0 0 8px var(--signal); animation: pulse 2.4s ease-in-out infinite; }
+  .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 28px; }
 
-  /* ---- Stage ---- */
-  .stage-card {
-    background: var(--panel);
-    border: 1px solid var(--line);
-    border-radius: 16px;
-    padding: 40px;
-    box-shadow: 0 12px 30px -14px var(--shadow);
+  /* Progression */
+  .progress-card {
+    margin-top: 36px;
+    background: var(--panel); border: 1px solid var(--line); border-radius: 14px;
+    padding: 20px 22px; box-shadow: 0 10px 26px -14px var(--shadow);
   }
-  .stage-card h3 { font-size: 1.25rem; font-weight: 700; margin-bottom: 10px; max-width: 44ch; }
-  .stage-card > p { color: var(--ink-dim); font-size: 0.94rem; max-width: 56ch; margin-bottom: 28px; }
-  .stage-facts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 30px; }
-  .stage-fact { background: var(--bg-soft); border: 1px solid var(--line); border-radius: 10px; padding: 16px; display: flex; flex-direction: column; gap: 6px; }
-  .stage-fact .lbl { font-size: 0.72rem; color: var(--ink-faint); letter-spacing: 0.03em; text-transform: uppercase; }
-  .stage-fact .val { font-size: 0.88rem; color: var(--ink); }
+  .progress-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 14px; font-size: 0.82rem; color: var(--ink-dim); }
+  .progress-head .mono { color: var(--signal); }
+  .progress-steps { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; }
+  .step {
+    display: flex; flex-direction: column; gap: 8px; text-decoration: none;
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.74rem; color: var(--ink-faint);
+    transition: color 0.15s ease;
+  }
+  .step .bar { height: 5px; border-radius: 5px; background: var(--line-strong); overflow: hidden; }
+  .step.done .bar { background: linear-gradient(90deg, var(--signal), #8de8c8); }
+  .step.done { color: var(--ink-dim); }
+  .step:hover { color: var(--signal); }
+
+  /* Layout 2 colonnes */
+  .stage-layout { display: grid; grid-template-columns: 190px 1fr; gap: 40px; padding: 56px 0 40px; }
+  .toc { position: sticky; top: 104px; align-self: start; }
+  .toc-title { font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; color: var(--ink-faint); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 12px; }
+  .toc ol { list-style: none; display: flex; flex-direction: column; gap: 2px; border-left: 1px solid var(--line-strong); }
+  .toc a {
+    display: flex; align-items: center; justify-content: space-between; gap: 8px;
+    padding: 7px 12px; margin-left: -1px; border-left: 2px solid transparent;
+    font-size: 0.85rem; color: var(--ink-dim); text-decoration: none;
+    transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+  }
+  .toc a:hover { color: var(--ink); background: var(--panel); }
+  .toc a.active { color: var(--signal); border-left-color: var(--signal); }
+  .toc .mini { width: 6px; height: 6px; border-radius: 50%; background: var(--line-strong); flex-shrink: 0; }
+  .toc .mini.done { background: var(--signal); }
+
+  .stage-content { display: flex; flex-direction: column; gap: 28px; min-width: 0; }
+  .block {
+    scroll-margin-top: 100px;
+    background: var(--panel); border: 1px solid var(--line); border-radius: 16px;
+    padding: 34px; box-shadow: 0 12px 30px -14px var(--shadow);
+  }
+  .block-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; flex-wrap: wrap; margin-bottom: 22px; padding-bottom: 18px; border-bottom: 1px solid var(--line); }
+  .block-kicker { font-family: 'IBM Plex Mono', monospace; font-size: 0.76rem; color: var(--signal); margin-bottom: 6px; }
+  .block h2 { font-size: 1.35rem; font-weight: 700; letter-spacing: -0.015em; line-height: 1.25; }
+  .block h3 { font-size: 0.78rem; font-weight: 600; color: var(--ink-faint); text-transform: uppercase; letter-spacing: 0.05em; margin: 26px 0 12px; }
+  .block h3:first-child { margin-top: 0; }
+  .block p { color: var(--ink-dim); font-size: 0.94rem; }
+  .block p + p { margin-top: 12px; }
+  .block strong { color: var(--ink); font-weight: 600; }
+
+  .badge {
+    display: inline-flex; align-items: center; gap: 7px; white-space: nowrap;
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem;
+    padding: 5px 11px; border-radius: 100px; border: 1px solid var(--line-strong); color: var(--ink-faint);
+  }
+  .badge::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+  .badge.ok { color: var(--signal); border-color: rgba(95,211,163,0.3); background: var(--signal-dim); }
+
+  /* Fiche entreprise */
+  .facts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 26px; }
+  .fact { background: var(--bg-soft); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+  .fact .lbl { font-size: 0.7rem; color: var(--ink-faint); letter-spacing: 0.04em; text-transform: uppercase; }
+  .fact .val { font-size: 0.9rem; color: var(--ink); overflow-wrap: anywhere; }
+
+  /* Listes */
+  .tasks { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .tasks li { position: relative; padding-left: 22px; color: var(--ink-dim); font-size: 0.93rem; }
+  .tasks li::before { content: ""; position: absolute; left: 2px; top: 0.62em; width: 8px; height: 8px; border-radius: 2px; border: 1.5px solid var(--signal); transform: rotate(45deg); }
+  .tags { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; }
+  .tags li { font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; color: var(--ink-dim); background: var(--bg-soft); border: 1px solid var(--line); padding: 5px 11px; border-radius: 100px; }
+
+  /* Jours de la semaine */
+  .days { display: flex; flex-direction: column; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+  .day { display: grid; grid-template-columns: 96px 1fr; background: var(--bg-soft); }
+  .day + .day { border-top: 1px solid var(--line); }
+  .day .d { padding: 13px 14px; font-family: 'IBM Plex Mono', monospace; font-size: 0.76rem; color: var(--signal); border-right: 1px solid var(--line); }
+  .day .t { padding: 13px 16px; font-size: 0.9rem; color: var(--ink-dim); }
+
+  .issue { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .issue > div { background: var(--bg-soft); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; }
+  .issue .lbl { display: block; font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; margin-bottom: 6px; }
+  .issue .pb .lbl { color: var(--amber); }
+  .issue .sol .lbl { color: var(--signal); }
+  .issue + .issue { margin-top: 10px; }
+  .issue p { font-size: 0.9rem; }
+
+  .shots { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; }
+  .shots figure { margin: 0; }
+  .shots img { width: 100%; aspect-ratio: 16/10; object-fit: cover; border-radius: 10px; border: 1px solid var(--line); cursor: zoom-in; display: block; }
+  .shots figcaption { font-size: 0.76rem; color: var(--ink-faint); margin-top: 6px; }
+
+  .empty {
+    border: 1px dashed var(--line-strong); border-radius: 12px; padding: 28px;
+    text-align: center; color: var(--ink-faint); font-size: 0.9rem;
+  }
+  .empty .mono { display: block; font-size: 0.74rem; margin-bottom: 6px; color: var(--ink-faint); }
+
+  .week-nav { display: flex; justify-content: space-between; gap: 12px; margin-top: 26px; padding-top: 18px; border-top: 1px solid var(--line); }
+  .week-nav a { font-family: 'IBM Plex Mono', monospace; font-size: 0.78rem; color: var(--ink-faint); text-decoration: none; }
+  .week-nav a:hover { color: var(--signal); }
+
+  .lightbox { display: none; position: fixed; inset: 0; z-index: 100; background: rgba(5,7,11,0.88); backdrop-filter: blur(6px); align-items: center; justify-content: center; padding: 24px; cursor: zoom-out; }
+  .lightbox.open { display: flex; }
+  .lightbox img { max-width: 92vw; max-height: 86vh; border-radius: 12px; box-shadow: 0 24px 60px -20px rgba(0,0,0,0.6); }
 
   @media print {
-    header, .hero-cta, #netbg, .bg-glow, .bg-grid, .bg-fade, footer, #stage, #contact,
-    section:not(#cv):not(#lettre) { display: none !important; }
+    header, #netbg, .bg-glow, .bg-grid, .bg-vignette, footer, .toc, .progress-card, .hero-actions, .week-nav { display: none !important; }
     body { background: #fff; color: #111; }
-    .cv-card, .letter-card { box-shadow: none; border: none; }
+    .stage-layout { display: block; padding: 0; }
+    .block { box-shadow: none; border: 1px solid #ddd; break-inside: avoid-page; margin-bottom: 18px; }
+    .subpage-hero { padding: 0 0 20px; }
   }
 
+  @media (max-width: 860px) {
+    .stage-layout { grid-template-columns: 1fr; gap: 0; padding-top: 36px; }
+    .toc { display: none; }
+  }
   @media (max-width: 760px) {
-    .hero { padding: 84px 0 64px; }
-    .hero-stats { gap: 24px; flex-wrap: wrap; }
-    .skills { grid-template-columns: 1fr 1fr; }
-    .projects { grid-template-columns: 1fr; }
+    .wrap { padding: 0 16px; }
     nav a { padding: 8px 10px; }
     header { flex-wrap: wrap; gap: 10px; }
     nav { order: 3; width: 100%; justify-content: center; }
@@ -413,14 +376,15 @@
     .doc-pill span { display: none; }
     .doc-pill { padding: 8px; }
     .doc-pill svg, .doc-pill-dot { margin: 0; }
-    .contact-panel { flex-direction: column; align-items: flex-start; text-align: left; }
-    .contact-links { align-items: flex-start; }
     footer { flex-direction: column; gap: 8px; }
-    .cv-grid { grid-template-columns: 1fr; gap: 24px; }
-    .cv-top { flex-direction: column; align-items: stretch; }
-    .cv-top .btn { width: 100%; justify-content: center; }
-    .letter-card { padding: 28px; }
-    .stage-facts { grid-template-columns: 1fr 1fr; }
+    .subpage-hero { padding-top: 84px; }
+    .block { padding: 22px; }
+    .facts { grid-template-columns: 1fr 1fr; }
+    .issue { grid-template-columns: 1fr; }
+    .day { grid-template-columns: 1fr; }
+    .day .d { border-right: none; padding-bottom: 0; }
+    .progress-steps { gap: 5px; }
+    .step span { font-size: 0.68rem; }
   }
 
   :focus-visible { outline: 2px solid var(--signal); outline-offset: 3px; }
@@ -429,21 +393,6 @@
     html { scroll-behavior: auto; }
     #netbg { display: none; }
   }
-
-  /* ---- Page interne (CV / Lettre / Stage) ---- */
-  .subpage-hero { padding: 120px 0 20px; }
-  .breadcrumb { font-family: 'IBM Plex Mono', monospace; font-size: 0.8rem; color: var(--ink-faint); margin-bottom: 22px; }
-  .breadcrumb a { color: var(--ink-dim); text-decoration: none; }
-  .breadcrumb a:hover { color: var(--signal); }
-  .subpage-hero h1 { font-size: clamp(2rem, 4.4vw, 2.8rem); font-weight: 700; letter-spacing: -0.02em; margin-bottom: 14px; }
-  .subpage-hero p { color: var(--ink-dim); max-width: 56ch; font-size: 1rem; }
-  .empty-frame {
-    background: var(--panel);
-    border: 1px dashed var(--line-strong);
-    border-radius: 16px;
-    min-height: 440px;
-    margin: 40px 0 90px;
-  }
 </style>
 </head>
 <body>
@@ -451,13 +400,13 @@
 <div class="bg-glow"></div>
 <div class="bg-grid"></div>
 <canvas id="netbg"></canvas>
-<div class="bg-fade"></div>
+<div class="bg-vignette"></div>
 
 <div class="wrap">
   <header>
     <div class="brand">
       <div class="dot"></div>
-      <a href="../index.html" style="text-decoration:none;color:inherit;"><span class="mono">matheo.gueant</span></a>
+      <a href="../index.html" style="text-decoration:none;color:inherit;"><span class="mono">Mathéo Gueant</span></a>
     </div>
     <nav>
       <a href="../index.html#competences">Compétences</a>
@@ -476,7 +425,7 @@
         <span>Lettre</span>
       </a>
       <a href="../stage/" class="doc-pill doc-pill-live" title="Stage">
-        <span class="doc-pill-dot"></span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
         <span>Stage</span>
       </a>
     </div>
@@ -484,11 +433,27 @@
 
   <section class="subpage-hero" style="border-top:none;">
     <div class="breadcrumb"><a href="../index.html">Accueil</a> / Stage</div>
-    <h1>Recherche de stage</h1>
-    <p>Recherche de stage — infos et disponibilités.</p>
+    <div class="hero-tag"><span class="dot"></span><span id="hero-status">Rapport de stage</span></div>
+    <h1>Rapport de stage</h1>
+    <p id="hero-intro"></p>
+    <div class="hero-actions" id="hero-actions"></div>
+
+    <div class="progress-card">
+      <div class="progress-head">
+        <span>Progression du rapport</span>
+        <span class="mono" id="progress-count">0 / 6 semaines</span>
+      </div>
+      <div class="progress-steps" id="progress-steps"></div>
+    </div>
   </section>
 
-  <div class="empty-frame"></div>
+  <div class="stage-layout">
+    <aside class="toc" aria-label="Sommaire">
+      <div class="toc-title">Sommaire</div>
+      <ol id="toc"></ol>
+    </aside>
+    <main class="stage-content" id="stage-content"></main>
+  </div>
 
   <footer>
     <span class="mono">Mathéo Guéant — BTS SIO SISR</span>
@@ -496,26 +461,229 @@
   </footer>
 </div>
 
+<div class="lightbox" id="lightbox" onclick="this.classList.remove('open')"><img alt=""></div>
+
+<script>
+/* =====================================================================
+   CONTENU DU RAPPORT — TOUT SE REMPLIT ICI
+   ---------------------------------------------------------------------
+   - Laisse une valeur vide ("" ou []) tant que tu n'as rien à mettre :
+     la page affiche automatiquement "À compléter" / "À venir".
+   - Une semaine passe en "Rédigée" dès que son "resume" est rempli.
+   - Tu peux utiliser du HTML simple dans les textes : <strong>, <em>, <br>.
+   - Images : mets-les dans le dossier /stage/img/ puis
+     { src: "img/semaine1-1.png", legende: "Ma légende" }
+   ===================================================================== */
+
+var STAGE = {
+  intro: "Stage de 6 semaines réalisé dans le cadre du BTS SIO option SISR. Retrouve ici la présentation de l'entreprise et le compte rendu de chaque semaine.",
+  entreprise: "",        // ex: "Nom de l'entreprise"
+  secteur: "",           // ex: "Services informatiques"
+  lieu: "",              // ex: "Arras (62)"
+  periode: "",           // ex: "Du 5 janvier au 13 février 2027"
+  tuteur: "",            // ex: "Prénom Nom — Responsable informatique"
+  service: "",           // ex: "Service informatique / Support"
+  presentation: "",      // Quelques phrases pour présenter l'entreprise
+  missions: [],          // ex: ["Support utilisateurs", "Administration réseau"]
+  rapportPdf: ""         // ex: "Rapport-de-stage-Matheo-Gueant.pdf" (bouton de téléchargement)
+};
+
+var SEMAINES = [
+  {
+    dates: "",           // ex: "5 — 9 janvier 2027"
+    titre: "",           // ex: "Découverte de l'entreprise et du parc"
+    resume: "",          // Résumé de la semaine (texte)
+    jours: [],           // ex: [{ jour: "Lundi", texte: "Accueil, présentation de l'équipe..." }, ...]
+    taches: [],          // ex: ["Installation de 5 postes Windows 11", "Création de comptes AD"]
+    competences: [],     // ex: ["Active Directory", "Windows Server", "Support N1"]
+    difficultes: [],     // ex: [{ probleme: "...", solution: "..." }]
+    images: []           // ex: [{ src: "img/s1-1.png", legende: "Baie de brassage" }]
+  },
+  { dates: "", titre: "", resume: "", jours: [], taches: [], competences: [], difficultes: [], images: [] },
+  { dates: "", titre: "", resume: "", jours: [], taches: [], competences: [], difficultes: [], images: [] },
+  { dates: "", titre: "", resume: "", jours: [], taches: [], competences: [], difficultes: [], images: [] },
+  { dates: "", titre: "", resume: "", jours: [], taches: [], competences: [], difficultes: [], images: [] },
+  { dates: "", titre: "", resume: "", jours: [], taches: [], competences: [], difficultes: [], images: [] }
+];
+
+var BILAN = {
+  texte: "",             // Bilan global du stage
+  acquis: [],            // Compétences acquises / renforcées
+  conclusion: ""         // Ce que ce stage t'a apporté pour la suite
+};
+/* ======================= FIN DU CONTENU ============================== */
+</script>
+
+<script>
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  var has = function (v) { return Array.isArray(v) ? v.length > 0 : !!(v && String(v).trim()); };
+  var TODO = '<span style="color:var(--ink-faint)">À compléter</span>';
+  var DL = '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v13"/><path d="m7 12 5 5 5-5"/><path d="M4 21h16"/></svg>';
+
+  function list(items, cls) {
+    return '<ul class="' + cls + '">' + items.map(function (i) { return '<li>' + i + '</li>'; }).join('') + '</ul>';
+  }
+  function empty(label, text) {
+    return '<div class="empty"><span class="mono">' + label + '</span>' + text + '</div>';
+  }
+
+  var done = SEMAINES.map(function (s) { return has(s.resume); });
+  var nbDone = done.filter(Boolean).length;
+
+  /* Hero */
+  $('hero-intro').innerHTML = STAGE.intro;
+  $('hero-status').textContent = has(STAGE.entreprise)
+    ? 'Stage chez ' + STAGE.entreprise
+    : 'BTS SIO SISR · Stage de 6 semaines';
+  var actions = '<a href="#semaine-1" class="btn btn-primary">Lire le rapport</a>';
+  if (has(STAGE.rapportPdf)) actions += '<a href="' + STAGE.rapportPdf + '" download class="btn btn-ghost">' + DL + ' Rapport complet (PDF)</a>';
+  $('hero-actions').innerHTML = actions;
+
+  /* Progression */
+  $('progress-count').textContent = nbDone + ' / ' + SEMAINES.length + ' semaines';
+  $('progress-steps').innerHTML = SEMAINES.map(function (s, i) {
+    return '<a href="#semaine-' + (i + 1) + '" class="step' + (done[i] ? ' done' : '') + '"><div class="bar"></div><span>S' + (i + 1) + '</span></a>';
+  }).join('');
+
+  /* Sommaire */
+  var toc = '<li><a href="#entreprise">Entreprise</a></li>';
+  SEMAINES.forEach(function (s, i) {
+    toc += '<li><a href="#semaine-' + (i + 1) + '">Semaine ' + (i + 1) + '<span class="mini' + (done[i] ? ' done' : '') + '"></span></a></li>';
+  });
+  toc += '<li><a href="#bilan">Bilan</a></li>';
+  $('toc').innerHTML = toc;
+
+  /* Entreprise */
+  var facts = [
+    ['Entreprise', STAGE.entreprise], ['Secteur', STAGE.secteur], ['Lieu', STAGE.lieu],
+    ['Période', STAGE.periode], ['Tuteur', STAGE.tuteur], ['Service', STAGE.service]
+  ];
+  var html = '<article class="block" id="entreprise">' +
+    '<div class="block-head"><div><div class="block-kicker">00 — Présentation</div><h2>L\'entreprise d\'accueil</h2></div></div>' +
+    '<div class="facts">' + facts.map(function (f) {
+      return '<div class="fact"><span class="lbl">' + f[0] + '</span><span class="val">' + (has(f[1]) ? f[1] : TODO) + '</span></div>';
+    }).join('') + '</div>' +
+    '<h3>Présentation</h3>' + (has(STAGE.presentation) ? '<p>' + STAGE.presentation + '</p>' : empty('// présentation', 'Présentation de l\'entreprise à venir.')) +
+    (has(STAGE.missions) ? '<h3>Missions principales</h3>' + list(STAGE.missions, 'tasks') : '') +
+    '</article>';
+
+  /* Semaines */
+  SEMAINES.forEach(function (s, i) {
+    var n = i + 1, num = (n < 10 ? '0' : '') + n;
+    var body = '';
+    if (!done[i]) {
+      body = empty('// semaine ' + n, 'Compte rendu à venir.');
+    } else {
+      body += '<h3>Résumé</h3><p>' + s.resume + '</p>';
+      if (has(s.jours)) body += '<h3>Jour par jour</h3><div class="days">' + s.jours.map(function (j) {
+        return '<div class="day"><div class="d">' + j.jour + '</div><div class="t">' + j.texte + '</div></div>';
+      }).join('') + '</div>';
+      if (has(s.taches)) body += '<h3>Tâches réalisées</h3>' + list(s.taches, 'tasks');
+      if (has(s.competences)) body += '<h3>Compétences mobilisées</h3>' + list(s.competences, 'tags');
+      if (has(s.difficultes)) body += '<h3>Difficultés rencontrées</h3>' + s.difficultes.map(function (d) {
+        return '<div class="issue"><div class="pb"><span class="lbl">Problème</span><p>' + d.probleme + '</p></div><div class="sol"><span class="lbl">Solution</span><p>' + d.solution + '</p></div></div>';
+      }).join('');
+      if (has(s.images)) body += '<h3>Captures</h3><div class="shots">' + s.images.map(function (im) {
+        return '<figure><img src="' + im.src + '" alt="' + (im.legende || '') + '" loading="lazy">' + (im.legende ? '<figcaption>' + im.legende + '</figcaption>' : '') + '</figure>';
+      }).join('') + '</div>';
+    }
+    var prev = n > 1 ? '<a href="#semaine-' + (n - 1) + '">← Semaine ' + (n - 1) + '</a>' : '<a href="#entreprise">← Entreprise</a>';
+    var next = n < SEMAINES.length ? '<a href="#semaine-' + (n + 1) + '">Semaine ' + (n + 1) + ' →</a>' : '<a href="#bilan">Bilan →</a>';
+    html += '<article class="block" id="semaine-' + n + '">' +
+      '<div class="block-head"><div><div class="block-kicker">' + num + ' — Semaine ' + n + (has(s.dates) ? ' · ' + s.dates : '') + '</div>' +
+      '<h2>' + (has(s.titre) ? s.titre : 'Semaine ' + n) + '</h2></div>' +
+      '<span class="badge' + (done[i] ? ' ok' : '') + '">' + (done[i] ? 'Rédigée' : 'À venir') + '</span></div>' +
+      body + '<div class="week-nav">' + prev + next + '</div></article>';
+  });
+
+  /* Bilan */
+  var bilanDone = has(BILAN.texte);
+  html += '<article class="block" id="bilan">' +
+    '<div class="block-head"><div><div class="block-kicker">07 — Conclusion</div><h2>Bilan du stage</h2></div>' +
+    '<span class="badge' + (bilanDone ? ' ok' : '') + '">' + (bilanDone ? 'Rédigé' : 'À venir') + '</span></div>' +
+    (bilanDone ? '<p>' + BILAN.texte + '</p>' : empty('// bilan', 'Le bilan sera rédigé à la fin du stage.')) +
+    (has(BILAN.acquis) ? '<h3>Compétences acquises</h3>' + list(BILAN.acquis, 'tags') : '') +
+    (has(BILAN.conclusion) ? '<h3>Pour la suite</h3><p>' + BILAN.conclusion + '</p>' : '') +
+    '</article>';
+
+  $('stage-content').innerHTML = html;
+
+  /* Lightbox images */
+  var lb = $('lightbox');
+  document.querySelectorAll('.shots img').forEach(function (img) {
+    img.addEventListener('click', function () { lb.querySelector('img').src = img.src; lb.classList.add('open'); });
+  });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') lb.classList.remove('open'); });
+
+  /* Sommaire actif au scroll */
+  var links = document.querySelectorAll('.toc a');
+  if ('IntersectionObserver' in window) {
+    var obs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        links.forEach(function (a) { a.classList.toggle('active', a.getAttribute('href') === '#' + en.target.id); });
+      });
+    }, { rootMargin: '-35% 0px -60% 0px' });
+    document.querySelectorAll('.block').forEach(function (b) { obs.observe(b); });
+  }
+})();
+</script>
+
 <script>
 (function () {
   var canvas = document.getElementById('netbg');
   if (!canvas) return;
-  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (reduceMotion) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
   var ctx = canvas.getContext('2d');
+  var root = document.documentElement;
+  var lightMQ = window.matchMedia('(prefers-color-scheme: light)');
+  var TAU = Math.PI * 2;
   var w, h, dpr;
-  var CELL = 96;
-  var cols, rows;
-  var nodePts = [];
-  var edges = [];
-  var pulses = [];
+  var sy = window.pageYOffset || 0;
+  var mx = 0, my = 0, tmx = 0, tmy = 0, last = 0;
+  var layers = [];
 
-  function isLight() {
-    var theme = document.documentElement.getAttribute('data-theme');
-    if (theme === 'light') return true;
-    if (theme === 'dark') return false;
-    return window.matchMedia('(prefers-color-scheme: light)').matches;
+  var COLORS = {
+    signal: '95,211,163',
+    amber: '224,166,73',
+    violet: '139,127,232',
+    inkD: '238,242,246',
+    inkL: '21,32,43'
+  };
+
+  var LAYERS = [
+    { cell: 84,  par: 0.05, drift: 3,  line: 0.05, lw: 0.6, nr: 0.9, na: 0.22, halo: 0,  ha: 0,    hs: 9,  tail: 14, sp: 0.5, keep: 0.55, pf: 0.05, on: 0.5 },
+    { cell: 130, par: 0.16, drift: 6,  line: 0.09, lw: 1,   nr: 1.8, na: 0.34, halo: 16, ha: 0.30, hs: 17, tail: 32, sp: 0.9, keep: 0.50, pf: 0.07, on: 0.5 },
+    { cell: 230, par: 0.42, drift: 11, line: 0.13, lw: 1.8, nr: 3.4, na: 0.48, halo: 40, ha: 0.55, hs: 36, tail: 76, sp: 1.5, keep: 0.42, pf: 0.10, on: 0.6 },
+    { cell: 380, par: 0.80, drift: 16, line: 0,    lw: 0,   nr: 0,   na: 0,    halo: 90, ha: 0.16, hs: 0,  tail: 0,  sp: 0,   keep: 0,    pf: 0,    on: 0.45 }
+  ];
+
+  var sprites = {};
+  Object.keys(COLORS).forEach(function (k) { sprites[k] = makeSprite(COLORS[k]); });
+
+  function makeSprite(rgb) {
+    var s = document.createElement('canvas');
+    s.width = s.height = 64;
+    var g = s.getContext('2d');
+    var grad = g.createRadialGradient(32, 32, 0, 32, 32, 32);
+    grad.addColorStop(0, 'rgba(' + rgb + ',1)');
+    grad.addColorStop(0.18, 'rgba(' + rgb + ',0.55)');
+    grad.addColorStop(0.5, 'rgba(' + rgb + ',0.14)');
+    grad.addColorStop(1, 'rgba(' + rgb + ',0)');
+    g.fillStyle = grad;
+    g.fillRect(0, 0, 64, 64);
+    return s;
+  }
+
+  function pickHue() {
+    var r = Math.random();
+    return r < 0.5 ? 'signal' : (r < 0.78 ? 'violet' : 'amber');
+  }
+  function pulseHue() {
+    var r = Math.random();
+    return r < 0.72 ? 'signal' : (r < 0.86 ? 'amber' : 'violet');
   }
 
   function resize() {
@@ -529,121 +697,190 @@
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   }
 
-  function colorFor(hue, alpha) {
-    if (hue === 'amber') return 'rgba(224,166,73,' + alpha + ')';
-    if (hue === 'violet') return 'rgba(139,127,232,' + alpha + ')';
-    return 'rgba(95,211,163,' + alpha + ')';
+  function addEdge(L, a, b) {
+    var A = L.nodes[a], B = L.nodes[b];
+    var dx = B.x - A.x, dy = B.y - A.y;
+    if (dy < -L.tileH / 2) dy += L.tileH;
+    L.edges.push({ a: a, b: b, len: Math.sqrt(dx * dx + dy * dy) || 1, ax: 0, ay: 0, bx: 0, by: 0 });
   }
 
-  function buildGrid() {
-    cols = Math.ceil(w / CELL) + 2;
-    rows = Math.ceil((h * 0.85) / CELL) + 2;
-    nodePts = [];
-    var grid = [];
-    for (var gy = 0; gy < rows; gy++) {
-      grid[gy] = [];
-      for (var gx = 0; gx < cols; gx++) {
-        var jitter = CELL * 0.28;
-        var x = gx * CELL + (Math.random() - 0.5) * jitter;
-        var y = gy * CELL + (Math.random() - 0.5) * jitter;
-        var idx = nodePts.length;
-        nodePts.push({ x: x, y: y, active: Math.random() < 0.5 });
-        grid[gy][gx] = idx;
+  function spawn(L, startRandom) {
+    L.pulses.push({
+      e: L.edges[(Math.random() * L.edges.length) | 0],
+      t: startRandom ? Math.random() : 0,
+      v: (0.4 + Math.random() * 0.5) * L.sp,
+      hue: pulseHue()
+    });
+  }
+
+  function build() {
+    var k = w < 760 ? 0.72 : 1;
+    layers = LAYERS.map(function (cfg) {
+      var L = {}, key;
+      for (key in cfg) L[key] = cfg[key];
+      L.cell = cfg.cell * k;
+      L.halo = cfg.halo * k;
+      var cols = Math.ceil(w / L.cell) + 3;
+      var rows = Math.ceil((h + 2 * L.cell) / L.cell) + 1;
+      L.tileH = rows * L.cell;
+      L.nodes = [];
+      L.edges = [];
+      L.pulses = [];
+
+      var grid = [], jit = L.cell * 0.32, gx, gy;
+      for (gy = 0; gy < rows; gy++) {
+        grid[gy] = [];
+        for (gx = 0; gx < cols; gx++) {
+          grid[gy][gx] = L.nodes.length;
+          L.nodes.push({
+            x: (gx - 1) * L.cell + (Math.random() - 0.5) * jit,
+            y: gy * L.cell + (Math.random() - 0.5) * jit,
+            on: Math.random() < L.on,
+            ph: Math.random() * TAU,
+            tw: 0.5 + Math.random() * 1.3,
+            hue: pickHue()
+          });
+        }
       }
-    }
 
-    edges = [];
-    var keepChance = 0.55;
-    for (var gy = 0; gy < rows; gy++) {
-      for (var gx = 0; gx < cols; gx++) {
-        var a = grid[gy][gx];
-        if (gx < cols - 1 && Math.random() < keepChance) edges.push({ a: a, b: grid[gy][gx + 1] });
-        if (gy < rows - 1 && Math.random() < keepChance) edges.push({ a: a, b: grid[gy + 1][gx] });
+      if (L.keep) {
+        for (gy = 0; gy < rows; gy++) {
+          for (gx = 0; gx < cols; gx++) {
+            var a = grid[gy][gx];
+            if (gx < cols - 1 && Math.random() < L.keep) addEdge(L, a, grid[gy][gx + 1]);
+            if (Math.random() < L.keep) addEdge(L, a, grid[(gy + 1) % rows][gx]);
+          }
+        }
       }
-    }
 
-    pulses = [];
-    var PULSE_COUNT = Math.max(10, Math.round(edges.length * 0.06));
-    for (var i = 0; i < PULSE_COUNT; i++) spawnPulse();
+      L.pos = new Float32Array(L.nodes.length * 2);
+      if (L.pf && L.edges.length) {
+        var count = Math.max(5, Math.round(L.edges.length * L.pf));
+        for (var i = 0; i < count; i++) spawn(L, true);
+      }
+      return L;
+    });
   }
 
-  function spawnPulse() {
-    if (!edges.length) return;
-    var e = edges[Math.floor(Math.random() * edges.length)];
-    var hue = Math.random() < 0.78 ? 'signal' : (Math.random() < 0.5 ? 'amber' : 'violet');
-    pulses.push({ edge: e, t: 0, speed: 0.004 + Math.random() * 0.006, hue: hue });
-  }
-
-  function step() {
-    var light = isLight();
-    var lineColor = light ? 'rgba(21,32,43,' : 'rgba(238,242,246,';
-    var nodeColor = light ? 'rgba(21,32,43,' : 'rgba(238,242,246,';
+  function draw(now, dt) {
+    var theme = root.getAttribute('data-theme');
+    var light = theme === 'light' || (theme !== 'dark' && lightMQ.matches);
+    var ink = light ? COLORS.inkL : COLORS.inkD;
 
     ctx.clearRect(0, 0, w, h);
+    ctx.globalCompositeOperation = light ? 'source-over' : 'lighter';
 
-    ctx.lineWidth = 1;
-    for (var i = 0; i < edges.length; i++) {
-      var e = edges[i];
-      var a = nodePts[e.a], b = nodePts[e.b];
-      ctx.strokeStyle = lineColor + '0.07)';
-      ctx.beginPath();
-      ctx.moveTo(a.x, a.y);
-      ctx.lineTo(b.x, b.y);
-      ctx.stroke();
+    for (var li = 0; li < layers.length; li++) {
+      var L = layers[li], nodes = L.nodes, edges = L.edges, P = L.pos;
+      var i, e, n, ax, ay, bx, by;
+      var off = sy * L.par + now * 0.001 * L.drift;
+      var ox = mx * L.par * 60, oy = my * L.par * 40;
+      var half = L.tileH / 2;
+
+      for (i = 0; i < nodes.length; i++) {
+        n = nodes[i];
+        P[2 * i] = n.x + ox;
+        P[2 * i + 1] = (((n.y - off) % L.tileH) + L.tileH) % L.tileH - L.cell + oy;
+      }
+
+      if (L.line) {
+        ctx.lineWidth = L.lw;
+        ctx.strokeStyle = 'rgba(' + ink + ',' + L.line + ')';
+        ctx.beginPath();
+        for (i = 0; i < edges.length; i++) {
+          e = edges[i];
+          ax = P[2 * e.a]; ay = P[2 * e.a + 1];
+          bx = P[2 * e.b]; by = P[2 * e.b + 1];
+          if (by - ay > half) by -= L.tileH;
+          else if (by - ay < -half) by += L.tileH;
+          e.ax = ax; e.ay = ay; e.bx = bx; e.by = by;
+          ctx.moveTo(ax, ay);
+          ctx.lineTo(bx, by);
+        }
+        ctx.stroke();
+      }
+
+      var pad = L.halo + 8;
+      for (i = 0; i < nodes.length; i++) {
+        n = nodes[i];
+        if (!n.on) continue;
+        var x = P[2 * i], y = P[2 * i + 1];
+        if (x < -pad || x > w + pad || y < -pad || y > h + pad) continue;
+        var tw = 0.65 + 0.35 * Math.sin(now * 0.001 * n.tw + n.ph);
+        if (L.halo) {
+          ctx.globalAlpha = L.ha * tw;
+          ctx.drawImage(sprites[n.hue], x - L.halo, y - L.halo, L.halo * 2, L.halo * 2);
+        }
+        if (L.nr) {
+          ctx.globalAlpha = 1;
+          ctx.fillStyle = 'rgba(' + ink + ',' + (L.na * tw).toFixed(3) + ')';
+          ctx.beginPath();
+          ctx.arc(x, y, L.nr, 0, TAU);
+          ctx.fill();
+        }
+      }
+      ctx.globalAlpha = 1;
+
+      for (i = L.pulses.length - 1; i >= 0; i--) {
+        var p = L.pulses[i];
+        e = p.e;
+        p.t += p.v * dt / e.len;
+        if (p.t >= 1) { L.pulses.splice(i, 1); spawn(L, false); continue; }
+        var fade = Math.sin(p.t * Math.PI);
+        var px = e.ax + (e.bx - e.ax) * p.t;
+        var py = e.ay + (e.by - e.ay) * p.t;
+        var tt = Math.max(0, p.t - L.tail / e.len);
+        var tx = e.ax + (e.bx - e.ax) * tt;
+        var ty = e.ay + (e.by - e.ay) * tt;
+
+        ctx.strokeStyle = 'rgba(' + COLORS[p.hue] + ',' + (0.4 * fade).toFixed(3) + ')';
+        ctx.lineWidth = L.lw + 0.8;
+        ctx.beginPath();
+        ctx.moveTo(tx, ty);
+        ctx.lineTo(px, py);
+        ctx.stroke();
+
+        ctx.globalAlpha = 0.2 + 0.8 * fade;
+        ctx.drawImage(sprites[p.hue], px - L.hs, py - L.hs, L.hs * 2, L.hs * 2);
+        ctx.globalAlpha = 1;
+      }
     }
-
-    for (var i = 0; i < nodePts.length; i++) {
-      var n = nodePts[i];
-      if (!n.active) continue;
-      ctx.beginPath();
-      ctx.arc(n.x, n.y, 1.3, 0, Math.PI * 2);
-      ctx.fillStyle = nodeColor + '0.22)';
-      ctx.fill();
-    }
-
-    for (var i = pulses.length - 1; i >= 0; i--) {
-      var p = pulses[i];
-      p.t += p.speed;
-      if (p.t >= 1) { pulses.splice(i, 1); spawnPulse(); continue; }
-      var a = nodePts[p.edge.a], b = nodePts[p.edge.b];
-      var px = a.x + (b.x - a.x) * p.t;
-      var py = a.y + (b.y - a.y) * p.t;
-      var fade = Math.sin(p.t * Math.PI);
-
-      ctx.beginPath();
-      ctx.arc(px, py, 2.4, 0, Math.PI * 2);
-      ctx.fillStyle = colorFor(p.hue, 0.9 * fade + 0.1);
-      ctx.shadowColor = colorFor(p.hue, 0.9);
-      ctx.shadowBlur = 10;
-      ctx.fill();
-      ctx.shadowBlur = 0;
-
-      var tailT = Math.max(0, p.t - 0.12);
-      var tx = a.x + (b.x - a.x) * tailT;
-      var ty = a.y + (b.y - a.y) * tailT;
-      ctx.strokeStyle = colorFor(p.hue, 0.35 * fade);
-      ctx.lineWidth = 1.6;
-      ctx.beginPath();
-      ctx.moveTo(tx, ty);
-      ctx.lineTo(px, py);
-      ctx.stroke();
-    }
-
-    requestAnimationFrame(step);
+    ctx.globalCompositeOperation = 'source-over';
   }
 
-  resize();
-  buildGrid();
-  requestAnimationFrame(step);
+  function frame(now) {
+    var dt = last ? Math.min(3, (now - last) / 16.667) : 1;
+    last = now;
+    mx += (tmx - mx) * 0.05 * dt;
+    my += (tmy - my) * 0.05 * dt;
+    draw(now, dt);
+    requestAnimationFrame(frame);
+  }
+
+  window.addEventListener('scroll', function () {
+    sy = window.pageYOffset || 0;
+    root.style.setProperty('--sy', sy);
+  }, { passive: true });
+
+  window.addEventListener('pointermove', function (ev) {
+    if (ev.pointerType === 'touch') return;
+    tmx = (ev.clientX / w - 0.5) * 2;
+    tmy = (ev.clientY / h - 0.5) * 2;
+  }, { passive: true });
 
   var resizeTimer;
   window.addEventListener('resize', function () {
     clearTimeout(resizeTimer);
     resizeTimer = setTimeout(function () {
       resize();
-      buildGrid();
+      build();
     }, 200);
   });
+
+  root.style.setProperty('--sy', sy);
+  resize();
+  build();
+  requestAnimationFrame(frame);
 })();
 </script>
 
