@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blog — Mathéo Guéant</title>
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+<link rel="alternate icon" href="../assets/favicon.svg">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+  :root {
+    --bg: #0A0E14;
+    --bg-soft: #0E141C;
+    --panel: #121A23;
+    --panel-hover: #16202B;
+    --ink: #EEF2F6;
+    --ink-dim: #93A2B4;
+    --ink-faint: #5C6B7E;
+    --signal: #5FD3A3;
+    --signal-dim: rgba(95,211,163,0.12);
+    --amber: #E0A649;
+    --violet: #8B7FE8;
+    --line: rgba(238,242,246,0.08);
+    --line-strong: rgba(238,242,246,0.15);
+    --shadow: rgba(0,0,0,0.35);
+    --header-bg: rgba(14,20,28,0.55);
+    --glow-a: rgba(95,211,163,0.16);
+    --glow-b: rgba(139,127,232,0.13);
+    --glow-c: rgba(224,166,73,0.07);
+  }
+  :root[data-theme="light"] {
+    --bg: #F2F4F6;
+    --bg-soft: #FFFFFF;
+    --panel: #FFFFFF;
+    --panel-hover: #F7F9FA;
+    --ink: #15202B;
+    --ink-dim: #576473;
+    --ink-faint: #8996A5;
+    --line: rgba(21,32,43,0.09);
+    --line-strong: rgba(21,32,43,0.17);
+    --shadow: rgba(21,32,43,0.08);
+    --header-bg: rgba(242,244,246,0.75);
+    --glow-a: rgba(95,211,163,0.22);
+    --glow-b: rgba(139,127,232,0.17);
+    --glow-c: rgba(224,166,73,0.09);
+  }
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme="dark"]) {
+      --bg: #F2F4F6;
+      --bg-soft: #FFFFFF;
+      --panel: #FFFFFF;
+      --panel-hover: #F7F9FA;
+      --ink: #15202B;
+      --ink-dim: #576473;
+      --ink-faint: #8996A5;
+      --line: rgba(21,32,43,0.09);
+      --line-strong: rgba(21,32,43,0.17);
+      --shadow: rgba(21,32,43,0.08);
+      --header-bg: rgba(242,244,246,0.75);
+      --glow-a: rgba(95,211,163,0.22);
+      --glow-b: rgba(139,127,232,0.17);
+      --glow-c: rgba(224,166,73,0.09);
+    }
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'IBM Plex Sans', sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    position: relative;
+    overflow-x: hidden;
+  }
+  .mono { font-family: 'IBM Plex Mono', monospace; }
+  a { color: inherit; }
+  .wrap { max-width: 980px; margin: 0 auto; padding: 0 32px; position: relative; z-index: 1; }
+
+  .bg-glow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(640px 480px at 12% 3%, var(--glow-a), transparent 65%),
+      radial-gradient(700px 520px at 90% 6%, var(--glow-b), transparent 65%),
+      radial-gradient(780px 520px at 50% 30%, var(--glow-c), transparent 70%),
+      radial-gradient(620px 520px at 6% 28%, var(--glow-b), transparent 65%),
+      radial-gradient(680px 540px at 94% 46%, var(--glow-a), transparent 65%),
+      radial-gradient(640px 520px at 10% 66%, var(--glow-c), transparent 65%),
+      radial-gradient(700px 560px at 90% 82%, var(--glow-b), transparent 65%),
+      radial-gradient(760px 520px at 50% 98%, var(--glow-a), transparent 65%);
+  }
+
+  .bg-grid {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px),
+      linear-gradient(var(--line-strong) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line-strong) 1px, transparent 1px);
+    background-size: 42px 42px, 42px 42px, 210px 210px, 210px 210px;
+    background-position:
+      0 calc(var(--sy, 0) * -0.08px), 0 calc(var(--sy, 0) * -0.08px),
+      0 calc(var(--sy, 0) * -0.2px), 0 calc(var(--sy, 0) * -0.2px);
+    -webkit-mask-image: radial-gradient(ellipse 95% 85% at 50% 45%, #000 0%, transparent 100%);
+            mask-image: radial-gradient(ellipse 95% 85% at 50% 45%, #000 0%, transparent 100%);
+    opacity: 0.55;
+  }
+
+  #netbg {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+
+  .bg-vignette {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.65;
+    background: radial-gradient(ellipse 130% 110% at 50% 50%, transparent 58%, var(--bg) 100%);
+  }
+
+  header {
+    position: sticky;
+    top: 14px;
+    z-index: 10;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 14px;
+    padding: 12px 14px 12px 22px;
+    background: var(--header-bg);
+    backdrop-filter: blur(18px) saturate(160%);
+    -webkit-backdrop-filter: blur(18px) saturate(160%);
+    border: 1px solid var(--line-strong);
+    border-radius: 18px;
+    box-shadow:
+      0 10px 30px -12px rgba(0,0,0,0.45),
+      inset 0 1px 0 rgba(255,255,255,0.04);
+    transition: background 0.2s ease, border-color 0.2s ease;
+  }
+  .brand { display: flex; align-items: center; gap: 10px; }
+  .brand .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--signal); box-shadow: 0 0 10px var(--signal); animation: pulse 2.4s ease-in-out infinite; }
+  .brand span { font-family: 'IBM Plex Mono', monospace; font-size: 0.94rem; letter-spacing: 0.02em; }
+  nav { display: flex; align-items: center; gap: 2px; }
+  nav a {
+    text-decoration: none;
+    padding: 8px 14px;
+    font-size: 0.85rem;
+    color: var(--ink-dim);
+    border-radius: 100px;
+    transition: color 0.15s ease, background 0.15s ease;
+  }
+  nav a:hover { color: var(--ink); background: var(--panel); }
+
+  .docs-group {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px;
+    border-radius: 100px;
+    border: 1px solid var(--line);
+    background: var(--panel);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.02);
+  }
+  .doc-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 13px;
+    border-radius: 100px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.01em;
+    color: var(--ink-dim);
+    text-decoration: none;
+    border: 1px solid transparent;
+    transition: color 0.15s ease, background 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+    white-space: nowrap;
+  }
+  .doc-pill svg { width: 14px; height: 14px; flex-shrink: 0; opacity: 0.85; }
+  .doc-pill:hover {
+    color: var(--signal);
+    background: var(--signal-dim);
+    border-color: rgba(95,211,163,0.28);
+    transform: translateY(-1px);
+  }
+  .doc-pill:hover svg { opacity: 1; }
+  .doc-pill-live { color: var(--signal); }
+  .doc-pill-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--signal);
+    box-shadow: 0 0 8px var(--signal);
+    animation: pulse 2.4s ease-in-out infinite;
+  }
+
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 22px;
+    border-radius: 9px;
+    font-size: 0.9rem;
+    text-decoration: none;
+    font-weight: 500;
+    transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+  }
+  .btn-primary { background: var(--signal); color: #0A0E14; box-shadow: 0 4px 18px -6px rgba(95,211,163,0.5); }
+  .btn-primary:hover { transform: translateY(-1px); background: #74dbb0; box-shadow: 0 6px 22px -6px rgba(95,211,163,0.6); }
+  .btn-ghost { border: 1px solid var(--line-strong); color: var(--ink); }
+  .btn-ghost:hover { border-color: var(--signal); color: var(--signal); }
+
+  section { padding: 76px 0; border-top: 1px solid var(--line); }
+
+  footer { padding: 32px 0 54px; display: flex; justify-content: space-between; color: var(--ink-faint); font-size: 0.8rem; font-family: 'IBM Plex Mono', monospace; }
+
+
+  /* ================= BLOG ================= */
+  .subpage-hero { padding: 120px 0 20px; }
+  .breadcrumb { font-family: 'IBM Plex Mono', monospace; font-size: 0.8rem; color: var(--ink-faint); margin-bottom: 22px; }
+  .breadcrumb a { color: var(--ink-dim); text-decoration: none; }
+  .breadcrumb a:hover { color: var(--signal); }
+  .subpage-hero h1 { font-size: clamp(2rem, 4.4vw, 2.8rem); font-weight: 700; letter-spacing: -0.02em; margin-bottom: 14px; }
+  .subpage-hero p { color: var(--ink-dim); max-width: 60ch; font-size: 1rem; }
+
+  .toolbar { display: flex; justify-content: space-between; align-items: center; gap: 14px; flex-wrap: wrap; margin: 36px 0 24px; }
+  .filters { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip {
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.76rem; cursor: pointer;
+    padding: 7px 13px; border-radius: 100px; color: var(--ink-dim);
+    background: var(--panel); border: 1px solid var(--line);
+    transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+  }
+  .chip:hover { color: var(--ink); border-color: var(--line-strong); }
+  .chip.active { color: var(--signal); background: var(--signal-dim); border-color: rgba(95,211,163,0.3); }
+  .chip .n { opacity: 0.6; margin-left: 4px; }
+  .search {
+    font: inherit; font-size: 0.86rem; color: var(--ink);
+    background: var(--panel); border: 1px solid var(--line); border-radius: 100px;
+    padding: 8px 16px; width: 220px; max-width: 100%;
+  }
+  .search::placeholder { color: var(--ink-faint); }
+  .search:focus { outline: none; border-color: var(--signal); }
+
+  .posts { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; padding-bottom: 80px; }
+  .post-card {
+    display: flex; flex-direction: column; text-decoration: none; overflow: hidden;
+    background: var(--panel); border: 1px solid var(--line); border-radius: 14px;
+    box-shadow: 0 10px 26px -14px var(--shadow);
+    transition: border-color 0.18s ease, transform 0.18s ease, background 0.18s ease;
+  }
+  .post-card:hover { border-color: rgba(95,211,163,0.32); background: var(--panel-hover); transform: translateY(-3px); }
+  .post-card.featured { grid-column: 1 / -1; flex-direction: row; }
+  .post-cover { aspect-ratio: 16/9; background: var(--bg-soft); border-bottom: 1px solid var(--line); overflow: hidden; position: relative; flex-shrink: 0; }
+  .post-cover img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .post-cover .ph {
+    position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+    font-family: 'IBM Plex Mono', monospace; font-size: 1.5rem; font-weight: 500; color: var(--signal);
+    background:
+      radial-gradient(260px 160px at 20% 20%, var(--glow-a), transparent 70%),
+      radial-gradient(260px 160px at 85% 80%, var(--glow-b), transparent 70%),
+      linear-gradient(var(--line) 1px, transparent 1px) 0 0 / 22px 22px,
+      linear-gradient(90deg, var(--line) 1px, transparent 1px) 0 0 / 22px 22px;
+  }
+  .post-card.featured .post-cover { width: 46%; aspect-ratio: auto; min-height: 240px; border-bottom: none; border-right: 1px solid var(--line); }
+  .post-body { padding: 22px 24px 24px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+  .post-meta { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; color: var(--ink-faint); }
+  .cat { color: var(--signal); }
+  .post-card h2 { font-size: 1.1rem; font-weight: 600; line-height: 1.35; color: var(--ink); }
+  .post-card.featured h2 { font-size: 1.4rem; }
+  .post-card p { font-size: 0.88rem; color: var(--ink-dim); }
+  .post-more { margin-top: auto; padding-top: 6px; font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; color: var(--signal); }
+
+  .empty {
+    grid-column: 1 / -1; border: 1px dashed var(--line-strong); border-radius: 14px; padding: 48px 24px;
+    text-align: center; color: var(--ink-faint); font-size: 0.92rem; background: var(--panel);
+  }
+  .empty .mono { display: block; font-size: 0.74rem; margin-bottom: 6px; }
+
+  /* Article */
+  .article { max-width: 740px; margin: 0 auto; padding: 110px 0 60px; }
+  .back { display: inline-flex; align-items: center; gap: 6px; font-family: 'IBM Plex Mono', monospace; font-size: 0.8rem; color: var(--ink-dim); text-decoration: none; margin-bottom: 26px; }
+  .back:hover { color: var(--signal); }
+  .article h1 { font-size: clamp(1.9rem, 4.2vw, 2.6rem); font-weight: 700; letter-spacing: -0.02em; line-height: 1.15; margin: 14px 0 16px; }
+  .article .lead { color: var(--ink-dim); font-size: 1.05rem; }
+  .article .cover { margin: 30px 0 6px; border-radius: 14px; overflow: hidden; border: 1px solid var(--line); }
+  .article .cover img { width: 100%; display: block; }
+  .tags { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+  .tags li { font-family: 'IBM Plex Mono', monospace; font-size: 0.74rem; color: var(--ink-dim); background: var(--panel); border: 1px solid var(--line); padding: 4px 10px; border-radius: 100px; }
+
+  .prose {
+    margin-top: 30px; padding: 36px; border-radius: 16px;
+    background: var(--panel); border: 1px solid var(--line); box-shadow: 0 12px 30px -14px var(--shadow);
+    color: var(--ink-dim); font-size: 0.98rem; line-height: 1.75;
+  }
+  .prose > * + * { margin-top: 16px; }
+  .prose h2 { color: var(--ink); font-size: 1.3rem; font-weight: 700; letter-spacing: -0.01em; margin-top: 34px; }
+  .prose h3 { color: var(--ink); font-size: 1.05rem; font-weight: 600; margin-top: 26px; }
+  .prose h2:first-child, .prose h3:first-child { margin-top: 0; }
+  .prose strong { color: var(--ink); }
+  .prose a { color: var(--signal); }
+  .prose ul, .prose ol { padding-left: 22px; }
+  .prose li + li { margin-top: 6px; }
+  .prose li::marker { color: var(--signal); }
+  .prose code { font-family: 'IBM Plex Mono', monospace; font-size: 0.86em; background: var(--bg-soft); border: 1px solid var(--line); padding: 1px 6px; border-radius: 5px; color: var(--ink); }
+  .prose pre { background: var(--bg); border: 1px solid var(--line-strong); border-radius: 10px; padding: 16px 18px; overflow-x: auto; }
+  .prose pre code { background: none; border: none; padding: 0; font-size: 0.84rem; line-height: 1.6; }
+  .prose blockquote { border-left: 3px solid var(--signal); padding: 4px 0 4px 16px; color: var(--ink); font-style: italic; }
+  .prose img { max-width: 100%; border-radius: 10px; border: 1px solid var(--line); display: block; cursor: zoom-in; }
+  .prose figure figcaption { font-size: 0.8rem; color: var(--ink-faint); margin-top: 6px; text-align: center; }
+  .prose hr { border: none; border-top: 1px solid var(--line-strong); margin: 28px 0; }
+  .prose table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+  .prose th, .prose td { border: 1px solid var(--line-strong); padding: 8px 10px; text-align: left; }
+  .prose th { color: var(--ink); background: var(--bg-soft); }
+
+  .post-nav { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 28px; }
+  .post-nav a { display: flex; flex-direction: column; gap: 4px; padding: 16px 18px; border-radius: 12px; text-decoration: none; background: var(--panel); border: 1px solid var(--line); transition: border-color 0.15s ease; }
+  .post-nav a:hover { border-color: rgba(95,211,163,0.32); }
+  .post-nav .lbl { font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; color: var(--ink-faint); }
+  .post-nav .t { font-size: 0.9rem; color: var(--ink); }
+  .post-nav .next { text-align: right; grid-column: 2; }
+
+  .lightbox { display: none; position: fixed; inset: 0; z-index: 100; background: rgba(5,7,11,0.88); backdrop-filter: blur(6px); align-items: center; justify-content: center; padding: 24px; cursor: zoom-out; }
+  .lightbox.open { display: flex; }
+  .lightbox img { max-width: 92vw; max-height: 86vh; border-radius: 12px; }
+
+  [hidden] { display: none !important; }
+
+  @media print {
+    header, #netbg, .bg-glow, .bg-grid, .bg-vignette, footer, .back, .post-nav { display: none !important; }
+    body { background: #fff; color: #111; }
+    .prose { box-shadow: none; border: none; padding: 0; }
+  }
+  @media (max-width: 760px) {
+    .wrap { padding: 0 16px; }
+    nav a { padding: 8px 10px; }
+    header { flex-wrap: wrap; gap: 10px; }
+    nav { order: 3; width: 100%; justify-content: center; }
+    .docs-group { margin-left: auto; }
+    .doc-pill span { display: none; }
+    .doc-pill { padding: 8px; }
+    .doc-pill svg, .doc-pill-dot { margin: 0; }
+    footer { flex-direction: column; gap: 8px; }
+    .subpage-hero { padding-top: 84px; }
+    .article { padding-top: 84px; }
+    .posts { grid-template-columns: 1fr; }
+    .post-card.featured { flex-direction: column; }
+    .post-card.featured .post-cover { width: 100%; aspect-ratio: 16/9; min-height: 0; border-right: none; border-bottom: 1px solid var(--line); }
+    .search { width: 100%; }
+    .prose { padding: 22px; }
+    .post-nav { grid-template-columns: 1fr; }
+    .post-nav .next { grid-column: 1; }
+  }
+  :focus-visible { outline: 2px solid var(--signal); outline-offset: 3px; }
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+    html { scroll-behavior: auto; }
+    #netbg { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-glow"></div>
+<div class="bg-grid"></div>
+<canvas id="netbg"></canvas>
+<div class="bg-vignette"></div>
+
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <div class="dot"></div>
+      <a href="../index.html" style="text-decoration:none;color:inherit;"><span class="mono">Mathéo Gueant</span></a>
+    </div>
+    <nav>
+      <a href="../index.html#competences">Compétences</a>
+      <a href="../index.html#projets">Projets</a>
+      <a href="../index.html#formation">Formation</a>
+      <a href="../index.html#contact">Contact</a>
+    </nav>
+
+    <div class="docs-group">
+      <a href="../cv/" class="doc-pill" title="CV">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+        <span>CV</span>
+      </a>
+      <a href="../lettredemotivation/" class="doc-pill" title="Lettre">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 9.4 6.2a1.6 1.6 0 0 0 1.9 0L22.6 7" transform="translate(-0.6 0)"/></svg>
+        <span>Lettre</span>
+      </a>
+      <a href="../stage/" class="doc-pill" title="Stage">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+        <span>Stage</span>
+      </a>
+      <a href="../blog/" class="doc-pill doc-pill-live" title="Blog">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+        <span>Blog</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- Vue liste -->
+  <div id="view-list">
+    <section class="subpage-hero" style="border-top:none;">
+      <div class="breadcrumb"><a href="../index.html">Accueil</a> / Blog</div>
+      <h1>Blog</h1>
+      <p>Veille technologique, projets, tutos et retours d'expérience autour des systèmes et réseaux.</p>
+    </section>
+    <div class="toolbar">
+      <div class="filters" id="filters"></div>
+      <input type="search" class="search" id="search" placeholder="Rechercher un article…" aria-label="Rechercher un article">
+    </div>
+    <div class="posts" id="posts"></div>
+  </div>
+
+  <!-- Vue article -->
+  <article class="article" id="view-post" hidden></article>
+
+  <footer>
+    <span class="mono">Mathéo Guéant — BTS SIO SISR</span>
+    <span class="mono">2026</span>
+  </footer>
+</div>
+
+<div class="lightbox" id="lightbox" onclick="this.classList.remove('open')"><img alt=""></div>
+
+<script>
+/* =====================================================================
+   ARTICLES DU BLOG — POUR AJOUTER UN ARTICLE, COPIE UN BLOC { ... }
+   ---------------------------------------------------------------------
+   id        : identifiant unique, sans espace ni accent (sert au lien)
+   titre     : titre de l'article
+   date      : format "AAAA-MM-JJ" (les articles sont triés tout seuls)
+   categorie : ex "Veille", "Projet", "Tuto", "Stage", "Cyber"...
+   resume    : 1 à 2 phrases affichées sur la carte
+   image     : optionnel, ex "img/mon-image.png" (dossier /blog/img/)
+   tags      : optionnel, ex ["Linux", "Réseau"]
+   brouillon : mets true pour cacher l'article sans le supprimer
+   contenu   : le texte de l'article en HTML, entre ` ` (backticks).
+               Balises utiles : <h2> <h3> <p> <ul><li> <strong>
+               <a href=""> <code> <pre><code>...</code></pre>
+               <blockquote> <img src="img/x.png" alt="">
+   ===================================================================== */
+
+var ARTICLES = [
+  {
+    id: "bienvenue",
+    titre: "Bienvenue sur mon blog",
+    date: "2026-09-23",
+    categorie: "Actu",
+    resume: "Premier article : ce que tu trouveras ici — veille, projets BTS SIO et retours d'expérience.",
+    image: "",
+    tags: ["BTS SIO", "SISR"],
+    brouillon: false,
+    contenu: `
+      <p>Bienvenue sur mon blog ! J'y publie mes articles de <strong>veille technologique</strong>, mes projets réalisés en BTS SIO option SISR et mes retours d'expérience de stage.</p>
+      <h2>Ce que tu vas trouver ici</h2>
+      <ul>
+        <li>De la veille sur les réseaux, la cybersécurité et l'administration système</li>
+        <li>Des tutos pas à pas (Windows Server, Linux, virtualisation…)</li>
+        <li>Le détail de mes projets</li>
+      </ul>
+      <p>Bonne lecture !</p>
+    `
+  },
+
+  // ---- MODÈLE : copie ce bloc (avec la virgule) pour un nouvel article ----
+  {
+    id: "mon-article",
+    titre: "Titre de l'article",
+    date: "2026-10-01",
+    categorie: "Veille",
+    resume: "Résumé court de l'article.",
+    image: "",
+    tags: [],
+    brouillon: true,   // ← passe à false pour le publier
+    contenu: `
+      <p>Ton texte ici.</p>
+    `
+  },
+];
+/* ======================= FIN DES ARTICLES ============================ */
+</script>
+
+<script>
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  var MOIS = ['janv.', 'févr.', 'mars', 'avr.', 'mai', 'juin', 'juil.', 'août', 'sept.', 'oct.', 'nov.', 'déc.'];
+  function fmt(d) { var p = String(d || '').split('-'); return p.length === 3 ? (+p[2]) + ' ' + MOIS[+p[1] - 1] + ' ' + p[0] : d; }
+  function words(html) { var t = String(html || '').replace(/<[^>]+>/g, ' ').trim(); return t ? t.split(/\s+/).length : 0; }
+  function read(a) { return Math.max(1, Math.round(words(a.contenu) / 200)) + ' min'; }
+  function norm(s) { return String(s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, ''); }
+
+  var posts = ARTICLES.filter(function (a) { return a && !a.brouillon; })
+    .sort(function (a, b) { return String(b.date).localeCompare(String(a.date)); });
+
+  var cat = 'Tous', query = '';
+
+  function cover(a) {
+    return '<div class="post-cover">' + (a.image
+      ? '<img src="' + a.image + '" alt="" loading="lazy">'
+      : '<div class="ph">// ' + (a.categorie || 'blog').toLowerCase() + '</div>') + '</div>';
+  }
+
+  function renderFilters() {
+    var counts = { 'Tous': posts.length };
+    posts.forEach(function (a) { var c = a.categorie || 'Divers'; counts[c] = (counts[c] || 0) + 1; });
+    $('filters').innerHTML = Object.keys(counts).map(function (c) {
+      return '<button class="chip' + (c === cat ? ' active' : '') + '" data-cat="' + c + '">' + c + '<span class="n">' + counts[c] + '</span></button>';
+    }).join('');
+    $('filters').querySelectorAll('.chip').forEach(function (b) {
+      b.onclick = function () { cat = b.dataset.cat; renderFilters(); renderList(); };
+    });
+  }
+
+  function renderList() {
+    var q = norm(query);
+    var list = posts.filter(function (a) {
+      if (cat !== 'Tous' && (a.categorie || 'Divers') !== cat) return false;
+      if (!q) return true;
+      return norm(a.titre + ' ' + a.resume + ' ' + (a.tags || []).join(' ') + ' ' + a.categorie).indexOf(q) !== -1;
+    });
+    if (!posts.length) { $('posts').innerHTML = '<div class="empty"><span class="mono">// blog</span>Aucun article pour le moment.</div>'; return; }
+    if (!list.length) { $('posts').innerHTML = '<div class="empty"><span class="mono">// 0 résultat</span>Aucun article ne correspond à ta recherche.</div>'; return; }
+    $('posts').innerHTML = list.map(function (a, i) {
+      var feat = i === 0 && cat === 'Tous' && !q;
+      return '<a class="post-card' + (feat ? ' featured' : '') + '" href="#' + a.id + '">' + cover(a) +
+        '<div class="post-body"><div class="post-meta"><span class="cat">' + (a.categorie || 'Divers') + '</span><span>' + fmt(a.date) + '</span><span>· ' + read(a) + '</span></div>' +
+        '<h2>' + a.titre + '</h2><p>' + (a.resume || '') + '</p><span class="post-more">Lire l\'article →</span></div></a>';
+    }).join('');
+  }
+
+  function renderPost(a) {
+    var i = posts.indexOf(a);
+    var newer = posts[i - 1], older = posts[i + 1];
+    var nav = '<div class="post-nav">' +
+      (older ? '<a href="#' + older.id + '"><span class="lbl">← Article précédent</span><span class="t">' + older.titre + '</span></a>' : '') +
+      (newer ? '<a class="next" href="#' + newer.id + '"><span class="lbl">Article suivant →</span><span class="t">' + newer.titre + '</span></a>' : '') +
+      '</div>';
+    $('view-post').innerHTML =
+      '<a class="back" href="#">← Tous les articles</a>' +
+      '<div class="post-meta"><span class="cat">' + (a.categorie || 'Divers') + '</span><span>' + fmt(a.date) + '</span><span>· ' + read(a) + ' de lecture</span></div>' +
+      '<h1>' + a.titre + '</h1>' + (a.resume ? '<p class="lead">' + a.resume + '</p>' : '') +
+      (a.tags && a.tags.length ? '<ul class="tags">' + a.tags.map(function (t) { return '<li>#' + t + '</li>'; }).join('') + '</ul>' : '') +
+      (a.image ? '<div class="cover"><img src="' + a.image + '" alt=""></div>' : '') +
+      '<div class="prose">' + a.contenu + '</div>' + nav;
+    $('view-post').querySelectorAll('.prose img').forEach(function (img) {
+      img.onclick = function () { var lb = $('lightbox'); lb.querySelector('img').src = img.src; lb.classList.add('open'); };
+    });
+    document.title = a.titre + ' — Blog — Mathéo Guéant';
+  }
+
+  function route() {
+    var id = decodeURIComponent(location.hash.slice(1));
+    var a = posts.filter(function (p) { return p.id === id; })[0];
+    $('view-list').hidden = !!a;
+    $('view-post').hidden = !a;
+    if (a) { renderPost(a); window.scrollTo(0, 0); }
+    else document.title = 'Blog — Mathéo Guéant';
+  }
+
+  $('search').addEventListener('input', function (e) { query = e.target.value; renderList(); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') $('lightbox').classList.remove('open'); });
+  window.addEventListener('hashchange', route);
+
+  renderFilters();
+  renderList();
+  route();
+})();
+</script>
+
+<script>
+(function () {
+  var canvas = document.getElementById('netbg');
+  if (!canvas) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  var ctx = canvas.getContext('2d');
+  var root = document.documentElement;
+  var lightMQ = window.matchMedia('(prefers-color-scheme: light)');
+  var TAU = Math.PI * 2;
+  var w, h, dpr;
+  var sy = window.pageYOffset || 0;
+  var mx = 0, my = 0, tmx = 0, tmy = 0, last = 0;
+  var layers = [];
+
+  var COLORS = {
+    signal: '95,211,163',
+    amber: '224,166,73',
+    violet: '139,127,232',
+    inkD: '238,242,246',
+    inkL: '21,32,43'
+  };
+
+  var LAYERS = [
+    { cell: 84,  par: 0.05, drift: 3,  line: 0.05, lw: 0.6, nr: 0.9, na: 0.22, halo: 0,  ha: 0,    hs: 9,  tail: 14, sp: 0.5, keep: 0.55, pf: 0.05, on: 0.5 },
+    { cell: 130, par: 0.16, drift: 6,  line: 0.09, lw: 1,   nr: 1.8, na: 0.34, halo: 16, ha: 0.30, hs: 17, tail: 32, sp: 0.9, keep: 0.50, pf: 0.07, on: 0.5 },
+    { cell: 230, par: 0.42, drift: 11, line: 0.13, lw: 1.8, nr: 3.4, na: 0.48, halo: 40, ha: 0.55, hs: 36, tail: 76, sp: 1.5, keep: 0.42, pf: 0.10, on: 0.6 },
+    { cell: 380, par: 0.80, drift: 16, line: 0,    lw: 0,   nr: 0,   na: 0,    halo: 90, ha: 0.16, hs: 0,  tail: 0,  sp: 0,   keep: 0,    pf: 0,    on: 0.45 }
+  ];
+
+  var sprites = {};
+  Object.keys(COLORS).forEach(function (k) { sprites[k] = makeSprite(COLORS[k]); });
+
+  function makeSprite(rgb) {
+    var s = document.createElement('canvas');
+    s.width = s.height = 64;
+    var g = s.getContext('2d');
+    var grad = g.createRadialGradient(32, 32, 0, 32, 32, 32);
+    grad.addColorStop(0, 'rgba(' + rgb + ',1)');
+    grad.addColorStop(0.18, 'rgba(' + rgb + ',0.55)');
+    grad.addColorStop(0.5, 'rgba(' + rgb + ',0.14)');
+    grad.addColorStop(1, 'rgba(' + rgb + ',0)');
+    g.fillStyle = grad;
+    g.fillRect(0, 0, 64, 64);
+    return s;
+  }
+
+  function pickHue() {
+    var r = Math.random();
+    return r < 0.5 ? 'signal' : (r < 0.78 ? 'violet' : 'amber');
+  }
+  function pulseHue() {
+    var r = Math.random();
+    return r < 0.72 ? 'signal' : (r < 0.86 ? 'amber' : 'violet');
+  }
+
+  function resize() {
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    w = window.innerWidth;
+    h = window.innerHeight;
+    canvas.width = w * dpr;
+    canvas.height = h * dpr;
+    canvas.style.width = w + 'px';
+    canvas.style.height = h + 'px';
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+
+  function addEdge(L, a, b) {
+    var A = L.nodes[a], B = L.nodes[b];
+    var dx = B.x - A.x, dy = B.y - A.y;
+    if (dy < -L.tileH / 2) dy += L.tileH;
+    L.edges.push({ a: a, b: b, len: Math.sqrt(dx * dx + dy * dy) || 1, ax: 0, ay: 0, bx: 0, by: 0 });
+  }
+
+  function spawn(L, startRandom) {
+    L.pulses.push({
+      e: L.edges[(Math.random() * L.edges.length) | 0],
+      t: startRandom ? Math.random() : 0,
+      v: (0.4 + Math.random() * 0.5) * L.sp,
+      hue: pulseHue()
+    });
+  }
+
+  function build() {
+    var k = w < 760 ? 0.72 : 1;
+    layers = LAYERS.map(function (cfg) {
+      var L = {}, key;
+      for (key in cfg) L[key] = cfg[key];
+      L.cell = cfg.cell * k;
+      L.halo = cfg.halo * k;
+      var cols = Math.ceil(w / L.cell) + 3;
+      var rows = Math.ceil((h + 2 * L.cell) / L.cell) + 1;
+      L.tileH = rows * L.cell;
+      L.nodes = [];
+      L.edges = [];
+      L.pulses = [];
+
+      var grid = [], jit = L.cell * 0.32, gx, gy;
+      for (gy = 0; gy < rows; gy++) {
+        grid[gy] = [];
+        for (gx = 0; gx < cols; gx++) {
+          grid[gy][gx] = L.nodes.length;
+          L.nodes.push({
+            x: (gx - 1) * L.cell + (Math.random() - 0.5) * jit,
+            y: gy * L.cell + (Math.random() - 0.5) * jit,
+            on: Math.random() < L.on,
+            ph: Math.random() * TAU,
+            tw: 0.5 + Math.random() * 1.3,
+            hue: pickHue()
+          });
+        }
+      }
+
+      if (L.keep) {
+        for (gy = 0; gy < rows; gy++) {
+          for (gx = 0; gx < cols; gx++) {
+            var a = grid[gy][gx];
+            if (gx < cols - 1 && Math.random() < L.keep) addEdge(L, a, grid[gy][gx + 1]);
+            if (Math.random() < L.keep) addEdge(L, a, grid[(gy + 1) % rows][gx]);
+          }
+        }
+      }
+
+      L.pos = new Float32Array(L.nodes.length * 2);
+      if (L.pf && L.edges.length) {
+        var count = Math.max(5, Math.round(L.edges.length * L.pf));
+        for (var i = 0; i < count; i++) spawn(L, true);
+      }
+      return L;
+    });
+  }
+
+  function draw(now, dt) {
+    var theme = root.getAttribute('data-theme');
+    var light = theme === 'light' || (theme !== 'dark' && lightMQ.matches);
+    var ink = light ? COLORS.inkL : COLORS.inkD;
+
+    ctx.clearRect(0, 0, w, h);
+    ctx.globalCompositeOperation = light ? 'source-over' : 'lighter';
+
+    for (var li = 0; li < layers.length; li++) {
+      var L = layers[li], nodes = L.nodes, edges = L.edges, P = L.pos;
+      var i, e, n, ax, ay, bx, by;
+      var off = sy * L.par + now * 0.001 * L.drift;
+      var ox = mx * L.par * 60, oy = my * L.par * 40;
+      var half = L.tileH / 2;
+
+      for (i = 0; i < nodes.length; i++) {
+        n = nodes[i];
+        P[2 * i] = n.x + ox;
+        P[2 * i + 1] = (((n.y - off) % L.tileH) + L.tileH) % L.tileH - L.cell + oy;
+      }
+
+      if (L.line) {
+        ctx.lineWidth = L.lw;
+        ctx.strokeStyle = 'rgba(' + ink + ',' + L.line + ')';
+        ctx.beginPath();
+        for (i = 0; i < edges.length; i++) {
+          e = edges[i];
+          ax = P[2 * e.a]; ay = P[2 * e.a + 1];
+          bx = P[2 * e.b]; by = P[2 * e.b + 1];
+          if (by - ay > half) by -= L.tileH;
+          else if (by - ay < -half) by += L.tileH;
+          e.ax = ax; e.ay = ay; e.bx = bx; e.by = by;
+          ctx.moveTo(ax, ay);
+          ctx.lineTo(bx, by);
+        }
+        ctx.stroke();
+      }
+
+      var pad = L.halo + 8;
+      for (i = 0; i < nodes.length; i++) {
+        n = nodes[i];
+        if (!n.on) continue;
+        var x = P[2 * i], y = P[2 * i + 1];
+        if (x < -pad || x > w + pad || y < -pad || y > h + pad) continue;
+        var tw = 0.65 + 0.35 * Math.sin(now * 0.001 * n.tw + n.ph);
+        if (L.halo) {
+          ctx.globalAlpha = L.ha * tw;
+          ctx.drawImage(sprites[n.hue], x - L.halo, y - L.halo, L.halo * 2, L.halo * 2);
+        }
+        if (L.nr) {
+          ctx.globalAlpha = 1;
+          ctx.fillStyle = 'rgba(' + ink + ',' + (L.na * tw).toFixed(3) + ')';
+          ctx.beginPath();
+          ctx.arc(x, y, L.nr, 0, TAU);
+          ctx.fill();
+        }
+      }
+      ctx.globalAlpha = 1;
+
+      for (i = L.pulses.length - 1; i >= 0; i--) {
+        var p = L.pulses[i];
+        e = p.e;
+        p.t += p.v * dt / e.len;
+        if (p.t >= 1) { L.pulses.splice(i, 1); spawn(L, false); continue; }
+        var fade = Math.sin(p.t * Math.PI);
+        var px = e.ax + (e.bx - e.ax) * p.t;
+        var py = e.ay + (e.by - e.ay) * p.t;
+        var tt = Math.max(0, p.t - L.tail / e.len);
+        var tx = e.ax + (e.bx - e.ax) * tt;
+        var ty = e.ay + (e.by - e.ay) * tt;
+
+        ctx.strokeStyle = 'rgba(' + COLORS[p.hue] + ',' + (0.4 * fade).toFixed(3) + ')';
+        ctx.lineWidth = L.lw + 0.8;
+        ctx.beginPath();
+        ctx.moveTo(tx, ty);
+        ctx.lineTo(px, py);
+        ctx.stroke();
+
+        ctx.globalAlpha = 0.2 + 0.8 * fade;
+        ctx.drawImage(sprites[p.hue], px - L.hs, py - L.hs, L.hs * 2, L.hs * 2);
+        ctx.globalAlpha = 1;
+      }
+    }
+    ctx.globalCompositeOperation = 'source-over';
+  }
+
+  function frame(now) {
+    var dt = last ? Math.min(3, (now - last) / 16.667) : 1;
+    last = now;
+    mx += (tmx - mx) * 0.05 * dt;
+    my += (tmy - my) * 0.05 * dt;
+    draw(now, dt);
+    requestAnimationFrame(frame);
+  }
+
+  window.addEventListener('scroll', function () {
+    sy = window.pageYOffset || 0;
+    root.style.setProperty('--sy', sy);
+  }, { passive: true });
+
+  window.addEventListener('pointermove', function (ev) {
+    if (ev.pointerType === 'touch') return;
+    tmx = (ev.clientX / w - 0.5) * 2;
+    tmy = (ev.clientY / h - 0.5) * 2;
+  }, { passive: true });
+
+  var resizeTimer;
+  window.addEventListener('resize', function () {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function () {
+      resize();
+      build();
+    }, 200);
+  });
+
+  root.style.setProperty('--sy', sy);
+  resize();
+  build();
+  requestAnimationFrame(frame);
+})();
+</script>
+
+</body>
+</html>
