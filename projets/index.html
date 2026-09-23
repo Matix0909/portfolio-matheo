@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Projets — Mathéo Guéant</title>
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+<link rel="alternate icon" href="../assets/favicon.svg">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+  :root {
+    --bg: #0A0E14;
+    --bg-soft: #0E141C;
+    --panel: #121A23;
+    --panel-hover: #16202B;
+    --ink: #EEF2F6;
+    --ink-dim: #93A2B4;
+    --ink-faint: #5C6B7E;
+    --signal: #5FD3A3;
+    --signal-dim: rgba(95,211,163,0.12);
+    --amber: #E0A649;
+    --violet: #8B7FE8;
+    --line: rgba(238,242,246,0.08);
+    --line-strong: rgba(238,242,246,0.15);
+    --shadow: rgba(0,0,0,0.35);
+    --header-bg: rgba(14,20,28,0.55);
+    --glow-a: rgba(95,211,163,0.16);
+    --glow-b: rgba(139,127,232,0.13);
+    --glow-c: rgba(224,166,73,0.07);
+  }
+  :root[data-theme="light"] {
+    --bg: #F2F4F6;
+    --bg-soft: #FFFFFF;
+    --panel: #FFFFFF;
+    --panel-hover: #F7F9FA;
+    --ink: #15202B;
+    --ink-dim: #576473;
+    --ink-faint: #8996A5;
+    --line: rgba(21,32,43,0.09);
+    --line-strong: rgba(21,32,43,0.17);
+    --shadow: rgba(21,32,43,0.08);
+    --header-bg: rgba(242,244,246,0.75);
+    --glow-a: rgba(95,211,163,0.22);
+    --glow-b: rgba(139,127,232,0.17);
+    --glow-c: rgba(224,166,73,0.09);
+  }
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme="dark"]) {
+      --bg: #F2F4F6;
+      --bg-soft: #FFFFFF;
+      --panel: #FFFFFF;
+      --panel-hover: #F7F9FA;
+      --ink: #15202B;
+      --ink-dim: #576473;
+      --ink-faint: #8996A5;
+      --line: rgba(21,32,43,0.09);
+      --line-strong: rgba(21,32,43,0.17);
+      --shadow: rgba(21,32,43,0.08);
+      --header-bg: rgba(242,244,246,0.75);
+      --glow-a: rgba(95,211,163,0.22);
+      --glow-b: rgba(139,127,232,0.17);
+      --glow-c: rgba(224,166,73,0.09);
+    }
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'IBM Plex Sans', sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    position: relative;
+    overflow-x: hidden;
+  }
+  .mono { font-family: 'IBM Plex Mono', monospace; }
+  a { color: inherit; }
+  .wrap { max-width: 980px; margin: 0 auto; padding: 0 32px; position: relative; z-index: 1; }
+
+  .bg-glow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(640px 480px at 12% 3%, var(--glow-a), transparent 65%),
+      radial-gradient(700px 520px at 90% 6%, var(--glow-b), transparent 65%),
+      radial-gradient(780px 520px at 50% 30%, var(--glow-c), transparent 70%),
+      radial-gradient(620px 520px at 6% 28%, var(--glow-b), transparent 65%),
+      radial-gradient(680px 540px at 94% 46%, var(--glow-a), transparent 65%),
+      radial-gradient(640px 520px at 10% 66%, var(--glow-c), transparent 65%),
+      radial-gradient(700px 560px at 90% 82%, var(--glow-b), transparent 65%),
+      radial-gradient(760px 520px at 50% 98%, var(--glow-a), transparent 65%);
+  }
+
+  .bg-grid {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px),
+      linear-gradient(var(--line-strong) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line-strong) 1px, transparent 1px);
+    background-size: 42px 42px, 42px 42px, 210px 210px, 210px 210px;
+    background-position:
+      0 calc(var(--sy, 0) * -0.08px), 0 calc(var(--sy, 0) * -0.08px),
+      0 calc(var(--sy, 0) * -0.2px), 0 calc(var(--sy, 0) * -0.2px);
+    -webkit-mask-image: radial-gradient(ellipse 95% 85% at 50% 45%, #000 0%, transparent 100%);
+            mask-image: radial-gradient(ellipse 95% 85% at 50% 45%, #000 0%, transparent 100%);
+    opacity: 0.55;
+  }
+
+  #netbg {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+
+  .bg-vignette {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.65;
+    background: radial-gradient(ellipse 130% 110% at 50% 50%, transparent 58%, var(--bg) 100%);
+  }
+
+  header {
+    position: sticky;
+    top: 14px;
+    z-index: 10;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 14px;
+    padding: 12px 14px 12px 22px;
+    background: var(--header-bg);
+    backdrop-filter: blur(18px) saturate(160%);
+    -webkit-backdrop-filter: blur(18px) saturate(160%);
+    border: 1px solid var(--line-strong);
+    border-radius: 18px;
+    box-shadow:
+      0 10px 30px -12px rgba(0,0,0,0.45),
+      inset 0 1px 0 rgba(255,255,255,0.04);
+    transition: background 0.2s ease, border-color 0.2s ease;
+  }
+  .brand { display: flex; align-items: center; gap: 10px; }
+  .brand .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--signal); box-shadow: 0 0 10px var(--signal); animation: pulse 2.4s ease-in-out infinite; }
+  .brand span { font-family: 'IBM Plex Mono', monospace; font-size: 0.94rem; letter-spacing: 0.02em; }
+  nav { display: flex; align-items: center; gap: 2px; }
+  nav a {
+    text-decoration: none;
+    padding: 8px 14px;
+    font-size: 0.85rem;
+    color: var(--ink-dim);
+    border-radius: 100px;
+    transition: color 0.15s ease, background 0.15s ease;
+  }
+  nav a:hover { color: var(--ink); background: var(--panel); }
+
+  .docs-group {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px;
+    border-radius: 100px;
+    border: 1px solid var(--line);
+    background: var(--panel);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.02);
+  }
+  .doc-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 13px;
+    border-radius: 100px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.01em;
+    color: var(--ink-dim);
+    text-decoration: none;
+    border: 1px solid transparent;
+    transition: color 0.15s ease, background 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+    white-space: nowrap;
+  }
+  .doc-pill svg { width: 14px; height: 14px; flex-shrink: 0; opacity: 0.85; }
+  .doc-pill:hover {
+    color: var(--signal);
+    background: var(--signal-dim);
+    border-color: rgba(95,211,163,0.28);
+    transform: translateY(-1px);
+  }
+  .doc-pill:hover svg { opacity: 1; }
+  .doc-pill-live { color: var(--signal); }
+  .doc-pill-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--signal);
+    box-shadow: 0 0 8px var(--signal);
+    animation: pulse 2.4s ease-in-out infinite;
+  }
+
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 22px;
+    border-radius: 9px;
+    font-size: 0.9rem;
+    text-decoration: none;
+    font-weight: 500;
+    transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+  }
+  .btn-primary { background: var(--signal); color: #0A0E14; box-shadow: 0 4px 18px -6px rgba(95,211,163,0.5); }
+  .btn-primary:hover { transform: translateY(-1px); background: #74dbb0; box-shadow: 0 6px 22px -6px rgba(95,211,163,0.6); }
+  .btn-ghost { border: 1px solid var(--line-strong); color: var(--ink); }
+  .btn-ghost:hover { border-color: var(--signal); color: var(--signal); }
+
+  section { padding: 76px 0; border-top: 1px solid var(--line); }
+
+  footer { padding: 32px 0 54px; display: flex; justify-content: space-between; color: var(--ink-faint); font-size: 0.8rem; font-family: 'IBM Plex Mono', monospace; }
+
+
+  /* ================= PROJETS ================= */
+  nav a.current { color: var(--signal); background: var(--signal-dim); }
+  .subpage-hero { padding: 120px 0 10px; }
+  .breadcrumb { font-family: 'IBM Plex Mono', monospace; font-size: 0.8rem; color: var(--ink-faint); margin-bottom: 22px; }
+  .breadcrumb a { color: var(--ink-dim); text-decoration: none; }
+  .breadcrumb a:hover { color: var(--signal); }
+  .subpage-hero h1 { font-size: clamp(2.3rem, 5vw, 3.3rem); font-weight: 700; letter-spacing: -0.025em; line-height: 1.05; margin-bottom: 16px; }
+  .subpage-hero h1 .grad { background: linear-gradient(90deg, var(--signal), #8de8c8 40%, var(--violet)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .subpage-hero p { color: var(--ink-dim); max-width: 58ch; font-size: 1.04rem; }
+
+  .stats { display: flex; gap: 40px; flex-wrap: wrap; margin-top: 34px; padding-top: 26px; border-top: 1px solid var(--line); }
+  .stats div { display: flex; flex-direction: column; gap: 3px; }
+  .stats .num { font-family: 'IBM Plex Mono', monospace; font-size: 1.6rem; font-weight: 500; color: var(--signal); line-height: 1.2; }
+  .stats .lbl { font-size: 0.8rem; color: var(--ink-faint); }
+
+  .filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 44px 0 22px; }
+  .chip {
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.76rem; cursor: pointer;
+    padding: 7px 14px; border-radius: 100px; color: var(--ink-dim);
+    background: var(--panel); border: 1px solid var(--line);
+    transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+  }
+  .chip:hover { color: var(--ink); border-color: var(--line-strong); }
+  .chip.active { color: var(--signal); background: var(--signal-dim); border-color: rgba(95,211,163,0.3); }
+  .chip .n { opacity: 0.6; margin-left: 5px; }
+
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; padding-bottom: 90px; }
+  .card {
+    --c: 95,211,163;
+    position: relative; display: flex; flex-direction: column; overflow: hidden; text-decoration: none;
+    background: var(--panel); border: 1px solid var(--line); border-radius: 16px;
+    box-shadow: 0 12px 30px -16px var(--shadow);
+    transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
+    animation: rise 0.5s ease both;
+  }
+  .card:hover { transform: translateY(-5px); border-color: rgba(var(--c),0.4); box-shadow: 0 22px 44px -18px rgba(var(--c),0.28); }
+  .card.big { grid-column: span 2; }
+  @keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+
+  .cover { position: relative; height: 170px; overflow: hidden; border-bottom: 1px solid var(--line); background: var(--bg-soft); }
+  .card.big .cover { height: 210px; }
+  .cover svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .cover img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .cover::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 45%, var(--panel) 100%); pointer-events: none; }
+  .cover .icon {
+    position: absolute; left: 20px; bottom: 16px; z-index: 1;
+    width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center;
+    background: rgba(var(--c),0.14); border: 1px solid rgba(var(--c),0.35); color: rgb(var(--c));
+    backdrop-filter: blur(6px);
+  }
+  .cover .icon svg { position: static; width: 22px; height: 22px; }
+  .status {
+    position: absolute; top: 14px; right: 14px; z-index: 1;
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem;
+    padding: 4px 10px; border-radius: 100px; color: var(--ink-dim);
+    background: var(--header-bg); border: 1px solid var(--line-strong); backdrop-filter: blur(8px);
+  }
+  .status::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--signal); box-shadow: 0 0 8px var(--signal); }
+  .status.wip::before { background: var(--amber); box-shadow: 0 0 8px var(--amber); animation: pulse 2s ease-in-out infinite; }
+
+  .card-body { padding: 18px 22px 22px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+  .kicker { font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem; letter-spacing: 0.03em; color: rgb(var(--c)); text-transform: uppercase; }
+  .card h2 { font-size: 1.08rem; font-weight: 600; line-height: 1.35; color: var(--ink); }
+  .card.big h2 { font-size: 1.3rem; }
+  .card p { font-size: 0.87rem; color: var(--ink-dim); }
+  .stack { list-style: none; display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; padding-top: 6px; }
+  .stack li { font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem; color: var(--ink-dim); padding: 3px 9px; border-radius: 6px; background: var(--bg-soft); border: 1px solid var(--line); }
+  .card .more { font-family: 'IBM Plex Mono', monospace; font-size: 0.74rem; color: rgb(var(--c)); display: inline-flex; gap: 6px; transition: gap 0.2s ease; }
+  .card:hover .more { gap: 10px; }
+
+  .empty { grid-column: 1 / -1; border: 1px dashed var(--line-strong); border-radius: 14px; padding: 48px 24px; text-align: center; color: var(--ink-faint); background: var(--panel); }
+
+  /* ---- Détail ---- */
+  .detail { padding: 110px 0 70px; }
+  .back { display: inline-flex; align-items: center; gap: 6px; font-family: 'IBM Plex Mono', monospace; font-size: 0.8rem; color: var(--ink-dim); text-decoration: none; margin-bottom: 24px; }
+  .back:hover { color: var(--signal); }
+  .d-hero {
+    --c: 95,211,163;
+    position: relative; overflow: hidden; border-radius: 20px; border: 1px solid var(--line-strong);
+    background: var(--panel); box-shadow: 0 20px 50px -24px var(--shadow);
+  }
+  .d-hero .cover { height: 230px; border-bottom: 1px solid var(--line); }
+  .d-hero .cover .icon { width: 56px; height: 56px; left: 30px; bottom: 22px; }
+  .d-hero .cover .icon svg { width: 28px; height: 28px; }
+  .d-head { padding: 8px 30px 28px; }
+  .d-head h1 { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; letter-spacing: -0.02em; line-height: 1.15; margin: 8px 0 12px; }
+  .d-head .lead { color: var(--ink-dim); font-size: 1.02rem; max-width: 64ch; }
+  .d-head .stack { margin-top: 18px; }
+  .d-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 22px; }
+
+  .meta { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 22px 0; }
+  .meta div { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; display: flex; flex-direction: column; gap: 4px; }
+  .meta .lbl { font-size: 0.68rem; color: var(--ink-faint); letter-spacing: 0.05em; text-transform: uppercase; }
+  .meta .val { font-size: 0.9rem; color: var(--ink); }
+
+  .d-grid { display: grid; grid-template-columns: 1fr 280px; gap: 22px; align-items: start; }
+  .panel { background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 28px; box-shadow: 0 12px 30px -16px var(--shadow); }
+  .panel + .panel { margin-top: 22px; }
+  .panel h2 { font-size: 0.78rem; font-weight: 600; color: var(--ink-faint); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 14px; display: flex; align-items: center; gap: 10px; }
+  .panel h2::before { content: ""; width: 14px; height: 2px; background: rgb(var(--c, 95,211,163)); border-radius: 2px; }
+  .panel p { color: var(--ink-dim); font-size: 0.94rem; }
+  .panel p + p { margin-top: 10px; }
+  .panel strong { color: var(--ink); }
+
+  .steps { list-style: none; counter-reset: s; position: relative; }
+  .steps li { counter-increment: s; position: relative; padding: 0 0 20px 44px; color: var(--ink-dim); font-size: 0.93rem; }
+  .steps li:last-child { padding-bottom: 0; }
+  .steps li::before {
+    content: counter(s, decimal-leading-zero); position: absolute; left: 0; top: -2px;
+    width: 30px; height: 30px; border-radius: 9px; display: grid; place-items: center;
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; color: var(--signal);
+    background: var(--signal-dim); border: 1px solid rgba(95,211,163,0.3);
+  }
+  .steps li::after { content: ""; position: absolute; left: 15px; top: 32px; bottom: 4px; width: 1px; background: var(--line-strong); }
+  .steps li:last-child::after { display: none; }
+  .steps strong { display: block; color: var(--ink); font-weight: 600; margin-bottom: 2px; }
+
+  .checks { list-style: none; display: flex; flex-direction: column; gap: 9px; }
+  .checks li { position: relative; padding-left: 26px; color: var(--ink-dim); font-size: 0.9rem; }
+  .checks li::before { content: "✓"; position: absolute; left: 0; top: 0; width: 18px; height: 18px; border-radius: 5px; display: grid; place-items: center; font-size: 0.7rem; color: var(--signal); background: var(--signal-dim); }
+
+  .skills-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .skills-list li { font-size: 0.84rem; color: var(--ink-dim); padding: 9px 12px; border-radius: 9px; background: var(--bg-soft); border: 1px solid var(--line); }
+
+  .docs { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .docs a { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 9px; font-size: 0.85rem; color: var(--ink); text-decoration: none; background: var(--bg-soft); border: 1px solid var(--line); transition: border-color 0.15s ease, color 0.15s ease; }
+  .docs a:hover { border-color: var(--signal); color: var(--signal); }
+  .docs svg { width: 16px; height: 16px; flex-shrink: 0; color: var(--signal); }
+
+  .gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
+  .gallery figure { margin: 0; }
+  .gallery img { width: 100%; aspect-ratio: 16/10; object-fit: cover; border-radius: 10px; border: 1px solid var(--line); cursor: zoom-in; display: block; }
+  .gallery figcaption { font-size: 0.76rem; color: var(--ink-faint); margin-top: 6px; }
+
+  .pn { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 30px; }
+  .pn a { display: flex; flex-direction: column; gap: 4px; padding: 16px 18px; border-radius: 12px; text-decoration: none; background: var(--panel); border: 1px solid var(--line); transition: border-color 0.15s ease; }
+  .pn a:hover { border-color: rgba(95,211,163,0.35); }
+  .pn .lbl { font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; color: var(--ink-faint); }
+  .pn .t { font-size: 0.92rem; color: var(--ink); }
+  .pn .next { text-align: right; grid-column: 2; }
+
+  .lightbox { display: none; position: fixed; inset: 0; z-index: 100; background: rgba(5,7,11,0.88); backdrop-filter: blur(6px); align-items: center; justify-content: center; padding: 24px; cursor: zoom-out; }
+  .lightbox.open { display: flex; }
+  .lightbox img { max-width: 92vw; max-height: 86vh; border-radius: 12px; }
+  [hidden] { display: none !important; }
+
+  @media print {
+    header, #netbg, .bg-glow, .bg-grid, .bg-vignette, footer, .back, .pn, .filters { display: none !important; }
+    body { background: #fff; color: #111; }
+  }
+  @media (max-width: 900px) {
+    .grid { grid-template-columns: 1fr 1fr; }
+    .d-grid { grid-template-columns: 1fr; }
+    .meta { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 760px) {
+    .wrap { padding: 0 16px; }
+    nav a { padding: 8px 10px; }
+    header { flex-wrap: wrap; gap: 10px; }
+    nav { order: 3; width: 100%; justify-content: center; }
+    .docs-group { margin-left: auto; }
+    .doc-pill span { display: none; }
+    .doc-pill { padding: 8px; }
+    .doc-pill svg, .doc-pill-dot { margin: 0; }
+    footer { flex-direction: column; gap: 8px; }
+    .subpage-hero, .detail { padding-top: 84px; }
+    .grid { grid-template-columns: 1fr; }
+    .card.big { grid-column: auto; }
+    .stats { gap: 26px; }
+    .d-head { padding: 8px 20px 22px; }
+    .panel { padding: 22px; }
+    .pn { grid-template-columns: 1fr; }
+    .pn .next { grid-column: 1; }
+  }
+  :focus-visible { outline: 2px solid var(--signal); outline-offset: 3px; }
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+    html { scroll-behavior: auto; }
+    #netbg { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-glow"></div>
+<div class="bg-grid"></div>
+<canvas id="netbg"></canvas>
+<div class="bg-vignette"></div>
+
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <div class="dot"></div>
+      <a href="../index.html" style="text-decoration:none;color:inherit;"><span class="mono">Mathéo Gueant</span></a>
+    </div>
+    <nav>
+      <a href="../index.html#competences">Compétences</a>
+      <a href="../projets/" class="current">Projets</a>
+      <a href="../index.html#formation">Formation</a>
+      <a href="../index.html#contact">Contact</a>
+    </nav>
+
+    <div class="docs-group">
+      <a href="../cv/" class="doc-pill" title="CV">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+        <span>CV</span>
+      </a>
+      <a href="../lettredemotivation/" class="doc-pill" title="Lettre">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 9.4 6.2a1.6 1.6 0 0 0 1.9 0L22.6 7" transform="translate(-0.6 0)"/></svg>
+        <span>Lettre</span>
+      </a>
+      <a href="../stage/" class="doc-pill" title="Stage">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+        <span>Stage</span>
+      </a>
+      <a href="../blog/" class="doc-pill" title="Blog">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+        <span>Blog</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- Liste -->
+  <div id="view-list">
+    <section class="subpage-hero" style="border-top:none;">
+      <div class="breadcrumb"><a href="../index.html">Accueil</a> / Projets</div>
+      <h1>Mes <span class="grad">projets</span></h1>
+      <p>Réseaux, systèmes, virtualisation et sécurité : les infrastructures que j'ai conçues, déployées et documentées pendant ma formation BTS SIO SISR.</p>
+      <div class="stats" id="stats"></div>
+    </section>
+    <div class="filters" id="filters"></div>
+    <div class="grid" id="grid"></div>
+  </div>
+
+  <!-- Détail -->
+  <div class="detail" id="view-detail" hidden></div>
+
+  <footer>
+    <span class="mono">Mathéo Guéant — BTS SIO SISR</span>
+    <span class="mono">2026</span>
+  </footer>
+</div>
+
+<div class="lightbox" id="lightbox" onclick="this.classList.remove('open')"><img alt=""></div>
+
+<script>
+/* =====================================================================
+   PROJETS — POUR AJOUTER UN PROJET, COPIE UN BLOC { ... }
+   ---------------------------------------------------------------------
+   id          : identifiant unique sans espace ni accent (sert au lien)
+   titre       : nom du projet
+   domaine     : "reseau" | "systeme" | "virtualisation" | "securite" | "autre"
+                 (change la couleur et l'icône)
+   statut      : "Terminé" ou "En cours"
+   annee       : ex "2025 — 2026"
+   contexte    : ex "BTS SIO — TP", "Stage", "Projet perso"
+   duree       : ex "3 semaines"
+   role        : ex "Seul", "En binôme"
+   resume      : 1 à 2 phrases (affiché sur la carte)
+   stack       : technos, ex ["Cisco", "VLAN", "Packet Tracer"]
+   image       : optionnel — image de couverture, ex "img/vlan.png"
+                 (sinon un visuel réseau est généré automatiquement)
+   vedette     : true = carte en grand (quand ça tombe juste dans la grille)
+
+   Détail du projet (tout est optionnel, les parties vides sont cachées) :
+   objectif    : texte
+   etapes      : [{ titre: "...", texte: "..." }, ...]
+   resultats   : ["...", "..."]
+   competences : compétences BTS mobilisées, ex ["Gérer le patrimoine informatique"]
+   documents   : [{ nom: "Procédure (PDF)", lien: "docs/procedure.pdf" }]
+   images      : [{ src: "img/capture.png", legende: "..." }]
+   ===================================================================== */
+
+var PROJETS = [
+  {
+    id: "refonte-reseau-ecole",
+    titre: "Refonte réseau d'un site école",
+    domaine: "reseau",
+    statut: "Terminé",
+    annee: "2025 — 2026",
+    contexte: "BTS SIO — TP",
+    duree: "",
+    role: "",
+    resume: "Segmentation en VLAN par service, routage inter-VLAN et plan d'adressage complet sous Packet Tracer.",
+    stack: ["VLAN", "Routage inter-VLAN", "VLSM", "Packet Tracer"],
+    image: "",
+    vedette: true,
+    objectif: "Segmenter le réseau d'un site école en VLAN par service, mettre en place le routage inter-VLAN et concevoir un plan d'adressage complet.",
+    etapes: [],
+    resultats: [],
+    competences: [],
+    documents: [],
+    images: []
+  },
+  {
+    id: "deploiement-active-directory",
+    titre: "Déploiement Active Directory",
+    domaine: "systeme",
+    statut: "Terminé",
+    annee: "2025 — 2026",
+    contexte: "BTS SIO — TP",
+    duree: "",
+    role: "",
+    resume: "Mise en place d'un domaine, gestion des utilisateurs et stratégies de groupe pour un parc de postes simulé.",
+    stack: ["Windows Server", "AD DS", "GPO", "DNS"],
+    image: "",
+    vedette: false,
+    objectif: "Mettre en place un domaine Active Directory, gérer les utilisateurs et appliquer des stratégies de groupe sur un parc de postes simulé.",
+    etapes: [],
+    resultats: [],
+    competences: [],
+    documents: [],
+    images: []
+  },
+  {
+    id: "infra-virtualisee-proxmox",
+    titre: "Infrastructure virtualisée de test",
+    domaine: "virtualisation",
+    statut: "Terminé",
+    annee: "2025 — 2026",
+    contexte: "BTS SIO — TP",
+    duree: "",
+    role: "",
+    resume: "Cluster Proxmox avec VM de services (DNS, DHCP, supervision) pour reproduire une infra en conditions réelles.",
+    stack: ["Proxmox", "DNS", "DHCP", "Zabbix"],
+    image: "",
+    vedette: false,
+    objectif: "Monter un cluster Proxmox hébergeant des VM de services (DNS, DHCP, supervision) afin de reproduire une infrastructure en conditions réelles.",
+    etapes: [],
+    resultats: [],
+    competences: [],
+    documents: [],
+    images: []
+  }
+];
+/* ======================= FIN DES PROJETS ============================= */
+</script>
+
+<script>
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  var has = function (v) { return Array.isArray(v) ? v.length > 0 : !!(v && String(v).trim()); };
+
+  var ICONS = {
+    reseau: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="5" rx="1"/><rect x="2" y="17" width="6" height="5" rx="1"/><rect x="16" y="17" width="6" height="5" rx="1"/><path d="M12 7v5M5 17v-3h14v3"/></svg>',
+    systeme: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="7" rx="1.5"/><rect x="3" y="14" width="18" height="7" rx="1.5"/><path d="M7 6.5h.01M7 17.5h.01M11 6.5h6M11 17.5h6"/></svg>',
+    virtualisation: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="m12 2 9 5-9 5-9-5 9-5Z"/><path d="m3 12 9 5 9-5"/><path d="m3 17 9 5 9-5"/></svg>',
+    securite: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5l-8-3Z"/><path d="m9 12 2 2 4-4"/></svg>',
+    autre: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="m8 6-6 6 6 6M16 6l6 6-6 6"/></svg>'
+  };
+  var DOM = {
+    reseau:         { nom: 'Réseau',         c: '95,211,163' },
+    systeme:        { nom: 'Système',        c: '139,127,232' },
+    virtualisation: { nom: 'Virtualisation', c: '96,165,250' },
+    securite:       { nom: 'Sécurité',       c: '224,166,73' },
+    autre:          { nom: 'Autre',          c: '148,163,184' }
+  };
+  var DOC = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M12 18v-6M9 15l3 3 3-3"/></svg>';
+
+  function dom(p) { return DOM[p.domaine] || DOM.autre; }
+
+  /* Visuel réseau généré à partir de l'id (toujours le même pour un projet) */
+  function seed(str) { var h = 2166136261; for (var i = 0; i < str.length; i++) { h ^= str.charCodeAt(i); h = Math.imul(h, 16777619); } return function () { h ^= h << 13; h ^= h >>> 17; h ^= h << 5; return ((h >>> 0) % 10000) / 10000; }; }
+  function art(p) {
+    var r = seed(p.id || p.titre), W = 400, H = 200, pts = [], s = '';
+    var cols = 8, rows = 4;
+    for (var y = 0; y <= rows; y++) for (var x = 0; x <= cols; x++)
+      pts.push({ x: x * W / cols + (r() - 0.5) * 30, y: y * H / rows + (r() - 0.5) * 26, on: r() < 0.3 });
+    for (var i = 0; i < pts.length; i++) {
+      var a = pts[i];
+      if ((i + 1) % (cols + 1) && r() < 0.6) { var b = pts[i + 1]; s += '<line x1="' + a.x + '" y1="' + a.y + '" x2="' + b.x + '" y2="' + b.y + '" style="stroke:rgba(var(--c),' + (a.on ? 0.55 : 0.16) + ')" stroke-width="' + (a.on ? 1.4 : 1) + '"/>'; }
+      if (i + cols + 1 < pts.length && r() < 0.5) { var d = pts[i + cols + 1]; s += '<line x1="' + a.x + '" y1="' + a.y + '" x2="' + d.x + '" y2="' + d.y + '" style="stroke:rgba(var(--c),' + (a.on ? 0.5 : 0.14) + ')" stroke-width="1"/>'; }
+    }
+    pts.forEach(function (n) {
+      s += n.on
+        ? '<circle cx="' + n.x + '" cy="' + n.y + '" r="9" style="fill:rgba(var(--c),0.14)"/><circle cx="' + n.x + '" cy="' + n.y + '" r="3.2" style="fill:rgb(var(--c))"/>'
+        : '<circle cx="' + n.x + '" cy="' + n.y + '" r="1.6" style="fill:rgba(var(--c),0.35)"/>';
+    });
+    var gx = 60 + r() * 280, gy = 30 + r() * 100;
+    return '<svg viewBox="0 0 ' + W + ' ' + H + '" preserveAspectRatio="xMidYMid slice" aria-hidden="true">' +
+      '<defs><radialGradient id="g-' + p.id + '"><stop offset="0" style="stop-color:rgba(var(--c),0.35)"/><stop offset="1" style="stop-color:rgba(var(--c),0)"/></radialGradient></defs>' +
+      '<circle cx="' + gx + '" cy="' + gy + '" r="170" fill="url(#g-' + p.id + ')"/>' + s + '</svg>';
+  }
+  function cover(p) {
+    var d = dom(p);
+    return '<div class="cover">' + (has(p.image) ? '<img src="' + p.image + '" alt="" loading="lazy">' : art(p)) +
+      '<span class="status' + (p.statut === 'En cours' ? ' wip' : '') + '">' + (p.statut || 'Terminé') + '</span>' +
+      '<span class="icon">' + (ICONS[p.domaine] || ICONS.autre) + '</span></div>';
+  }
+  function stack(p) { return has(p.stack) ? '<ul class="stack">' + p.stack.map(function (t) { return '<li>' + t + '</li>'; }).join('') + '</ul>' : ''; }
+
+  var filtre = 'tous';
+
+  /* Stats */
+  var techs = {}; PROJETS.forEach(function (p) { (p.stack || []).forEach(function (t) { techs[t] = 1; }); });
+  var doms = {}; PROJETS.forEach(function (p) { doms[p.domaine || 'autre'] = 1; });
+  $('stats').innerHTML =
+    '<div><span class="num">' + PROJETS.length + '</span><span class="lbl">projets</span></div>' +
+    '<div><span class="num">' + Object.keys(techs).length + '</span><span class="lbl">technologies</span></div>' +
+    '<div><span class="num">' + Object.keys(doms).length + '</span><span class="lbl">domaines</span></div>' +
+    '<div><span class="num">' + PROJETS.filter(function (p) { return p.statut === 'En cours'; }).length + '</span><span class="lbl">en cours</span></div>';
+
+  function renderFilters() {
+    var counts = { tous: PROJETS.length };
+    PROJETS.forEach(function (p) { var k = DOM[p.domaine] ? p.domaine : 'autre'; counts[k] = (counts[k] || 0) + 1; });
+    $('filters').innerHTML = Object.keys(counts).map(function (k) {
+      return '<button class="chip' + (k === filtre ? ' active' : '') + '" data-k="' + k + '">' + (k === 'tous' ? 'Tous' : DOM[k].nom) + '<span class="n">' + counts[k] + '</span></button>';
+    }).join('');
+    $('filters').querySelectorAll('.chip').forEach(function (b) { b.onclick = function () { filtre = b.dataset.k; renderFilters(); renderGrid(); }; });
+  }
+
+  function renderGrid() {
+    var list = PROJETS.filter(function (p) { return filtre === 'tous' || (DOM[p.domaine] ? p.domaine : 'autre') === filtre; });
+    if (!list.length) { $('grid').innerHTML = '<div class="empty">Aucun projet dans cette catégorie pour le moment.</div>'; return; }
+    $('grid').innerHTML = list.map(function (p, i) {
+      var d = dom(p);
+      var big = p.vedette && filtre === 'tous' && (list.length + 1) % 3 === 0;
+      return '<a class="card' + (big ? ' big' : '') + '" href="#' + p.id + '" style="--c:' + d.c + ';animation-delay:' + (i * 70) + 'ms">' +
+        cover(p) + '<div class="card-body"><span class="kicker">' + d.nom + (has(p.annee) ? ' · ' + p.annee : '') + '</span>' +
+        '<h2>' + p.titre + '</h2><p>' + (p.resume || '') + '</p>' + stack(p) +
+        '<span class="more">Voir le projet <span>→</span></span></div></a>';
+    }).join('');
+  }
+
+  function renderDetail(p) {
+    var d = dom(p), i = PROJETS.indexOf(p), prev = PROJETS[i - 1], next = PROJETS[i + 1];
+    var meta = [['Contexte', p.contexte], ['Année', p.annee], ['Durée', p.duree], ['Rôle', p.role]].filter(function (m) { return has(m[1]); });
+    var main = '', side = '';
+    if (has(p.objectif)) main += '<div class="panel"><h2>Objectif</h2><p>' + p.objectif + '</p></div>';
+    if (has(p.etapes)) main += '<div class="panel"><h2>Réalisation</h2><ol class="steps">' + p.etapes.map(function (e) {
+      return '<li>' + (e.titre ? '<strong>' + e.titre + '</strong>' : '') + (e.texte || '') + '</li>'; }).join('') + '</ol></div>';
+    if (has(p.images)) main += '<div class="panel"><h2>Captures</h2><div class="gallery">' + p.images.map(function (im) {
+      return '<figure><img src="' + im.src + '" alt="' + (im.legende || '') + '" loading="lazy">' + (im.legende ? '<figcaption>' + im.legende + '</figcaption>' : '') + '</figure>'; }).join('') + '</div></div>';
+    if (has(p.resultats)) side += '<div class="panel"><h2>Résultats</h2><ul class="checks">' + p.resultats.map(function (x) { return '<li>' + x + '</li>'; }).join('') + '</ul></div>';
+    if (has(p.competences)) side += '<div class="panel"><h2>Compétences BTS</h2><ul class="skills-list">' + p.competences.map(function (x) { return '<li>' + x + '</li>'; }).join('') + '</ul></div>';
+    if (has(p.documents)) side += '<div class="panel"><h2>Documents</h2><ul class="docs">' + p.documents.map(function (x) { return '<li><a href="' + x.lien + '" target="_blank" rel="noopener">' + DOC + x.nom + '</a></li>'; }).join('') + '</ul></div>';
+
+    $('view-detail').innerHTML =
+      '<a class="back" href="#">← Tous les projets</a>' +
+      '<div class="d-hero" style="--c:' + d.c + '">' + cover(p) +
+      '<div class="d-head"><span class="kicker" style="color:rgb(' + d.c + ')">' + d.nom + '</span><h1>' + p.titre + '</h1>' +
+      (has(p.resume) ? '<p class="lead">' + p.resume + '</p>' : '') + stack(p) + '</div></div>' +
+      (meta.length ? '<div class="meta">' + meta.map(function (m) { return '<div><span class="lbl">' + m[0] + '</span><span class="val">' + m[1] + '</span></div>'; }).join('') + '</div>' : '<div style="height:22px"></div>') +
+      (main || side ? '<div class="d-grid" style="--c:' + d.c + ';' + (side ? '' : 'grid-template-columns:1fr') + '"><div>' + main + '</div>' + (side ? '<aside>' + side + '</aside>' : '') + '</div>' : '') +
+      '<div class="pn">' +
+      (prev ? '<a href="#' + prev.id + '"><span class="lbl">← Projet précédent</span><span class="t">' + prev.titre + '</span></a>' : '') +
+      (next ? '<a class="next" href="#' + next.id + '"><span class="lbl">Projet suivant →</span><span class="t">' + next.titre + '</span></a>' : '') +
+      '</div>';
+    $('view-detail').querySelectorAll('.gallery img').forEach(function (img) {
+      img.onclick = function () { var lb = $('lightbox'); lb.querySelector('img').src = img.src; lb.classList.add('open'); };
+    });
+    document.title = p.titre + ' — Projets — Mathéo Guéant';
+  }
+
+  function route() {
+    var id = decodeURIComponent(location.hash.slice(1));
+    var p = PROJETS.filter(function (x) { return x.id === id; })[0];
+    $('view-list').hidden = !!p;
+    $('view-detail').hidden = !p;
+    if (p) { renderDetail(p); window.scrollTo(0, 0); }
+    else document.title = 'Projets — Mathéo Guéant';
+  }
+
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') $('lightbox').classList.remove('open'); });
+  window.addEventListener('hashchange', route);
+  renderFilters();
+  renderGrid();
+  route();
+})();
+</script>
+
+<script>
+(function () {
+  var canvas = document.getElementById('netbg');
+  if (!canvas) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  var ctx = canvas.getContext('2d');
+  var root = document.documentElement;
+  var lightMQ = window.matchMedia('(prefers-color-scheme: light)');
+  var TAU = Math.PI * 2;
+  var w, h, dpr;
+  var sy = window.pageYOffset || 0;
+  var mx = 0, my = 0, tmx = 0, tmy = 0, last = 0;
+  var layers = [];
+
+  var COLORS = {
+    signal: '95,211,163',
+    amber: '224,166,73',
+    violet: '139,127,232',
+    inkD: '238,242,246',
+    inkL: '21,32,43'
+  };
+
+  var LAYERS = [
+    { cell: 84,  par: 0.05, drift: 3,  line: 0.05, lw: 0.6, nr: 0.9, na: 0.22, halo: 0,  ha: 0,    hs: 9,  tail: 14, sp: 0.5, keep: 0.55, pf: 0.05, on: 0.5 },
+    { cell: 130, par: 0.16, drift: 6,  line: 0.09, lw: 1,   nr: 1.8, na: 0.34, halo: 16, ha: 0.30, hs: 17, tail: 32, sp: 0.9, keep: 0.50, pf: 0.07, on: 0.5 },
+    { cell: 230, par: 0.42, drift: 11, line: 0.13, lw: 1.8, nr: 3.4, na: 0.48, halo: 40, ha: 0.55, hs: 36, tail: 76, sp: 1.5, keep: 0.42, pf: 0.10, on: 0.6 },
+    { cell: 380, par: 0.80, drift: 16, line: 0,    lw: 0,   nr: 0,   na: 0,    halo: 90, ha: 0.16, hs: 0,  tail: 0,  sp: 0,   keep: 0,    pf: 0,    on: 0.45 }
+  ];
+
+  var sprites = {};
+  Object.keys(COLORS).forEach(function (k) { sprites[k] = makeSprite(COLORS[k]); });
+
+  function makeSprite(rgb) {
+    var s = document.createElement('canvas');
+    s.width = s.height = 64;
+    var g = s.getContext('2d');
+    var grad = g.createRadialGradient(32, 32, 0, 32, 32, 32);
+    grad.addColorStop(0, 'rgba(' + rgb + ',1)');
+    grad.addColorStop(0.18, 'rgba(' + rgb + ',0.55)');
+    grad.addColorStop(0.5, 'rgba(' + rgb + ',0.14)');
+    grad.addColorStop(1, 'rgba(' + rgb + ',0)');
+    g.fillStyle = grad;
+    g.fillRect(0, 0, 64, 64);
+    return s;
+  }
+
+  function pickHue() {
+    var r = Math.random();
+    return r < 0.5 ? 'signal' : (r < 0.78 ? 'violet' : 'amber');
+  }
+  function pulseHue() {
+    var r = Math.random();
+    return r < 0.72 ? 'signal' : (r < 0.86 ? 'amber' : 'violet');
+  }
+
+  function resize() {
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    w = window.innerWidth;
+    h = window.innerHeight;
+    canvas.width = w * dpr;
+    canvas.height = h * dpr;
+    canvas.style.width = w + 'px';
+    canvas.style.height = h + 'px';
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+
+  function addEdge(L, a, b) {
+    var A = L.nodes[a], B = L.nodes[b];
+    var dx = B.x - A.x, dy = B.y - A.y;
+    if (dy < -L.tileH / 2) dy += L.tileH;
+    L.edges.push({ a: a, b: b, len: Math.sqrt(dx * dx + dy * dy) || 1, ax: 0, ay: 0, bx: 0, by: 0 });
+  }
+
+  function spawn(L, startRandom) {
+    L.pulses.push({
+      e: L.edges[(Math.random() * L.edges.length) | 0],
+      t: startRandom ? Math.random() : 0,
+      v: (0.4 + Math.random() * 0.5) * L.sp,
+      hue: pulseHue()
+    });
+  }
+
+  function build() {
+    var k = w < 760 ? 0.72 : 1;
+    layers = LAYERS.map(function (cfg) {
+      var L = {}, key;
+      for (key in cfg) L[key] = cfg[key];
+      L.cell = cfg.cell * k;
+      L.halo = cfg.halo * k;
+      var cols = Math.ceil(w / L.cell) + 3;
+      var rows = Math.ceil((h + 2 * L.cell) / L.cell) + 1;
+      L.tileH = rows * L.cell;
+      L.nodes = [];
+      L.edges = [];
+      L.pulses = [];
+
+      var grid = [], jit = L.cell * 0.32, gx, gy;
+      for (gy = 0; gy < rows; gy++) {
+        grid[gy] = [];
+        for (gx = 0; gx < cols; gx++) {
+          grid[gy][gx] = L.nodes.length;
+          L.nodes.push({
+            x: (gx - 1) * L.cell + (Math.random() - 0.5) * jit,
+            y: gy * L.cell + (Math.random() - 0.5) * jit,
+            on: Math.random() < L.on,
+            ph: Math.random() * TAU,
+            tw: 0.5 + Math.random() * 1.3,
+            hue: pickHue()
+          });
+        }
+      }
+
+      if (L.keep) {
+        for (gy = 0; gy < rows; gy++) {
+          for (gx = 0; gx < cols; gx++) {
+            var a = grid[gy][gx];
+            if (gx < cols - 1 && Math.random() < L.keep) addEdge(L, a, grid[gy][gx + 1]);
+            if (Math.random() < L.keep) addEdge(L, a, grid[(gy + 1) % rows][gx]);
+          }
+        }
+      }
+
+      L.pos = new Float32Array(L.nodes.length * 2);
+      if (L.pf && L.edges.length) {
+        var count = Math.max(5, Math.round(L.edges.length * L.pf));
+        for (var i = 0; i < count; i++) spawn(L, true);
+      }
+      return L;
+    });
+  }
+
+  function draw(now, dt) {
+    var theme = root.getAttribute('data-theme');
+    var light = theme === 'light' || (theme !== 'dark' && lightMQ.matches);
+    var ink = light ? COLORS.inkL : COLORS.inkD;
+
+    ctx.clearRect(0, 0, w, h);
+    ctx.globalCompositeOperation = light ? 'source-over' : 'lighter';
+
+    for (var li = 0; li < layers.length; li++) {
+      var L = layers[li], nodes = L.nodes, edges = L.edges, P = L.pos;
+      var i, e, n, ax, ay, bx, by;
+      var off = sy * L.par + now * 0.001 * L.drift;
+      var ox = mx * L.par * 60, oy = my * L.par * 40;
+      var half = L.tileH / 2;
+
+      for (i = 0; i < nodes.length; i++) {
+        n = nodes[i];
+        P[2 * i] = n.x + ox;
+        P[2 * i + 1] = (((n.y - off) % L.tileH) + L.tileH) % L.tileH - L.cell + oy;
+      }
+
+      if (L.line) {
+        ctx.lineWidth = L.lw;
+        ctx.strokeStyle = 'rgba(' + ink + ',' + L.line + ')';
+        ctx.beginPath();
+        for (i = 0; i < edges.length; i++) {
+          e = edges[i];
+          ax = P[2 * e.a]; ay = P[2 * e.a + 1];
+          bx = P[2 * e.b]; by = P[2 * e.b + 1];
+          if (by - ay > half) by -= L.tileH;
+          else if (by - ay < -half) by += L.tileH;
+          e.ax = ax; e.ay = ay; e.bx = bx; e.by = by;
+          ctx.moveTo(ax, ay);
+          ctx.lineTo(bx, by);
+        }
+        ctx.stroke();
+      }
+
+      var pad = L.halo + 8;
+      for (i = 0; i < nodes.length; i++) {
+        n = nodes[i];
+        if (!n.on) continue;
+        var x = P[2 * i], y = P[2 * i + 1];
+        if (x < -pad || x > w + pad || y < -pad || y > h + pad) continue;
+        var tw = 0.65 + 0.35 * Math.sin(now * 0.001 * n.tw + n.ph);
+        if (L.halo) {
+          ctx.globalAlpha = L.ha * tw;
+          ctx.drawImage(sprites[n.hue], x - L.halo, y - L.halo, L.halo * 2, L.halo * 2);
+        }
+        if (L.nr) {
+          ctx.globalAlpha = 1;
+          ctx.fillStyle = 'rgba(' + ink + ',' + (L.na * tw).toFixed(3) + ')';
+          ctx.beginPath();
+          ctx.arc(x, y, L.nr, 0, TAU);
+          ctx.fill();
+        }
+      }
+      ctx.globalAlpha = 1;
+
+      for (i = L.pulses.length - 1; i >= 0; i--) {
+        var p = L.pulses[i];
+        e = p.e;
+        p.t += p.v * dt / e.len;
+        if (p.t >= 1) { L.pulses.splice(i, 1); spawn(L, false); continue; }
+        var fade = Math.sin(p.t * Math.PI);
+        var px = e.ax + (e.bx - e.ax) * p.t;
+        var py = e.ay + (e.by - e.ay) * p.t;
+        var tt = Math.max(0, p.t - L.tail / e.len);
+        var tx = e.ax + (e.bx - e.ax) * tt;
+        var ty = e.ay + (e.by - e.ay) * tt;
+
+        ctx.strokeStyle = 'rgba(' + COLORS[p.hue] + ',' + (0.4 * fade).toFixed(3) + ')';
+        ctx.lineWidth = L.lw + 0.8;
+        ctx.beginPath();
+        ctx.moveTo(tx, ty);
+        ctx.lineTo(px, py);
+        ctx.stroke();
+
+        ctx.globalAlpha = 0.2 + 0.8 * fade;
+        ctx.drawImage(sprites[p.hue], px - L.hs, py - L.hs, L.hs * 2, L.hs * 2);
+        ctx.globalAlpha = 1;
+      }
+    }
+    ctx.globalCompositeOperation = 'source-over';
+  }
+
+  function frame(now) {
+    var dt = last ? Math.min(3, (now - last) / 16.667) : 1;
+    last = now;
+    mx += (tmx - mx) * 0.05 * dt;
+    my += (tmy - my) * 0.05 * dt;
+    draw(now, dt);
+    requestAnimationFrame(frame);
+  }
+
+  window.addEventListener('scroll', function () {
+    sy = window.pageYOffset || 0;
+    root.style.setProperty('--sy', sy);
+  }, { passive: true });
+
+  window.addEventListener('pointermove', function (ev) {
+    if (ev.pointerType === 'touch') return;
+    tmx = (ev.clientX / w - 0.5) * 2;
+    tmy = (ev.clientY / h - 0.5) * 2;
+  }, { passive: true });
+
+  var resizeTimer;
+  window.addEventListener('resize', function () {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function () {
+      resize();
+      build();
+    }, 200);
+  });
+
+  root.style.setProperty('--sy', sy);
+  resize();
+  build();
+  requestAnimationFrame(frame);
+})();
+</script>
+
+</body>
+</html>
