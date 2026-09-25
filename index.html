@@ -436,23 +436,9 @@
   .letter-body .letter-sign { color: var(--ink); font-weight: 600; margin-top: 20px; margin-bottom: 0; }
   .letter-print { margin-top: 10px; }
 
-  /* ---- Stage ---- */
-  .stage-card {
-    background: var(--panel);
-    border: 1px solid var(--line);
-    border-radius: 16px;
-    padding: 40px;
-    box-shadow: 0 12px 30px -14px var(--shadow);
-  }
-  .stage-card h3 { font-size: 1.25rem; font-weight: 700; margin-bottom: 10px; max-width: 44ch; }
-  .stage-card > p { color: var(--ink-dim); font-size: 0.94rem; max-width: 56ch; margin-bottom: 28px; }
-  .stage-facts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 30px; }
-  .stage-fact { background: var(--bg-soft); border: 1px solid var(--line); border-radius: 10px; padding: 16px; display: flex; flex-direction: column; gap: 6px; }
-  .stage-fact .lbl { font-size: 0.72rem; color: var(--ink-faint); letter-spacing: 0.03em; text-transform: uppercase; }
-  .stage-fact .val { font-size: 0.88rem; color: var(--ink); }
 
   @media print {
-    header, .hero-cta, #netbg, .bg-glow, .bg-grid, .bg-vignette, footer, #stage, #contact,
+    header, .hero-cta, #netbg, .bg-glow, .bg-grid, .bg-vignette, footer, #contact,
     section:not(#cv):not(#lettre) { display: none !important; }
     body { background: #fff; color: #111; }
     .cv-card, .letter-card { box-shadow: none; border: none; }
@@ -477,7 +463,6 @@
     .cv-top { flex-direction: column; align-items: stretch; }
     .cv-top .btn { width: 100%; justify-content: center; }
     .letter-card { padding: 28px; }
-    .stage-facts { grid-template-columns: 1fr 1fr; }
   }
 
   :focus-visible { outline: 2px solid var(--signal); outline-offset: 3px; }
@@ -516,10 +501,6 @@
       <a href="lettredemotivation/" class="doc-pill" title="Lire la lettre de motivation">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 9.4 6.2a1.6 1.6 0 0 0 1.9 0L22.6 7" transform="translate(-0.6 0)"/></svg>
         <span>Lettre</span>
-      </a>
-      <a href="stage/" class="doc-pill" title="Recherche de stage">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
-        <span>Stage</span>
       </a>
       <a href="blog/" class="doc-pill" title="Blog">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
