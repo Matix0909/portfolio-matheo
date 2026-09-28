@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CV — Mathéo Guéant</title>
+<title>CV &amp; Lettre de motivation — Mathéo Guéant</title>
 <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
 <link rel="alternate icon" href="../assets/favicon.svg">
 <style>
@@ -231,56 +231,95 @@
 
   section { padding: 76px 0; border-top: 1px solid var(--line); }
 
-  .timeline { position: relative; padding-left: 30px; }
-  .timeline::before { content: ""; position: absolute; left: 5px; top: 6px; bottom: 6px; width: 1px; background: var(--line-strong); }
-  .tl-item { position: relative; padding-bottom: 32px; }
-  .tl-item:last-child { padding-bottom: 0; }
-  .tl-item::before {
-    content: "";
-    position: absolute;
-    left: -30px;
-    top: 4px;
-    width: 11px;
-    height: 11px;
-    border-radius: 50%;
-    background: var(--bg);
-    border: 2px solid var(--signal);
-    box-shadow: 0 0 0 4px var(--signal-dim);
-  }
-  .tl-item .period { font-family: 'IBM Plex Mono', monospace; color: var(--signal); font-size: 0.79rem; margin-bottom: 7px; display: block; }
-  .tl-item h4 { font-size: 1.02rem; font-weight: 600; margin-bottom: 2px; }
-  .tl-item .place { color: var(--ink-faint); font-size: 0.82rem; margin-bottom: 12px; }
-  .tl-item ul { list-style: none; display: flex; flex-direction: column; gap: 6px; }
-  .tl-item ul li { color: var(--ink-dim); font-size: 0.87rem; padding-left: 16px; position: relative; }
-  .tl-item ul li::before { content: "—"; position: absolute; left: 0; color: var(--ink-faint); }
-
   footer { padding: 32px 0 54px; display: flex; justify-content: space-between; color: var(--ink-faint); font-size: 0.8rem; font-family: 'IBM Plex Mono', monospace; }
 
-  .cv-card {
-    background: var(--panel);
-    border: 1px solid var(--line);
-    border-radius: 16px;
-    padding: 36px;
+  /* ---- Carte identité ---- */
+  .id-card {
+    display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap;
+    background: var(--panel); border: 1px solid var(--line); border-radius: 16px;
+    padding: 22px 26px; margin-bottom: 22px;
     box-shadow: 0 12px 30px -14px var(--shadow);
   }
-  .cv-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; flex-wrap: wrap; margin-bottom: 26px; padding-bottom: 26px; border-bottom: 1px solid var(--line); }
-  .cv-top h3 { font-size: 1.4rem; font-weight: 700; margin-bottom: 6px; }
-  .cv-role { color: var(--signal); font-size: 0.85rem; font-family: 'IBM Plex Mono', monospace; }
-  .cv-top .btn { white-space: nowrap; }
-  .cv-profile { color: var(--ink-dim); font-size: 0.92rem; max-width: 62ch; margin-bottom: 36px; }
-  .cv-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-bottom: 40px; }
-  .cv-col h4 { font-size: 0.76rem; color: var(--ink-faint); letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 14px; }
-  .cv-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
-  .cv-list li { font-size: 0.87rem; color: var(--ink); display: flex; flex-direction: column; gap: 3px; }
-  .cv-list .cv-period { color: var(--signal); font-size: 0.75rem; }
-  .cv-list.plain li { color: var(--ink-dim); }
-  .cv-tags { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; }
-  .cv-tags li { font-size: 0.78rem; font-family: 'IBM Plex Mono', monospace; color: var(--ink-dim); background: var(--bg-soft); border: 1px solid var(--line); padding: 6px 11px; border-radius: 100px; }
-  .cv-section-title { font-size: 0.76rem; color: var(--ink-faint); letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 22px; }
+  .id-left { display: flex; align-items: center; gap: 18px; }
+  .id-left h3 { font-size: 1.3rem; font-weight: 700; margin-bottom: 4px; }
+  .id-role { color: var(--signal); font-size: 0.8rem; font-family: 'IBM Plex Mono', monospace; letter-spacing: 0.02em; }
+  .id-status {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 7px 14px; border-radius: 100px;
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.76rem;
+    color: var(--signal); background: var(--signal-dim); border: 1px solid rgba(95,211,163,0.25);
+  }
+  .id-status .doc-pill-dot { flex-shrink: 0; }
+
+  /* ---- Documents ---- */
+  .docs-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px; }
+  .doc-card {
+    position: relative; display: flex; flex-direction: column;
+    background: var(--panel); border: 1px solid var(--line); border-radius: 18px;
+    padding: 18px; overflow: hidden;
+    box-shadow: 0 12px 30px -14px var(--shadow);
+    transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    scroll-margin-top: 110px;
+  }
+  .doc-card::before {
+    content: ""; position: absolute; inset: 0 0 auto 0; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent); opacity: 0.7;
+  }
+  .doc-card.cv { --accent: var(--signal); --accent-dim: rgba(95,211,163,0.12); }
+  .doc-card.lettre { --accent: var(--violet); --accent-dim: rgba(139,127,232,0.14); }
+  .doc-card:hover { transform: translateY(-3px); border-color: var(--line-strong); box-shadow: 0 20px 40px -18px var(--shadow); }
+  .doc-card:target { border-color: var(--accent); }
+
+  .doc-preview {
+    position: relative; display: block; aspect-ratio: 4 / 3.3; overflow: hidden;
+    border-radius: 12px; background: var(--bg-soft); border: 1px solid var(--line);
+    cursor: zoom-in;
+  }
+  .doc-preview::after {
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(180deg, transparent 55%, var(--panel) 100%);
+    pointer-events: none;
+  }
+  .doc-preview img {
+    position: absolute; left: 50%; top: 22px; width: 78%;
+    transform: translateX(-50%) rotate(-1.2deg);
+    border-radius: 4px; background: #fff;
+    box-shadow: 0 18px 40px -12px rgba(0,0,0,0.45), 0 0 0 1px rgba(0,0,0,0.05);
+    transition: transform 0.35s cubic-bezier(.2,.8,.2,1);
+  }
+  .doc-card.lettre .doc-preview img { transform: translateX(-50%) rotate(1.2deg); }
+  .doc-card:hover .doc-preview img { transform: translateX(-50%) translateY(-6px) rotate(0deg) scale(1.02); }
+  .doc-zoom {
+    position: absolute; right: 12px; top: 12px; z-index: 2;
+    display: inline-flex; align-items: center; gap: 6px; padding: 6px 10px;
+    border-radius: 100px; font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem;
+    color: var(--ink); background: var(--header-bg); border: 1px solid var(--line-strong);
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    opacity: 0; transform: translateY(-4px); transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+  .doc-card:hover .doc-zoom, .doc-preview:focus-visible .doc-zoom { opacity: 1; transform: none; }
+
+  .doc-info { padding: 18px 6px 4px; display: flex; flex-direction: column; gap: 14px; flex: 1; }
+  .doc-head { display: flex; align-items: flex-start; gap: 14px; }
+  .doc-icon {
+    width: 40px; height: 40px; border-radius: 11px; flex-shrink: 0;
+    display: grid; place-items: center; color: var(--accent); background: var(--accent-dim);
+  }
+  .doc-icon svg { width: 20px; height: 20px; }
+  .doc-kicker { font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem; color: var(--accent); letter-spacing: 0.05em; text-transform: uppercase; }
+  .doc-head h2 { font-size: 1.12rem; font-weight: 600; line-height: 1.3; }
+  .doc-desc { color: var(--ink-dim); font-size: 0.87rem; }
+  .doc-meta { display: flex; gap: 8px; flex-wrap: wrap; list-style: none; }
+  .doc-meta li { font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; color: var(--ink-faint); background: var(--bg-soft); border: 1px solid var(--line); padding: 4px 10px; border-radius: 100px; }
+  .doc-actions { display: flex; gap: 10px; margin-top: auto; padding-top: 4px; }
+  .doc-actions .btn { flex: 1; justify-content: center; padding: 11px 16px; font-size: 0.86rem; }
+  .doc-card.lettre .btn-primary { background: var(--violet); color: #fff; box-shadow: 0 4px 18px -6px rgba(139,127,232,0.55); }
+  .doc-card.lettre .btn-primary:hover { background: #9d93ee; box-shadow: 0 6px 22px -6px rgba(139,127,232,0.65); }
+  .doc-card.lettre .btn-ghost:hover { border-color: var(--violet); color: var(--violet); }
 
   .cv-photo {
-    width: 86px;
-    height: 86px;
+    width: 64px;
+    height: 64px;
     border-radius: 14px;
     object-fit: cover;
     border: 1px solid var(--line-strong);
@@ -290,7 +329,6 @@
     transition: transform 0.18s ease, border-color 0.18s ease;
   }
   .cv-photo:hover { transform: translateY(-2px); border-color: var(--signal); }
-  .cv-top-id { display: flex; align-items: center; gap: 18px; }
 
   .lightbox {
     display: none;
@@ -311,11 +349,11 @@
     border-radius: 18px;
     box-shadow: 0 24px 60px -20px rgba(0,0,0,0.6);
   }
+  .lightbox.doc img { max-width: min(760px, 94vw); max-height: 90vh; border-radius: 6px; background: #fff; }
 
   @media print {
-    header, #netbg, .bg-glow, .bg-grid, .bg-vignette, footer, .cv-top .btn { display: none !important; }
+    header, #netbg, .bg-glow, .bg-grid, .bg-vignette, footer, .doc-actions, .doc-zoom { display: none !important; }
     body { background: #fff; color: #111; }
-    .cv-card { box-shadow: none; border: none; padding: 0; }
     section { padding: 0; border-top: none; }
     .subpage-hero { display: none; }
   }
@@ -329,9 +367,9 @@
     .doc-pill { padding: 8px; }
     .doc-pill svg, .doc-pill-dot { margin: 0; }
     footer { flex-direction: column; gap: 8px; }
-    .cv-grid { grid-template-columns: 1fr; gap: 24px; }
-    .cv-top { flex-direction: column; align-items: stretch; }
-    .cv-top .btn { width: 100%; justify-content: center; }
+    .docs-grid { grid-template-columns: 1fr; }
+    .id-card { padding: 18px; }
+    .doc-zoom { opacity: 1; transform: none; }
   }
 
   :focus-visible { outline: 2px solid var(--signal); outline-offset: 3px; }
@@ -370,13 +408,9 @@
     </nav>
 
     <div class="docs-group">
-      <a href="../cv/" class="doc-pill doc-pill-live" title="CV">
+      <a href="../cv/" class="doc-pill doc-pill-live" title="CV &amp; Lettre de motivation">
         <span class="doc-pill-dot"></span>
-        <span>CV</span>
-      </a>
-      <a href="../lettredemotivation/" class="doc-pill" title="Lettre">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 9.4 6.2a1.6 1.6 0 0 0 1.9 0L22.6 7" transform="translate(-0.6 0)"/></svg>
-        <span>Lettre</span>
+        <span>CV &amp; Lettre</span>
       </a>
       <a href="../blog/" class="doc-pill" title="Blog">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
@@ -386,27 +420,89 @@
   </header>
 
   <section class="subpage-hero" style="border-top:none;">
-    <div class="breadcrumb"><a href="../index.html">Accueil</a> / CV</div>
-    <h1>CV</h1>
-    <p>Curriculum vitae — BTS SIO option SISR. Version en ligne et PDF téléchargeable.</p>
+    <div class="breadcrumb"><a href="../index.html">Accueil</a> / CV &amp; Lettre</div>
+    <h1>CV &amp; Lettre de motivation</h1>
+    <p>Mon dossier de candidature au même endroit : consultez chaque document en aperçu ou téléchargez-le en PDF.</p>
   </section>
 
   <section style="padding-top:0;border-top:none;">
-    <div class="cv-card">
-      <div class="cv-top">
-        <div class="cv-top-id">
-          <img src="photo-matheo.jpg" alt="Photo de Mathéo Guéant" class="cv-photo" onclick="document.getElementById('photo-lightbox').classList.add('open')">
-          <div>
-            <h3>Mathéo Guéant</h3>
-            <div class="cv-role">RÉSEAU — BTS SIO SISR</div>
+    <div class="id-card">
+      <div class="id-left">
+        <img src="photo-matheo.jpg" alt="Photo de Mathéo Guéant" class="cv-photo" onclick="openLightbox('photo-matheo.jpg', 'Photo de Mathéo Guéant', false)">
+        <div>
+          <h3>Mathéo Guéant</h3>
+          <div class="id-role">RÉSEAU — BTS SIO SISR</div>
+        </div>
+      </div>
+      <span class="id-status"><span class="doc-pill-dot"></span>En recherche de stage</span>
+    </div>
+
+    <div class="docs-grid">
+      <article class="doc-card cv" id="cv">
+        <a class="doc-preview" href="CV-Matheo-Gueant.pdf" onclick="openLightbox('apercu-cv.jpg', 'Aperçu du CV', true); return false;" aria-label="Agrandir l'aperçu du CV">
+          <img src="apercu-cv.jpg" alt="Aperçu du CV de Mathéo Guéant" loading="lazy">
+          <span class="doc-zoom">
+            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/><path d="M11 8v6M8 11h6"/></svg>
+            Agrandir
+          </span>
+        </a>
+        <div class="doc-info">
+          <div class="doc-head">
+            <div class="doc-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M8 13h8M8 17h5"/></svg>
+            </div>
+            <div>
+              <div class="doc-kicker">Document 01</div>
+              <h2>Curriculum vitae</h2>
+            </div>
+          </div>
+          <p class="doc-desc">Formation, compétences réseau &amp; systèmes, expériences et projets — BTS SIO option SISR.</p>
+          <ul class="doc-meta"><li>PDF</li><li>1 page</li><li>320 Ko</li></ul>
+          <div class="doc-actions">
+            <a href="CV-Matheo-Gueant.pdf" target="_blank" rel="noopener" class="btn btn-ghost">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+              Ouvrir
+            </a>
+            <a href="CV-Matheo-Gueant.pdf" download class="btn btn-primary">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v13"/><path d="m7 12 5 5 5-5"/><path d="M4 21h16"/></svg>
+              Télécharger
+            </a>
           </div>
         </div>
-        <a href="CV-Matheo-Gueant.pdf" download class="btn btn-primary">
-          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v13"/><path d="m7 12 5 5 5-5"/><path d="M4 21h16"/></svg>
-          Télécharger le CV (PDF)
-        </a>
-      </div>
+      </article>
 
+      <article class="doc-card lettre" id="lettre">
+        <a class="doc-preview" href="Lettre-Motivation-Matheo-Gueant.pdf" onclick="openLightbox('apercu-lettre.jpg', 'Aperçu de la lettre de motivation', true); return false;" aria-label="Agrandir l'aperçu de la lettre de motivation">
+          <img src="apercu-lettre.jpg" alt="Aperçu de la lettre de motivation de Mathéo Guéant" loading="lazy">
+          <span class="doc-zoom">
+            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/><path d="M11 8v6M8 11h6"/></svg>
+            Agrandir
+          </span>
+        </a>
+        <div class="doc-info">
+          <div class="doc-head">
+            <div class="doc-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 9.4 6.2a1.6 1.6 0 0 0 1.9 0L22.6 7" transform="translate(-0.6 0)"/></svg>
+            </div>
+            <div>
+              <div class="doc-kicker">Document 02</div>
+              <h2>Lettre de motivation</h2>
+            </div>
+          </div>
+          <p class="doc-desc">Candidature pour un stage dans le domaine de l'informatique : parcours, motivations et objectifs.</p>
+          <ul class="doc-meta"><li>PDF</li><li>1 page</li><li>52 Ko</li></ul>
+          <div class="doc-actions">
+            <a href="Lettre-Motivation-Matheo-Gueant.pdf" target="_blank" rel="noopener" class="btn btn-ghost">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+              Ouvrir
+            </a>
+            <a href="Lettre-Motivation-Matheo-Gueant.pdf" download class="btn btn-primary">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v13"/><path d="m7 12 5 5 5-5"/><path d="M4 21h16"/></svg>
+              Télécharger
+            </a>
+          </div>
+        </div>
+      </article>
     </div>
   </section>
 
@@ -416,9 +512,22 @@
   </footer>
 </div>
 
-<div class="lightbox" id="photo-lightbox" onclick="this.classList.remove('open')">
-  <img src="photo-matheo.jpg" alt="Photo de Mathéo Guéant">
+<div class="lightbox" id="lightbox" onclick="this.classList.remove('open')">
+  <img src="" alt="">
 </div>
+
+<script>
+function openLightbox(src, alt, isDoc) {
+  var lb = document.getElementById('lightbox');
+  var img = lb.querySelector('img');
+  img.src = src; img.alt = alt;
+  lb.classList.toggle('doc', !!isDoc);
+  lb.classList.add('open');
+}
+document.addEventListener('keydown', function (e) {
+  if (e.key === 'Escape') document.getElementById('lightbox').classList.remove('open');
+});
+</script>
 
 <script>
 (function () {
