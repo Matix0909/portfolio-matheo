@@ -454,7 +454,7 @@
     <section class="subpage-hero" style="border-top:none;">
       <div class="breadcrumb"><a href="../index.html">Accueil</a> / Projets</div>
       <h1>Mes <span class="grad">projets</span></h1>
-      <p>Réseaux, systèmes, virtualisation et sécurité : les infrastructures que j'ai conçues, déployées et documentées pendant ma formation BTS SIO SISR.</p>
+      <p>Réseaux, systèmes, virtualisation, bases de données et sécurité : les infrastructures que j'ai conçues, déployées et documentées pendant ma formation BTS SIO SISR.</p>
       <div class="stats" id="stats"></div>
     </section>
     <div class="filters" id="filters"></div>
@@ -478,7 +478,7 @@
    ---------------------------------------------------------------------
    id          : identifiant unique sans espace ni accent (sert au lien)
    titre       : nom du projet
-   domaine     : "reseau" | "systeme" | "virtualisation" | "securite" | "autre"
+   domaine     : "reseau" | "systeme" | "virtualisation" | "securite" | "bdd" | "autre"
                  (change la couleur et l'icône)
    statut      : "Terminé" ou "En cours"
    annee       : ex "2025 — 2026"
@@ -560,6 +560,41 @@ var PROJETS = [
     competences: [],
     documents: [],
     images: []
+  },
+  {
+    id: "bases-de-donnees-phpmyadmin",
+    titre: "Bases de données avec phpMyAdmin",
+    domaine: "bdd",
+    statut: "Terminé",
+    annee: "2025 — 2026",
+    contexte: "BTS SIO — TP",
+    duree: "",
+    role: "",
+    resume: "Conception et administration de bases MySQL / MariaDB via phpMyAdmin : tables, relations, requêtes SQL, comptes et sauvegardes.",
+    stack: ["MySQL / MariaDB", "phpMyAdmin", "SQL", "Apache", "PHP"],
+    image: "",
+    vedette: true,
+    objectif: "Mettre en place un serveur de bases de données administrable depuis phpMyAdmin, concevoir une base relationnelle propre et sécuriser son accès (comptes, droits, sauvegardes).",
+    etapes: [
+      { titre: "Installation du serveur", texte: "Mise en place de la pile Apache + PHP + MySQL/MariaDB, puis installation et configuration de phpMyAdmin." },
+      { titre: "Modélisation", texte: "Création de la base et des tables avec les bons types de données, clés primaires et clés étrangères pour relier les tables." },
+      { titre: "Requêtes SQL", texte: "Insertion de jeux de données, puis requêtes SELECT avec jointures, filtres, tris et regroupements." },
+      { titre: "Utilisateurs et droits", texte: "Création de comptes dédiés avec uniquement les privilèges nécessaires (principe du moindre privilège), sans utiliser le compte root." },
+      { titre: "Sauvegarde et restauration", texte: "Export de la base en .sql et test de restauration par import pour valider les sauvegardes." }
+    ],
+    resultats: [
+      "Serveur MySQL/MariaDB administrable via phpMyAdmin",
+      "Base relationnelle avec contraintes d'intégrité",
+      "Comptes utilisateurs aux droits limités",
+      "Procédure de sauvegarde / restauration testée"
+    ],
+    competences: [
+      "Gérer le patrimoine informatique",
+      "Mettre à disposition des utilisateurs un service informatique",
+      "Travailler en mode projet"
+    ],
+    documents: [],
+    images: []
   }
 ];
 /* ======================= FIN DES PROJETS ============================= */
@@ -574,6 +609,7 @@ var PROJETS = [
     reseau: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="5" rx="1"/><rect x="2" y="17" width="6" height="5" rx="1"/><rect x="16" y="17" width="6" height="5" rx="1"/><path d="M12 7v5M5 17v-3h14v3"/></svg>',
     systeme: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="7" rx="1.5"/><rect x="3" y="14" width="18" height="7" rx="1.5"/><path d="M7 6.5h.01M7 17.5h.01M11 6.5h6M11 17.5h6"/></svg>',
     virtualisation: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="m12 2 9 5-9 5-9-5 9-5Z"/><path d="m3 12 9 5 9-5"/><path d="m3 17 9 5 9-5"/></svg>',
+    bdd: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v6c0 1.7 3.6 3 8 3s8-1.3 8-3V5"/><path d="M4 11v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/></svg>',
     securite: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5l-8-3Z"/><path d="m9 12 2 2 4-4"/></svg>',
     autre: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="m8 6-6 6 6 6M16 6l6 6-6 6"/></svg>'
   };
@@ -582,6 +618,7 @@ var PROJETS = [
     systeme:        { nom: 'Système',        c: '139,127,232' },
     virtualisation: { nom: 'Virtualisation', c: '96,165,250' },
     securite:       { nom: 'Sécurité',       c: '224,166,73' },
+    bdd:            { nom: 'Base de données', c: '244,114,182' },
     autre:          { nom: 'Autre',          c: '148,163,184' }
   };
   var DOC = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M12 18v-6M9 15l3 3 3-3"/></svg>';
@@ -641,9 +678,11 @@ var PROJETS = [
   function renderGrid() {
     var list = PROJETS.filter(function (p) { return filtre === 'tous' || (DOM[p.domaine] ? p.domaine : 'autre') === filtre; });
     if (!list.length) { $('grid').innerHTML = '<div class="empty">Aucun projet dans cette catégorie pour le moment.</div>'; return; }
+    /* Nombre de cartes "vedette" en grand pour remplir la grille sans trou */
+    var bigLeft = filtre === 'tous' ? (3 - list.length % 3) % 3 : 0;
     $('grid').innerHTML = list.map(function (p, i) {
       var d = dom(p);
-      var big = p.vedette && filtre === 'tous' && (list.length + 1) % 3 === 0;
+      var big = p.vedette && bigLeft > 0 && !!(bigLeft--);
       return '<a class="card' + (big ? ' big' : '') + '" href="#' + p.id + '" style="--c:' + d.c + ';animation-delay:' + (i * 70) + 'ms">' +
         cover(p) + '<div class="card-body"><span class="kicker">' + d.nom + (has(p.annee) ? ' · ' + p.annee : '') + '</span>' +
         '<h2>' + p.titre + '</h2><p>' + (p.resume || '') + '</p>' + stack(p) +
