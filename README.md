@@ -10,6 +10,7 @@ portfolio-matheo/
 ├── index.html              → page d'accueil
 ├── projets/index.html      → page Projets
 ├── blog/index.html         → page Blog (vierge en attendant Dotclear)
+├── competences-e5/        → page Compétences E5 (bloc 1, tableau de synthèse)
 ├── cv/index.html           → page CV & Lettre (+ PDF et images)
 ├── lettredemotivation/     → redirection vers /cv/#lettre
 ├── css/
@@ -17,6 +18,7 @@ portfolio-matheo/
 │   ├── accueil.css         → styles de la page d'accueil
 │   ├── projets.css         → styles de la page Projets
 │   ├── blog.css            → styles de la page Blog (vierge)
+│   ├── e5.css              → styles de la page Compétences E5
 │   └── cv.css              → styles de la page CV
 ├── js/
 │   ├── background.js       → fond animé "circuit imprimé" (toutes les pages)
