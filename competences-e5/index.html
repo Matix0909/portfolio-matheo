@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Compétences E5 — Mathéo Guéant</title>
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+<link rel="alternate icon" href="../assets/favicon.svg">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/e5.css">
+</head>
+<body>
+
+<div class="bg-glow"></div>
+<div class="bg-grid"></div>
+<canvas id="netbg"></canvas>
+<div class="bg-vignette"></div>
+
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <div class="dot"></div>
+      <a href="../index.html" style="text-decoration:none;color:inherit;"><span class="mono">Mathéo Gueant</span></a>
+    </div>
+    <nav>
+      <a href="../index.html#competences">Compétences</a>
+      <a href="../projets/">Projets</a>
+      <a href="../index.html#formation">Formation</a>
+      <a href="../index.html#contact">Contact</a>
+      <a href="../competences-e5/" class="current">Compétences E5</a>
+    </nav>
+
+    <div class="docs-group">
+      <a href="../cv/" class="doc-pill" title="CV &amp; Lettre de motivation">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+        <span>CV &amp; Lettre</span>
+      </a>
+      <a href="../blog/" class="doc-pill" title="Blog">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+        <span>Blog</span>
+      </a>
+    </div>
+  </header>
+
+  <section class="subpage-hero" style="border-top:none;">
+    <div class="breadcrumb"><a href="../index.html">Accueil</a> / Compétences E5</div>
+    <h1>Compétences E5</h1>
+    <p>Épreuve E5 du BTS SIO — <strong>Support et mise à disposition de services informatiques</strong>. Voici les compétences du bloc 1 et les réalisations qui les prouvent.</p>
+    <div class="e5-year"><span class="dot"></span>1re année — tableau en cours de construction, complété au fil du BTS</div>
+  </section>
+
+  <section class="e5-synth">
+    <div class="e5-synth-txt">
+      <h2>Tableau de synthèse</h2>
+      <p>Document officiel qui liste toutes mes réalisations professionnelles et les compétences B1.1 à B1.6 qu'elles couvrent. Il sera rempli au fur et à mesure de ma formation.</p>
+    </div>
+    <a class="btn btn-ghost" href="https://siec.education.fr/candidats/docutheque/examens/BTS/bts-services-informatiques-aux-organisations-sio-session-2026" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5"/><path d="M5 21h14"/></svg>Modèle officiel (SIEC)</a>
+  </section>
+
+  <section class="e5-section">
+    <div class="section-head">
+      <span class="idx mono">01</span>
+      <h2>Compétences du bloc 1</h2>
+    </div>
+    <div class="e5-grid">
+      <article class="e5-card">
+        <div class="e5-top">
+          <span class="e5-code">B1.1</span>
+          <span class="e5-status">En cours d'acquisition</span>
+        </div>
+        <h3>Gérer le patrimoine informatique</h3>
+        <p>Inventaire du matériel et des logiciels, sauvegardes, suivi des licences et maintien en condition opérationnelle.</p>
+        <div class="e5-proofs">
+          <span class="e5-label">Preuves</span>
+          <ul>
+            <li><a href="../projets/#infra-virtualisee-proxmox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></svg><span>Projet — Infrastructure virtualisée Proxmox</span></a></li>
+            <li><a href="../projets/#bases-de-donnees-phpmyadmin"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></svg><span>Projet — Bases de données : sauvegarde et restauration</span></a></li>
+            <li class="todo"><span class="todo-in"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span>Inventaire de parc avec GLPI</span><em>à venir</em></span></li>
+          </ul>
+        </div>
+      </article>
+      <article class="e5-card">
+        <div class="e5-top">
+          <span class="e5-code">B1.2</span>
+          <span class="e5-status">En cours d'acquisition</span>
+        </div>
+        <h3>Répondre aux incidents et aux demandes d'assistance et d'évolution</h3>
+        <p>Traitement des tickets, diagnostic et résolution, suivi des demandes utilisateurs.</p>
+        <div class="e5-proofs">
+          <span class="e5-label">Preuves</span>
+          <ul>
+            <li><a href="../projets/#deploiement-active-directory"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></svg><span>Projet — Déploiement Active Directory (comptes, GPO)</span></a></li>
+            <li class="todo"><span class="todo-in"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span>Gestion des incidents avec GLPI</span><em>à venir</em></span></li>
+            <li class="todo"><span class="todo-in"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span>Stage de 1re année</span><em>à venir</em></span></li>
+          </ul>
+        </div>
+      </article>
+      <article class="e5-card">
+        <div class="e5-top">
+          <span class="e5-code">B1.3</span>
+          <span class="e5-status">En cours d'acquisition</span>
+        </div>
+        <h3>Développer la présence en ligne de l'organisation</h3>
+        <p>Site web, référencement, image numérique et réseaux professionnels.</p>
+        <div class="e5-proofs">
+          <span class="e5-label">Preuves</span>
+          <ul>
+            <li><a href="../index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></svg><span>Ce portfolio (HTML / CSS / JS, hébergé sur GitHub Pages)</span></a></li>
+            <li><a href="https://github.com/Matix0909/portfolio-matheo" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></svg><span>Code source du portfolio sur GitHub</span></a></li>
+            <li class="todo"><span class="todo-in"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span>Blog Dotclear</span><em>à venir</em></span></li>
+          </ul>
+        </div>
+      </article>
+      <article class="e5-card">
+        <div class="e5-top">
+          <span class="e5-code">B1.4</span>
+          <span class="e5-status">En cours d'acquisition</span>
+        </div>
+        <h3>Travailler en mode projet</h3>
+        <p>Planification, répartition des tâches, suivi de l’avancement et bilan du projet.</p>
+        <div class="e5-proofs">
+          <span class="e5-label">Preuves</span>
+          <ul>
+            <li><a href="../projets/#refonte-reseau-ecole"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></svg><span>Projet — Refonte réseau d'un site école</span></a></li>
+            <li class="todo"><span class="todo-in"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span>Organisation des TP avec un tableau Kanban</span><em>à venir</em></span></li>
+          </ul>
+        </div>
+      </article>
+      <article class="e5-card">
+        <div class="e5-top">
+          <span class="e5-code">B1.5</span>
+          <span class="e5-status">En cours d'acquisition</span>
+        </div>
+        <h3>Mettre à disposition des utilisateurs un service informatique</h3>
+        <p>Installation, configuration et test d’un service, puis accompagnement des utilisateurs.</p>
+        <div class="e5-proofs">
+          <span class="e5-label">Preuves</span>
+          <ul>
+            <li><a href="../projets/#infra-virtualisee-proxmox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></svg><span>Projet — Services DNS / DHCP sous Proxmox</span></a></li>
+            <li><a href="../projets/#bases-de-donnees-phpmyadmin"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></svg><span>Projet — Serveur web + phpMyAdmin</span></a></li>
+            <li><a href="../projets/#deploiement-active-directory"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></svg><span>Projet — Domaine Active Directory</span></a></li>
+          </ul>
+        </div>
+      </article>
+      <article class="e5-card">
+        <div class="e5-top">
+          <span class="e5-code">B1.6</span>
+          <span class="e5-status">En cours d'acquisition</span>
+        </div>
+        <h3>Organiser son développement professionnel</h3>
+        <p>Veille technologique, portfolio, identité professionnelle en ligne.</p>
+        <div class="e5-proofs">
+          <span class="e5-label">Preuves</span>
+          <ul>
+            <li><a href="https://www.linkedin.com/in/math%C3%A9o-gueant-717090414/" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></svg><span>Profil LinkedIn</span></a></li>
+            <li><a href="https://github.com/Matix0909" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></svg><span>Profil GitHub — Matix0909</span></a></li>
+            <li class="todo"><span class="todo-in"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span>Veille technologique sur le blog Dotclear</span><em>à venir</em></span></li>
+          </ul>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="e5-section">
+    <div class="section-head">
+      <span class="idx mono">02</span>
+      <h2>À propos de l'épreuve E5</h2>
+    </div>
+    <div class="e5-info">
+      <div class="e5-box">
+        <h3>Format de l'oral</h3>
+        <ul class="e5-stats">
+          <li><b>10 min</b><span>Présentation d'une réalisation</span></li>
+          <li><b>30 min</b><span>Entretien avec le jury sur les compétences</span></li>
+          <li><b>Coef. 4</b><span>Épreuve orale de 40 min</span></li>
+        </ul>
+        <p class="e5-note">Depuis la session 2025, l'ancienne épreuve E4 est devenue l'E5 (arrêté du 8 juillet 2024).</p>
+      </div>
+      <div class="e5-box">
+        <h3>Documents à apporter le jour J</h3>
+        <ul class="e5-check">
+          <li>Tableau de synthèse rempli (annexe VI-1)</li>
+          <li>Attestation(s) de stage originale(s)</li>
+          <li>URL du portfolio (ce site)</li>
+          <li>Accès au blog Dotclear</li>
+          <li>Matériel et accès internet pour présenter le portfolio</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span class="mono">Mathéo Guéant — BTS SIO SISR</span>
+    <span class="mono">2026</span>
+  </footer>
+</div>
+
+<script src="../js/background.js"></script>
+
+</body>
+</html>
