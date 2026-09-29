@@ -47,7 +47,7 @@
 
 .section-head h2 { font-size: 1.6rem; font-weight: 700; letter-spacing: -0.015em; }
 
-.skills { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
+.skills { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
 
 .skill {
   --accent: 95,211,163;
@@ -57,11 +57,11 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  gap: 22px;
-  padding: 24px 26px 26px;
+  gap: 14px;
+  padding: 16px 18px 18px;
   background: var(--panel);
   border: 1px solid var(--line);
-  border-radius: 18px;
+  border-radius: 14px;
   box-shadow: 0 12px 30px -18px var(--shadow);
   transition: transform 0.35s cubic-bezier(.2,.7,.2,1), border-color 0.35s ease, box-shadow 0.35s ease;
 }
@@ -86,27 +86,27 @@
 }
 .skill:hover::after { opacity: 1; }
 .skill:hover {
-  transform: translateY(-5px);
+  transform: translateY(-3px);
   border-color: rgba(var(--accent),0.4);
   box-shadow: 0 24px 44px -22px rgba(var(--accent),0.45), 0 12px 30px -18px var(--shadow);
 }
 
-.skill-head { display: flex; align-items: center; gap: 12px; }
+.skill-head { display: flex; align-items: center; gap: 10px; }
 .skill-icon {
   flex-shrink: 0;
-  width: 42px; height: 42px;
+  width: 32px; height: 32px;
   display: grid; place-items: center;
-  border-radius: 12px;
+  border-radius: 9px;
   color: rgb(var(--accent));
   background: rgba(var(--accent),0.12);
   border: 1px solid rgba(var(--accent),0.28);
 }
-.skill-icon svg { width: 20px; height: 20px; }
+.skill-icon svg { width: 16px; height: 16px; }
 .skill-title { flex: 1; min-width: 0; }
-.skill-title h3 { font-size: 1rem; font-weight: 650; letter-spacing: -0.01em; }
-.skill-title span { display: block; font-size: 0.74rem; color: var(--ink-faint); margin-top: 2px; }
+.skill-title h3 { font-size: 0.92rem; font-weight: 650; letter-spacing: -0.01em; }
+.skill-title span { display: block; font-size: 0.7rem; color: var(--ink-faint); margin-top: 1px; }
 
-.skill-ring { position: relative; width: 42px; height: 42px; flex-shrink: 0; }
+.skill-ring { position: relative; width: 34px; height: 34px; flex-shrink: 0; }
 .skill-ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
 .skill-ring circle { fill: none; stroke: var(--line-strong); stroke-width: 3; }
 .skill-ring circle.val {
@@ -119,24 +119,24 @@
 .skill-ring b {
   position: absolute; inset: 0;
   display: grid; place-items: center;
-  font: 500 0.7rem 'IBM Plex Mono', monospace;
+  font: 500 0.62rem 'IBM Plex Mono', monospace;
   color: var(--ink);
 }
 
-.skill ul { list-style: none; display: flex; flex-direction: column; gap: 16px; }
-.skill-row { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; margin-bottom: 8px; }
-.skill-name { font-size: 0.85rem; color: var(--ink); }
+.skill ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.skill-row { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; margin-bottom: 5px; }
+.skill-name { font-size: 0.8rem; color: var(--ink); }
 .skill-lvl {
   flex-shrink: 0;
   font-family: 'IBM Plex Mono', monospace;
-  font-size: 0.64rem;
+  font-size: 0.6rem;
   letter-spacing: 0.04em;
   color: rgb(var(--accent));
 }
 .skill-bar {
   position: relative;
-  height: 6px;
-  border-radius: 6px;
+  height: 4px;
+  border-radius: 4px;
   background: var(--bg-soft);
   border: 1px solid var(--line);
   overflow: hidden;
