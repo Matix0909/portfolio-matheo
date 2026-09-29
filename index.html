@@ -285,78 +285,125 @@
   .skill li .bar { display: block; height: 3px; background: var(--line); border-radius: 3px; margin-top: 7px; overflow: hidden; }
   .skill li .bar span { display: block; height: 100%; background: linear-gradient(90deg, var(--signal), #8de8c8); border-radius: 3px; }
 
-  .projects { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .projects {
+    display: grid;
+    grid-template-columns: 1.35fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 20px;
+  }
   .project {
-    --accent: var(--signal);
-    --accent-rgb: 95,211,163;
+    --accent: 95,211,163;
+    --mx: 50%; --my: 0%;
     position: relative;
-    overflow: hidden;
+    isolation: isolate;
     display: flex;
     flex-direction: column;
-    gap: 14px;
-    padding: 28px 26px 24px;
-    border: 1px solid var(--line);
-    border-radius: 16px;
+    border-radius: 20px;
     color: inherit;
     text-decoration: none;
-    background:
-      radial-gradient(120% 80% at 100% 0%, rgba(var(--accent-rgb),0.10), transparent 55%),
-      var(--panel);
-    box-shadow: 0 10px 26px -14px var(--shadow);
-    transition: border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    box-shadow: 0 14px 34px -20px var(--shadow);
+    overflow: hidden;
+    transition: transform 0.35s cubic-bezier(.2,.7,.2,1), box-shadow 0.35s ease, border-color 0.35s ease;
   }
-  .project:nth-child(2) { --accent: var(--violet); --accent-rgb: 139,127,232; }
-  .project:nth-child(3) { --accent: var(--amber); --accent-rgb: 224,166,73; }
-  .project::before {
+  .project.featured { grid-row: span 2; }
+  .project:nth-child(2) { --accent: 139,127,232; }
+  .project:nth-child(3) { --accent: 224,166,73; }
+  /* halo qui suit la souris */
+  .project::after {
     content: "";
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, transparent, var(--accent), transparent);
-    opacity: 0.5;
-    transition: opacity 0.25s ease;
+    position: absolute; inset: 0;
+    z-index: -1;
+    background: radial-gradient(420px circle at var(--mx) var(--my), rgba(var(--accent),0.14), transparent 45%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
   }
+  .project:hover::after { opacity: 1; }
   .project:hover {
-    border-color: rgba(var(--accent-rgb),0.4);
     transform: translateY(-6px);
-    box-shadow: 0 22px 40px -18px rgba(var(--accent-rgb),0.35), 0 10px 26px -14px var(--shadow);
+    border-color: rgba(var(--accent),0.45);
+    box-shadow: 0 28px 50px -24px rgba(var(--accent),0.45), 0 14px 34px -20px var(--shadow);
   }
-  .project:hover::before { opacity: 1; }
-  .project-top { display: flex; align-items: center; justify-content: space-between; }
-  .project-icon {
-    width: 46px; height: 46px;
-    display: grid; place-items: center;
-    border-radius: 12px;
-    color: var(--accent);
-    background: rgba(var(--accent-rgb),0.12);
-    border: 1px solid rgba(var(--accent-rgb),0.25);
+
+  .project-visual {
+    position: relative;
+    height: 190px;
+    padding: 44px 16px 14px;
+    display: grid;
+    place-items: center;
+    color: rgb(var(--accent));
+    background:
+      radial-gradient(70% 90% at 50% 100%, rgba(var(--accent),0.18), transparent 70%),
+      var(--bg-soft);
+    border-bottom: 1px solid var(--line);
+    overflow: hidden;
   }
-  .project-icon svg { width: 22px; height: 22px; }
-  .project-num { font-family: 'IBM Plex Mono', monospace; font-size: 0.78rem; color: var(--ink-faint); }
-  .project h3 { font-size: 1.1rem; font-weight: 600; line-height: 1.35; margin-top: 4px; }
+  .project.featured .project-visual { height: auto; flex: 1; min-height: 280px; padding: 50px 28px 24px; }
+  .project.featured .project-visual svg { max-width: 460px; }
+  .project-visual::before {
+    content: "";
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size: 22px 22px;
+    -webkit-mask-image: radial-gradient(80% 80% at 50% 50%, #000, transparent 85%);
+            mask-image: radial-gradient(80% 80% at 50% 50%, #000, transparent 85%);
+  }
+  .project-visual svg { position: relative; width: 100%; max-width: 340px; height: 100%; transition: transform 0.5s cubic-bezier(.2,.7,.2,1); }
+  .project:hover .project-visual svg { transform: scale(1.04); }
+  .project-visual .node { fill: var(--panel); stroke: currentColor; stroke-width: 1.5; }
+  .project-visual .soft { fill: rgba(var(--accent),0.12); stroke: rgba(var(--accent),0.5); stroke-width: 1; }
+  .project-visual .wire { stroke: currentColor; stroke-width: 1.3; opacity: 0.45; fill: none; }
+  .project-visual .flow { stroke: currentColor; stroke-width: 2; fill: none; stroke-dasharray: 4 14; animation: flow 1.6s linear infinite; }
+  .project-visual .lbl { font-family: 'IBM Plex Mono', monospace; font-size: 9px; fill: currentColor; letter-spacing: 0.04em; }
+  .project-visual .lbl-dim { font-family: 'IBM Plex Mono', monospace; font-size: 8px; fill: var(--ink-faint); }
+  .project-visual .led { fill: currentColor; animation: blink 2s ease-in-out infinite; }
+  .project-visual .led:nth-of-type(2n) { animation-delay: .7s; }
+  @keyframes flow { to { stroke-dashoffset: -36; } }
+  @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: .25; } }
+
+  .project-badge {
+    position: absolute; top: 14px; left: 14px;
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem;
+    padding: 5px 10px; border-radius: 100px;
+    color: rgb(var(--accent));
+    background: var(--panel);
+    border: 1px solid rgba(var(--accent),0.3);
+    z-index: 1;
+  }
+  .project-badge::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: rgb(var(--accent)); box-shadow: 0 0 8px rgb(var(--accent)); }
+  .project-num {
+    position: absolute; top: 12px; right: 16px; z-index: 1;
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.78rem; color: var(--ink-faint);
+  }
+
+  .project-body { display: flex; flex-direction: column; gap: 10px; padding: 22px 24px 22px; }
+  .project h3 { font-size: 1.12rem; font-weight: 650; line-height: 1.3; letter-spacing: -0.01em; }
+  .project.featured h3 { font-size: 1.4rem; }
   .project p { font-size: 0.87rem; color: var(--ink-dim); line-height: 1.6; }
-  .project-tags { display: flex; flex-wrap: wrap; gap: 6px; list-style: none; margin-top: auto; padding-top: 4px; }
+  .project-foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 6px; }
+  .project-tags { display: flex; flex-wrap: wrap; gap: 6px; list-style: none; }
   .project-tags li {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.68rem;
-    letter-spacing: 0.02em;
-    color: var(--accent);
-    background: rgba(var(--accent-rgb),0.08);
-    border: 1px solid rgba(var(--accent-rgb),0.2);
-    padding: 4px 10px;
-    border-radius: 100px;
-  }
-  .project-more {
-    display: flex; align-items: center; justify-content: space-between;
-    padding-top: 14px;
-    border-top: 1px solid var(--line);
-    font-size: 0.82rem; font-weight: 500;
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.67rem;
     color: var(--ink-dim);
-    transition: color 0.2s ease;
+    background: var(--bg-soft);
+    border: 1px solid var(--line);
+    padding: 4px 9px; border-radius: 6px;
   }
-  .project-more .arrow { transition: transform 0.25s ease; }
-  .project:hover .project-more { color: var(--accent); }
-  .project:hover .project-more .arrow { transform: translateX(5px); }
+  .project-go {
+    flex-shrink: 0;
+    width: 36px; height: 36px;
+    display: grid; place-items: center;
+    border-radius: 50%;
+    color: var(--ink-dim);
+    border: 1px solid var(--line-strong);
+    transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+  }
+  .project-go svg { width: 16px; height: 16px; }
+  .project:hover .project-go { background: rgb(var(--accent)); border-color: rgb(var(--accent)); color: #0A0E14; transform: rotate(-45deg); }
 
   .timeline { position: relative; padding-left: 30px; }
   .timeline::before { content: ""; position: absolute; left: 5px; top: 6px; bottom: 6px; width: 1px; background: var(--line-strong); }
@@ -455,6 +502,25 @@
   }
   .contact-link:hover .ic { background: var(--signal); color: #0A0E14; }
   .contact-link:hover .go { color: var(--signal); transform: translate(3px,-3px); }
+  .mail-card:hover { transform: none; }
+  .mail-actions { display: flex; gap: 6px; flex-shrink: 0; }
+  .mail-btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 8px 11px;
+    font: 500 0.76rem 'IBM Plex Sans', sans-serif;
+    color: var(--ink);
+    background: var(--panel);
+    border: 1px solid var(--line-strong);
+    border-radius: 9px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  }
+  .mail-btn svg { width: 14px; height: 14px; }
+  .mail-btn:hover { border-color: var(--signal); color: var(--signal); }
+  .mail-btn.primary { background: var(--signal); border-color: var(--signal); color: #0A0E14; }
+  .mail-btn.primary:hover { background: #74dbb0; color: #0A0E14; }
+  .mail-btn.ok { border-color: var(--signal); color: var(--signal); }
   .contact-social { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
   .social-btn {
     display: flex; align-items: center; justify-content: center; gap: 10px;
@@ -524,7 +590,11 @@
     .hero-stats { gap: 24px; flex-wrap: wrap; }
     .skills { grid-template-columns: 1fr 1fr; }
     .projects { grid-template-columns: 1fr; }
+    .project.featured { grid-row: auto; }
+    .project.featured .project-visual { min-height: 200px; }
     .contact-social { grid-template-columns: 1fr; }
+    .mail-btn span { display: none; }
+    .mail-btn { padding: 9px; }
     nav a { padding: 8px 10px; }
     header { flex-wrap: wrap; gap: 10px; }
     nav { order: 3; width: 100%; justify-content: center; }
@@ -646,35 +716,76 @@
       <h2>Projets</h2>
     </div>
     <div class="projects">
-      <a class="project" href="projets/#refonte-reseau-ecole">
-        <div class="project-top">
-          <span class="project-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="5" rx="1"/><rect x="2" y="17" width="6" height="5" rx="1"/><rect x="16" y="17" width="6" height="5" rx="1"/><path d="M12 7v5M5 17v-3h14v3"/></svg></span>
+      <a class="project featured" href="projets/#refonte-reseau-ecole">
+        <div class="project-visual">
+          <span class="project-badge">Réseau</span>
           <span class="project-num">01</span>
+          <svg viewBox="0 0 380 225" aria-hidden="true">
+            <path class="wire" d="M190 44v34M190 104 80 150M190 104v46M190 104l110 46"/>
+            <path class="flow" d="M190 44v34"/><path class="flow" d="M190 104 80 150"/><path class="flow" d="M190 104v46"/><path class="flow" d="M190 104l110 46"/>
+            <rect class="node" x="160" y="14" width="60" height="30" rx="7"/><text class="lbl" x="171" y="33">ROUTER</text>
+            <rect class="node" x="150" y="78" width="80" height="26" rx="6"/><text class="lbl" x="164" y="95">SWITCH L3</text>
+            <circle class="led" cx="222" cy="91" r="2"/>
+            <rect class="soft" x="30" y="150" width="100" height="62" rx="8" stroke-dasharray="3 3"/><text class="lbl" x="38" y="164">VLAN 10</text><text class="lbl-dim" x="38" y="205">ADMIN</text><rect class="node" x="42" y="172" width="20" height="14" rx="2"/><path class="wire" d="M52 186v4"/><rect class="node" x="70" y="172" width="20" height="14" rx="2"/><path class="wire" d="M80 186v4"/><rect class="node" x="98" y="172" width="20" height="14" rx="2"/><path class="wire" d="M108 186v4"/><rect class="soft" x="140" y="150" width="100" height="62" rx="8" stroke-dasharray="3 3"/><text class="lbl" x="148" y="164">VLAN 20</text><text class="lbl-dim" x="148" y="205">PÉDA</text><rect class="node" x="152" y="172" width="20" height="14" rx="2"/><path class="wire" d="M162 186v4"/><rect class="node" x="180" y="172" width="20" height="14" rx="2"/><path class="wire" d="M190 186v4"/><rect class="node" x="208" y="172" width="20" height="14" rx="2"/><path class="wire" d="M218 186v4"/><rect class="soft" x="250" y="150" width="100" height="62" rx="8" stroke-dasharray="3 3"/><text class="lbl" x="258" y="164">VLAN 30</text><text class="lbl-dim" x="258" y="205">VIE SCO</text><rect class="node" x="262" y="172" width="20" height="14" rx="2"/><path class="wire" d="M272 186v4"/><rect class="node" x="290" y="172" width="20" height="14" rx="2"/><path class="wire" d="M300 186v4"/><rect class="node" x="318" y="172" width="20" height="14" rx="2"/><path class="wire" d="M328 186v4"/>
+          </svg>
         </div>
-        <h3>Refonte réseau d'un site école</h3>
-        <p>Segmentation en VLAN par service, routage inter-VLAN et plan d'adressage complet sous Packet Tracer.</p>
-        <ul class="project-tags"><li>VLAN</li><li>Routage inter-VLAN</li><li>Packet Tracer</li></ul>
-        <span class="project-more">Voir le projet <span class="arrow">→</span></span>
+        <div class="project-body">
+          <h3>Refonte réseau d'un site école</h3>
+          <p>Segmentation en VLAN par service, routage inter-VLAN et plan d'adressage complet sous Packet Tracer.</p>
+          <div class="project-foot">
+            <ul class="project-tags"><li>VLAN</li><li>Inter-VLAN</li><li>Packet Tracer</li></ul>
+            <span class="project-go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+          </div>
+        </div>
       </a>
       <a class="project" href="projets/#deploiement-active-directory">
-        <div class="project-top">
-          <span class="project-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7M18.5 14.5c1.9.8 3 2.8 3 5.5"/></svg></span>
+        <div class="project-visual">
+          <span class="project-badge">Système</span>
           <span class="project-num">02</span>
+          <svg viewBox="0 0 320 140" aria-hidden="true">
+            <path class="wire" d="M160 38v16M70 54h180M70 54v14M160 54v14M250 54v14M70 94v10M40 104h60M40 104v6M100 104v6M250 94v10M220 104h60M220 104v6M280 104v6"/>
+            <path class="flow" d="M160 38v16M160 54h-90v14"/>
+            <rect class="node" x="105" y="10" width="110" height="28" rx="7"/><text class="lbl" x="116" y="28">matheo.local</text>
+            <rect class="soft" x="38" y="68" width="64" height="26" rx="6"/><text class="lbl" x="52" y="85">OU=RH</text>
+            <rect class="soft" x="128" y="68" width="64" height="26" rx="6"/><text class="lbl" x="140" y="85">OU=IT</text>
+            <rect class="soft" x="218" y="68" width="64" height="26" rx="6"/><text class="lbl" x="229" y="85">OU=COMPTA</text>
+            <circle class="node" cx="40" cy="120" r="9"/><circle class="node" cx="100" cy="120" r="9"/>
+            <circle class="node" cx="220" cy="120" r="9"/><circle class="node" cx="280" cy="120" r="9"/>
+            <rect class="node" x="140" y="108" width="40" height="22" rx="5"/><text class="lbl" x="148" y="123">GPO</text>
+            <path class="wire" d="M160 94v14"/>
+          </svg>
         </div>
-        <h3>Déploiement Active Directory</h3>
-        <p>Mise en place d'un domaine, gestion des utilisateurs et stratégies de groupe pour un parc de postes simulé.</p>
-        <ul class="project-tags"><li>AD DS</li><li>GPO</li><li>Windows Server</li></ul>
-        <span class="project-more">Voir le projet <span class="arrow">→</span></span>
+        <div class="project-body">
+          <h3>Déploiement Active Directory</h3>
+          <p>Domaine, utilisateurs et stratégies de groupe pour un parc de postes simulé.</p>
+          <div class="project-foot">
+            <ul class="project-tags"><li>AD DS</li><li>GPO</li></ul>
+            <span class="project-go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+          </div>
+        </div>
       </a>
       <a class="project" href="projets/#infra-virtualisee-proxmox">
-        <div class="project-top">
-          <span class="project-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="7" rx="1.5"/><rect x="3" y="14" width="18" height="7" rx="1.5"/><path d="M7 6.5h.01M7 17.5h.01M11 6.5h6M11 17.5h6"/></svg></span>
+        <div class="project-visual">
+          <span class="project-badge">Virtualisation</span>
           <span class="project-num">03</span>
+          <svg viewBox="0 0 300 140" aria-hidden="true">
+            <rect class="node" x="14" y="14" width="272" height="112" rx="10"/>
+            <text class="lbl" x="28" y="36">PROXMOX VE</text><text class="lbl-dim" x="200" y="36">node-01</text>
+            <path class="wire" d="M14 46h272"/>
+            <rect class="soft" x="30" y="62" width="72" height="34" rx="6"/><text class="lbl" x="40" y="83">DNS</text><circle class="led" cx="92" cy="72" r="2.2"/><rect class="soft" x="115" y="62" width="72" height="34" rx="6"/><text class="lbl" x="125" y="83">DHCP</text><circle class="led" cx="177" cy="72" r="2.2"/><rect class="soft" x="200" y="62" width="72" height="34" rx="6"/><text class="lbl" x="210" y="83">SUPERV.</text><circle class="led" cx="262" cy="72" r="2.2"/>
+            <rect class="soft" x="30" y="106" width="242" height="6" rx="3"/>
+            <rect x="30" y="106" width="150" height="6" rx="3" fill="currentColor" opacity=".7"/>
+            <text class="lbl-dim" x="232" y="102">62%</text>
+          </svg>
         </div>
-        <h3>Infrastructure virtualisée de test</h3>
-        <p>Cluster Proxmox avec VM de services (DNS, DHCP, supervision) pour reproduire une infra en conditions réelles.</p>
-        <ul class="project-tags"><li>Proxmox</li><li>DNS · DHCP</li><li>Supervision</li></ul>
-        <span class="project-more">Voir le projet <span class="arrow">→</span></span>
+        <div class="project-body">
+          <h3>Infrastructure virtualisée de test</h3>
+          <p>Cluster Proxmox avec VM de services (DNS, DHCP, supervision) en conditions réelles.</p>
+          <div class="project-foot">
+            <ul class="project-tags"><li>Proxmox</li><li>DNS</li><li>DHCP</li></ul>
+            <span class="project-go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+          </div>
+        </div>
       </a>
     </div>
     <div style="margin-top:28px;display:flex;justify-content:center;">
@@ -713,11 +824,14 @@
         <p>Ouvert aux stages, alternances et projets réseau.</p>
       </div>
       <div class="contact-links">
-        <a class="contact-link" href="mailto:gueantmatheo0@gmail.com">
+        <div class="contact-link mail-card">
           <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></span>
           <span class="txt"><span class="lbl">Email</span><span class="val">gueantmatheo0@gmail.com</span></span>
-          <svg class="go" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg>
-        </a>
+          <div class="mail-actions">
+            <button type="button" class="mail-btn" id="copyMail" title="Copier l'adresse"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><span>Copier</span></button>
+            <a class="mail-btn primary" href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=gueantmatheo0@gmail.com" target="_blank" rel="noopener noreferrer" title="Écrire avec Gmail"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg><span>Écrire</span></a>
+          </div>
+        </div>
         <a class="contact-link" href="tel:+33671258536">
           <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg></span>
           <span class="txt"><span class="lbl">Téléphone</span><span class="val">06 71 25 85 36</span></span>
@@ -1006,5 +1120,33 @@
 })();
 </script>
 
+<script>
+(function () {
+  var btn = document.getElementById('copyMail');
+  if (btn) btn.addEventListener('click', function () {
+    var mail = 'gueantmatheo0@gmail.com', label = btn.querySelector('span');
+    var done = function () {
+      btn.classList.add('ok'); label.textContent = 'Copié !';
+      setTimeout(function () { btn.classList.remove('ok'); label.textContent = 'Copier'; }, 1800);
+    };
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(mail).then(done, fallback);
+    } else fallback();
+    function fallback() {
+      var t = document.createElement('textarea'); t.value = mail; t.style.position = 'fixed'; t.style.opacity = '0';
+      document.body.appendChild(t); t.select();
+      try { document.execCommand('copy'); } catch (e) {}
+      document.body.removeChild(t); done();
+    }
+  });
+  document.querySelectorAll('.project').forEach(function (card) {
+    card.addEventListener('pointermove', function (e) {
+      var r = card.getBoundingClientRect();
+      card.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+      card.style.setProperty('--my', (e.clientY - r.top) + 'px');
+    });
+  });
+})();
+</script>
 </body>
 </html>
