@@ -13,5 +13,6 @@
 .blog-empty { min-height: 40vh; }
 
 @media (max-width: 760px) {
+  .wrap { padding: 0 16px; }
   .subpage-hero { padding-top: 84px; }
 }
