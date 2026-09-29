@@ -9,24 +9,22 @@ Site vitrine statique (HTML / CSS / JS pur, aucune dépendance, aucun build) pr�
 portfolio-matheo/
 ├── index.html              → page d'accueil
 ├── projets/index.html      → page Projets
-├── blog/index.html         → page Blog
+├── blog/index.html         → page Blog (vierge en attendant Dotclear)
 ├── cv/index.html           → page CV & Lettre (+ PDF et images)
 ├── lettredemotivation/     → redirection vers /cv/#lettre
 ├── css/
 │   ├── style.css           → styles communs (couleurs, fond, en-tête, boutons, pied de page)
 │   ├── accueil.css         → styles de la page d'accueil
 │   ├── projets.css         → styles de la page Projets
-│   ├── blog.css            → styles de la page Blog
+│   ├── blog.css            → styles de la page Blog (vierge)
 │   └── cv.css              → styles de la page CV
 ├── js/
 │   ├── background.js       → fond animé "circuit imprimé" (toutes les pages)
 │   ├── accueil.js          → accueil : compétences animées, copie de l'email, effets de survol
 │   ├── projets.js          → affichage des projets
-│   ├── blog.js             → affichage des articles
 │   ├── cv.js               → visionneuse d'images du CV
 │   └── data/
-│       ├── projets.js      → ⭐ LISTE DES PROJETS (à modifier pour en ajouter)
-│       └── articles.js     → ⭐ LISTE DES ARTICLES DU BLOG
+│       └── projets.js      → ⭐ LISTE DES PROJETS (à modifier pour en ajouter)
 └── assets/
     └── favicon.svg         → icône du site
 ```
@@ -34,7 +32,7 @@ portfolio-matheo/
 ## Personnaliser
 
 - **Ajouter un projet** : `js/data/projets.js` — copie un bloc `{ ... }` (le mode d'emploi est en haut du fichier).
-- **Ajouter un article** : `js/data/articles.js` — même principe.
+- **Blog** : géré avec Dotclear ; `blog/index.html` est une page vierge en attendant.
 - **Compétences** : `index.html`, section `#competences` — chaque `<li style="--p:88%">` règle la longueur de la barre ; le niveau affiché et le cercle de moyenne sont dans le HTML juste à côté.
 - **Contact** : `index.html`, section `#contact`.
 - **Couleurs** : en haut de `css/style.css`, dans `:root { --signal: ... }`.
