@@ -7,24 +7,37 @@ Site vitrine statique (HTML / CSS / JS pur, aucune dépendance, aucun build) pr�
 
 ```
 portfolio-matheo/
-├── index.html          → page unique du site
+├── index.html              → page d'accueil
+├── projets/index.html      → page Projets
+├── blog/index.html         → page Blog
+├── cv/index.html           → page CV & Lettre (+ PDF et images)
+├── lettredemotivation/     → redirection vers /cv/#lettre
 ├── css/
-│   └── style.css       → tous les styles (thème clair/sombre inclus)
+│   ├── style.css           → styles communs (couleurs, fond, en-tête, boutons, pied de page)
+│   ├── accueil.css         → styles de la page d'accueil
+│   ├── projets.css         → styles de la page Projets
+│   ├── blog.css            → styles de la page Blog
+│   └── cv.css              → styles de la page CV
 ├── js/
-│   └── main.js         → fond étoilé animé, thème, menu mobile, animations au scroll
-├── assets/
-│   ├── favicon.svg      → logo/icône utilisée dans l'onglet + l'en-tête
-│   └── img/             → dossier libre pour tes futures images (og-cover.png, etc.)
-└── README.md
+│   ├── background.js       → fond animé "circuit imprimé" (toutes les pages)
+│   ├── accueil.js          → accueil : compétences animées, copie de l'email, effets de survol
+│   ├── projets.js          → affichage des projets
+│   ├── blog.js             → affichage des articles
+│   ├── cv.js               → visionneuse d'images du CV
+│   └── data/
+│       ├── projets.js      → ⭐ LISTE DES PROJETS (à modifier pour en ajouter)
+│       └── articles.js     → ⭐ LISTE DES ARTICLES DU BLOG
+└── assets/
+    └── favicon.svg         → icône du site
 ```
 
 ## Personnaliser
 
-- **Coordonnées / liens** : dans `index.html`, section `#contact`, remplace l'email et les `href="#"` de LinkedIn et GitHub par tes vrais liens.
-- **Projets** : chaque `.project` dans la section `#projets` — modifie le titre, la stack et la description.
-- **Compétences** : chaque `<li data-progress="85">` — le nombre pilote la longueur de la barre (0 à 100).
-- **Couleurs** : tout se règle en haut de `css/style.css`, dans `:root { --signal: ... }` etc.
-- **Logo** : `assets/favicon.svg` est un simple monogramme vectoriel neutre (cercle + nœuds réseau). Modifiable dans n'importe quel éditeur SVG, ou remplaçable par ton propre logo (garde le nom de fichier ou mets à jour les `<link rel="icon">` et `<img>` dans `index.html`).
+- **Ajouter un projet** : `js/data/projets.js` — copie un bloc `{ ... }` (le mode d'emploi est en haut du fichier).
+- **Ajouter un article** : `js/data/articles.js` — même principe.
+- **Compétences** : `index.html`, section `#competences` — chaque `<li style="--p:88%">` règle la longueur de la barre ; le niveau affiché et le cercle de moyenne sont dans le HTML juste à côté.
+- **Contact** : `index.html`, section `#contact`.
+- **Couleurs** : en haut de `css/style.css`, dans `:root { --signal: ... }`.
 
 ## Publier gratuitement
 

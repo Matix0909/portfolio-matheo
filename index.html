@@ -6,618 +6,8 @@
 <title>Mathéo Guéant — BTS SIO SISR</title>
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
 <link rel="alternate icon" href="assets/favicon.svg">
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
-
-  :root {
-    --bg: #0A0E14;
-    --bg-soft: #0E141C;
-    --panel: #121A23;
-    --panel-hover: #16202B;
-    --ink: #EEF2F6;
-    --ink-dim: #93A2B4;
-    --ink-faint: #5C6B7E;
-    --signal: #5FD3A3;
-    --signal-dim: rgba(95,211,163,0.12);
-    --amber: #E0A649;
-    --violet: #8B7FE8;
-    --line: rgba(238,242,246,0.08);
-    --line-strong: rgba(238,242,246,0.15);
-    --shadow: rgba(0,0,0,0.35);
-    --header-bg: rgba(14,20,28,0.55);
-    --glow-a: rgba(95,211,163,0.16);
-    --glow-b: rgba(139,127,232,0.13);
-    --glow-c: rgba(224,166,73,0.07);
-  }
-  :root[data-theme="light"] {
-    --bg: #F2F4F6;
-    --bg-soft: #FFFFFF;
-    --panel: #FFFFFF;
-    --panel-hover: #F7F9FA;
-    --ink: #15202B;
-    --ink-dim: #576473;
-    --ink-faint: #8996A5;
-    --line: rgba(21,32,43,0.09);
-    --line-strong: rgba(21,32,43,0.17);
-    --shadow: rgba(21,32,43,0.08);
-    --header-bg: rgba(242,244,246,0.75);
-    --glow-a: rgba(95,211,163,0.22);
-    --glow-b: rgba(139,127,232,0.17);
-    --glow-c: rgba(224,166,73,0.09);
-  }
-  @media (prefers-color-scheme: light) {
-    :root:not([data-theme="dark"]) {
-      --bg: #F2F4F6;
-      --bg-soft: #FFFFFF;
-      --panel: #FFFFFF;
-      --panel-hover: #F7F9FA;
-      --ink: #15202B;
-      --ink-dim: #576473;
-      --ink-faint: #8996A5;
-      --line: rgba(21,32,43,0.09);
-      --line-strong: rgba(21,32,43,0.17);
-      --shadow: rgba(21,32,43,0.08);
-      --header-bg: rgba(242,244,246,0.75);
-      --glow-a: rgba(95,211,163,0.22);
-      --glow-b: rgba(139,127,232,0.17);
-      --glow-c: rgba(224,166,73,0.09);
-    }
-  }
-
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
-  body {
-    background: var(--bg);
-    color: var(--ink);
-    font-family: 'IBM Plex Sans', sans-serif;
-    line-height: 1.6;
-    -webkit-font-smoothing: antialiased;
-    position: relative;
-    overflow-x: hidden;
-  }
-  .mono { font-family: 'IBM Plex Mono', monospace; }
-  a { color: inherit; }
-  .wrap { max-width: 980px; margin: 0 auto; padding: 0 32px; position: relative; z-index: 1; }
-
-  /* ---- Background layers ---- */
-  /* Halos colorés répartis sur TOUTE la hauteur de la page (ils défilent avec le contenu) */
-  .bg-glow {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 0;
-    pointer-events: none;
-    background:
-      radial-gradient(640px 480px at 12% 3%, var(--glow-a), transparent 65%),
-      radial-gradient(700px 520px at 90% 6%, var(--glow-b), transparent 65%),
-      radial-gradient(780px 520px at 50% 30%, var(--glow-c), transparent 70%),
-      radial-gradient(620px 520px at 6% 28%, var(--glow-b), transparent 65%),
-      radial-gradient(680px 540px at 94% 46%, var(--glow-a), transparent 65%),
-      radial-gradient(640px 520px at 10% 66%, var(--glow-c), transparent 65%),
-      radial-gradient(700px 560px at 90% 82%, var(--glow-b), transparent 65%),
-      radial-gradient(760px 520px at 50% 98%, var(--glow-a), transparent 65%);
-  }
-
-  /* Grille double échelle, plein écran, qui glisse à des vitesses différentes au scroll */
-  .bg-grid {
-    position: fixed;
-    inset: 0;
-    z-index: 0;
-    pointer-events: none;
-    background-image:
-      linear-gradient(var(--line) 1px, transparent 1px),
-      linear-gradient(90deg, var(--line) 1px, transparent 1px),
-      linear-gradient(var(--line-strong) 1px, transparent 1px),
-      linear-gradient(90deg, var(--line-strong) 1px, transparent 1px);
-    background-size: 42px 42px, 42px 42px, 210px 210px, 210px 210px;
-    background-position:
-      0 calc(var(--sy, 0) * -0.08px), 0 calc(var(--sy, 0) * -0.08px),
-      0 calc(var(--sy, 0) * -0.2px), 0 calc(var(--sy, 0) * -0.2px);
-    -webkit-mask-image: radial-gradient(ellipse 95% 85% at 50% 45%, #000 0%, transparent 100%);
-            mask-image: radial-gradient(ellipse 95% 85% at 50% 45%, #000 0%, transparent 100%);
-    opacity: 0.55;
-  }
-
-  /* Canvas : 4 couches de profondeur (lointain → premier plan), plein écran en permanence */
-  #netbg {
-    position: fixed;
-    inset: 0;
-    z-index: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-  }
-
-  /* Vignette légère sur les bords : renforce la profondeur sans masquer le fond */
-  .bg-vignette {
-    position: fixed;
-    inset: 0;
-    z-index: 0;
-    pointer-events: none;
-    opacity: 0.65;
-    background: radial-gradient(ellipse 130% 110% at 50% 50%, transparent 58%, var(--bg) 100%);
-  }
-  /* ---- end background layers ---- */
-
-  header {
-    position: sticky;
-    top: 14px;
-    z-index: 10;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 14px;
-    padding: 12px 14px 12px 22px;
-    background: var(--header-bg);
-    backdrop-filter: blur(18px) saturate(160%);
-    -webkit-backdrop-filter: blur(18px) saturate(160%);
-    border: 1px solid var(--line-strong);
-    border-radius: 18px;
-    box-shadow:
-      0 10px 30px -12px rgba(0,0,0,0.45),
-      inset 0 1px 0 rgba(255,255,255,0.04);
-    transition: background 0.2s ease, border-color 0.2s ease;
-  }
-  .brand { display: flex; align-items: center; gap: 10px; }
-  .brand .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--signal); box-shadow: 0 0 10px var(--signal); animation: pulse 2.4s ease-in-out infinite; }
-  .brand span { font-family: 'IBM Plex Mono', monospace; font-size: 0.94rem; letter-spacing: 0.02em; }
-  nav { display: flex; align-items: center; gap: 2px; }
-  nav a {
-    text-decoration: none;
-    padding: 8px 14px;
-    font-size: 0.85rem;
-    color: var(--ink-dim);
-    border-radius: 100px;
-    transition: color 0.15s ease, background 0.15s ease;
-  }
-  nav a:hover { color: var(--ink); background: var(--panel); }
-
-  .docs-group {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    padding: 4px;
-    border-radius: 100px;
-    border: 1px solid var(--line);
-    background: var(--panel);
-    box-shadow: inset 0 1px 0 rgba(255,255,255,0.02);
-  }
-  .doc-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 7px 13px;
-    border-radius: 100px;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.78rem;
-    letter-spacing: 0.01em;
-    color: var(--ink-dim);
-    text-decoration: none;
-    border: 1px solid transparent;
-    transition: color 0.15s ease, background 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
-    white-space: nowrap;
-  }
-  .doc-pill svg { width: 14px; height: 14px; flex-shrink: 0; opacity: 0.85; }
-  .doc-pill:hover {
-    color: var(--signal);
-    background: var(--signal-dim);
-    border-color: rgba(95,211,163,0.28);
-    transform: translateY(-1px);
-  }
-  .doc-pill:hover svg { opacity: 1; }
-  .doc-pill-live { color: var(--signal); }
-  .doc-pill-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--signal);
-    box-shadow: 0 0 8px var(--signal);
-    animation: pulse 2.4s ease-in-out infinite;
-  }
-
-  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
-
-  .hero { padding: 132px 0 100px; max-width: 700px; }
-  .hero .tag {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-family: 'IBM Plex Mono', monospace;
-    color: var(--signal);
-    font-size: 0.84rem;
-    margin-bottom: 26px;
-    padding: 7px 14px;
-    background: var(--signal-dim);
-    border-radius: 100px;
-    border: 1px solid rgba(95,211,163,0.22);
-  }
-  .hero .tag .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--signal); }
-  .hero h1 {
-    font-size: clamp(2.6rem, 6vw, 4rem);
-    font-weight: 700;
-    line-height: 1.05;
-    margin-bottom: 22px;
-    letter-spacing: -0.025em;
-  }
-  .hero p { color: var(--ink-dim); max-width: 48ch; font-size: 1.08rem; margin-bottom: 34px; }
-  .hero-cta { display: flex; gap: 12px; margin-bottom: 56px; }
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 12px 22px;
-    border-radius: 9px;
-    font-size: 0.9rem;
-    text-decoration: none;
-    font-weight: 500;
-    transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
-  }
-  .btn-primary { background: var(--signal); color: #0A0E14; box-shadow: 0 4px 18px -6px rgba(95,211,163,0.5); }
-  .btn-primary:hover { transform: translateY(-1px); background: #74dbb0; box-shadow: 0 6px 22px -6px rgba(95,211,163,0.6); }
-  .btn-ghost { border: 1px solid var(--line-strong); color: var(--ink); }
-  .btn-ghost:hover { border-color: var(--signal); color: var(--signal); }
-
-  .hero-stats { display: flex; gap: 36px; padding-top: 32px; border-top: 1px solid var(--line); }
-  .hero-stats div { display: flex; flex-direction: column; gap: 4px; }
-  .hero-stats .num { font-family: 'IBM Plex Mono', monospace; font-size: 1.5rem; font-weight: 500; color: var(--signal); }
-  .hero-stats .lbl { font-size: 0.8rem; color: var(--ink-faint); }
-
-  section { padding: 76px 0; border-top: 1px solid var(--line); }
-  .section-head { display: flex; align-items: baseline; gap: 14px; margin-bottom: 40px; }
-  .section-head .idx { font-family: 'IBM Plex Mono', monospace; color: var(--signal); font-size: 0.86rem; }
-  .section-head h2 { font-size: 1.6rem; font-weight: 700; letter-spacing: -0.015em; }
-
-  .skills { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
-  .skill {
-    background: var(--panel);
-    border: 1px solid var(--line);
-    border-radius: 12px;
-    padding: 24px 20px;
-    box-shadow: 0 8px 20px -12px var(--shadow);
-    transition: border-color 0.18s ease, transform 0.18s ease, background 0.18s ease;
-  }
-  .skill:hover { border-color: var(--line-strong); background: var(--panel-hover); transform: translateY(-3px); }
-  .skill h3 { font-size: 0.96rem; font-weight: 600; margin-bottom: 16px; }
-  .skill ul { list-style: none; display: flex; flex-direction: column; gap: 11px; }
-  .skill li { font-size: 0.84rem; color: var(--ink-dim); }
-  .skill li .bar { display: block; height: 3px; background: var(--line); border-radius: 3px; margin-top: 7px; overflow: hidden; }
-  .skill li .bar span { display: block; height: 100%; background: linear-gradient(90deg, var(--signal), #8de8c8); border-radius: 3px; }
-
-  .projects {
-    display: grid;
-    grid-template-columns: 1.35fr 1fr;
-    grid-template-rows: auto auto;
-    gap: 20px;
-  }
-  .project {
-    --accent: 95,211,163;
-    --mx: 50%; --my: 0%;
-    position: relative;
-    isolation: isolate;
-    display: flex;
-    flex-direction: column;
-    border-radius: 20px;
-    color: inherit;
-    text-decoration: none;
-    background: var(--panel);
-    border: 1px solid var(--line);
-    box-shadow: 0 14px 34px -20px var(--shadow);
-    overflow: hidden;
-    transition: transform 0.35s cubic-bezier(.2,.7,.2,1), box-shadow 0.35s ease, border-color 0.35s ease;
-  }
-  .project.featured { grid-row: span 2; }
-  .project:nth-child(2) { --accent: 139,127,232; }
-  .project:nth-child(3) { --accent: 224,166,73; }
-  /* halo qui suit la souris */
-  .project::after {
-    content: "";
-    position: absolute; inset: 0;
-    z-index: -1;
-    background: radial-gradient(420px circle at var(--mx) var(--my), rgba(var(--accent),0.14), transparent 45%);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-  }
-  .project:hover::after { opacity: 1; }
-  .project:hover {
-    transform: translateY(-6px);
-    border-color: rgba(var(--accent),0.45);
-    box-shadow: 0 28px 50px -24px rgba(var(--accent),0.45), 0 14px 34px -20px var(--shadow);
-  }
-
-  .project-visual {
-    position: relative;
-    height: 190px;
-    padding: 44px 16px 14px;
-    display: grid;
-    place-items: center;
-    color: rgb(var(--accent));
-    background:
-      radial-gradient(70% 90% at 50% 100%, rgba(var(--accent),0.18), transparent 70%),
-      var(--bg-soft);
-    border-bottom: 1px solid var(--line);
-    overflow: hidden;
-  }
-  .project.featured .project-visual { height: auto; flex: 1; min-height: 280px; padding: 50px 28px 24px; }
-  .project.featured .project-visual svg { max-width: 460px; }
-  .project-visual::before {
-    content: "";
-    position: absolute; inset: 0;
-    background-image:
-      linear-gradient(var(--line) 1px, transparent 1px),
-      linear-gradient(90deg, var(--line) 1px, transparent 1px);
-    background-size: 22px 22px;
-    -webkit-mask-image: radial-gradient(80% 80% at 50% 50%, #000, transparent 85%);
-            mask-image: radial-gradient(80% 80% at 50% 50%, #000, transparent 85%);
-  }
-  .project-visual svg { position: relative; width: 100%; max-width: 340px; height: 100%; transition: transform 0.5s cubic-bezier(.2,.7,.2,1); }
-  .project:hover .project-visual svg { transform: scale(1.04); }
-  .project-visual .node { fill: var(--panel); stroke: currentColor; stroke-width: 1.5; }
-  .project-visual .soft { fill: rgba(var(--accent),0.12); stroke: rgba(var(--accent),0.5); stroke-width: 1; }
-  .project-visual .wire { stroke: currentColor; stroke-width: 1.3; opacity: 0.45; fill: none; }
-  .project-visual .flow { stroke: currentColor; stroke-width: 2; fill: none; stroke-dasharray: 4 14; animation: flow 1.6s linear infinite; }
-  .project-visual .lbl { font-family: 'IBM Plex Mono', monospace; font-size: 9px; fill: currentColor; letter-spacing: 0.04em; }
-  .project-visual .lbl-dim { font-family: 'IBM Plex Mono', monospace; font-size: 8px; fill: var(--ink-faint); }
-  .project-visual .led { fill: currentColor; animation: blink 2s ease-in-out infinite; }
-  .project-visual .led:nth-of-type(2n) { animation-delay: .7s; }
-  @keyframes flow { to { stroke-dashoffset: -36; } }
-  @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: .25; } }
-
-  .project-badge {
-    position: absolute; top: 14px; left: 14px;
-    display: inline-flex; align-items: center; gap: 6px;
-    font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem;
-    padding: 5px 10px; border-radius: 100px;
-    color: rgb(var(--accent));
-    background: var(--panel);
-    border: 1px solid rgba(var(--accent),0.3);
-    z-index: 1;
-  }
-  .project-badge::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: rgb(var(--accent)); box-shadow: 0 0 8px rgb(var(--accent)); }
-  .project-num {
-    position: absolute; top: 12px; right: 16px; z-index: 1;
-    font-family: 'IBM Plex Mono', monospace; font-size: 0.78rem; color: var(--ink-faint);
-  }
-
-  .project-body { display: flex; flex-direction: column; gap: 10px; padding: 22px 24px 22px; }
-  .project h3 { font-size: 1.12rem; font-weight: 650; line-height: 1.3; letter-spacing: -0.01em; }
-  .project.featured h3 { font-size: 1.4rem; }
-  .project p { font-size: 0.87rem; color: var(--ink-dim); line-height: 1.6; }
-  .project-foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 6px; }
-  .project-tags { display: flex; flex-wrap: wrap; gap: 6px; list-style: none; }
-  .project-tags li {
-    font-family: 'IBM Plex Mono', monospace; font-size: 0.67rem;
-    color: var(--ink-dim);
-    background: var(--bg-soft);
-    border: 1px solid var(--line);
-    padding: 4px 9px; border-radius: 6px;
-  }
-  .project-go {
-    flex-shrink: 0;
-    width: 36px; height: 36px;
-    display: grid; place-items: center;
-    border-radius: 50%;
-    color: var(--ink-dim);
-    border: 1px solid var(--line-strong);
-    transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
-  }
-  .project-go svg { width: 16px; height: 16px; }
-  .project:hover .project-go { background: rgb(var(--accent)); border-color: rgb(var(--accent)); color: #0A0E14; transform: rotate(-45deg); }
-
-  .timeline { position: relative; padding-left: 30px; }
-  .timeline::before { content: ""; position: absolute; left: 5px; top: 6px; bottom: 6px; width: 1px; background: var(--line-strong); }
-  .tl-item { position: relative; padding-bottom: 36px; }
-  .tl-item:last-child { padding-bottom: 0; }
-  .tl-item::before {
-    content: "";
-    position: absolute;
-    left: -30px;
-    top: 4px;
-    width: 11px;
-    height: 11px;
-    border-radius: 50%;
-    background: var(--bg);
-    border: 2px solid var(--signal);
-    box-shadow: 0 0 0 4px var(--signal-dim);
-  }
-  .tl-item .period { font-family: 'IBM Plex Mono', monospace; color: var(--signal); font-size: 0.79rem; margin-bottom: 7px; display: block; }
-  .tl-item h3 { font-size: 1.06rem; font-weight: 600; margin-bottom: 7px; }
-  .tl-item p { color: var(--ink-dim); font-size: 0.92rem; }
-
-  .contact-panel {
-    position: relative;
-    overflow: hidden;
-    display: grid;
-    grid-template-columns: 1.1fr 1fr;
-    align-items: center;
-    gap: 44px;
-    padding: 52px;
-    border-radius: 22px;
-    border: 1px solid var(--line-strong);
-    background:
-      radial-gradient(80% 120% at 0% 0%, rgba(95,211,163,0.10), transparent 60%),
-      radial-gradient(60% 100% at 100% 100%, rgba(139,127,232,0.08), transparent 60%),
-      var(--panel);
-    box-shadow:
-      0 24px 50px -24px var(--shadow),
-      inset 0 1px 0 rgba(255,255,255,0.05);
-  }
-  .contact-panel::before {
-    content: "";
-    position: absolute;
-    top: 0; left: 8%; right: 8%;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--signal), transparent);
-    opacity: 0.55;
-  }
-  .contact-panel::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    background-image:
-      linear-gradient(var(--line) 1px, transparent 1px),
-      linear-gradient(90deg, var(--line) 1px, transparent 1px);
-    background-size: 28px 28px;
-    -webkit-mask-image: radial-gradient(70% 90% at 0% 0%, #000, transparent 70%);
-            mask-image: radial-gradient(70% 90% at 0% 0%, #000, transparent 70%);
-    opacity: 0.7;
-  }
-  .contact-panel > * { position: relative; z-index: 1; min-width: 0; }
-  .contact-panel h3 { font-size: 1.9rem; font-weight: 700; letter-spacing: -0.02em; margin: 4px 0 10px; }
-  .contact-panel p { color: var(--ink-dim); font-size: 0.95rem; line-height: 1.6; max-width: 38ch; }
-  .contact-links { display: flex; flex-direction: column; gap: 10px; }
-  .contact-link {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    padding: 12px 16px 12px 12px;
-    color: var(--ink);
-    text-decoration: none;
-    background: var(--bg-soft);
-    border: 1px solid var(--line);
-    border-radius: 14px;
-    transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
-  }
-  .contact-link .ic {
-    flex-shrink: 0;
-    width: 40px; height: 40px;
-    display: grid; place-items: center;
-    border-radius: 10px;
-    color: var(--signal);
-    background: var(--signal-dim);
-    border: 1px solid rgba(95,211,163,0.22);
-    transition: background 0.2s ease, color 0.2s ease;
-  }
-  .contact-link .ic svg { width: 19px; height: 19px; }
-  .contact-link .txt { display: flex; flex-direction: column; min-width: 0; flex: 1; }
-  .contact-link .lbl { font-size: 0.66rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 2px; }
-  .contact-link .val { font-family: 'IBM Plex Mono', monospace; font-size: 0.84rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .contact-link .go { color: var(--ink-faint); transition: transform 0.2s ease, color 0.2s ease; }
-  .contact-link:hover {
-    border-color: rgba(95,211,163,0.35);
-    background: var(--signal-dim);
-    transform: translateY(-2px);
-  }
-  .contact-link:hover .ic { background: var(--signal); color: #0A0E14; }
-  .contact-link:hover .go { color: var(--signal); transform: translate(3px,-3px); }
-  .mail-card:hover { transform: none; }
-  .mail-actions { display: flex; gap: 6px; flex-shrink: 0; }
-  .mail-btn {
-    display: inline-flex; align-items: center; gap: 6px;
-    padding: 8px 11px;
-    font: 500 0.76rem 'IBM Plex Sans', sans-serif;
-    color: var(--ink);
-    background: var(--panel);
-    border: 1px solid var(--line-strong);
-    border-radius: 9px;
-    cursor: pointer;
-    text-decoration: none;
-    transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
-  }
-  .mail-btn svg { width: 14px; height: 14px; }
-  .mail-btn:hover { border-color: var(--signal); color: var(--signal); }
-  .mail-btn.primary { background: var(--signal); border-color: var(--signal); color: #0A0E14; }
-  .mail-btn.primary:hover { background: #74dbb0; color: #0A0E14; }
-  .mail-btn.ok { border-color: var(--signal); color: var(--signal); }
-  .contact-social { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-  .social-btn {
-    display: flex; align-items: center; justify-content: center; gap: 10px;
-    padding: 14px 16px;
-    border-radius: 14px;
-    font-size: 0.9rem; font-weight: 600;
-    text-decoration: none;
-    color: #fff;
-    transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
-  }
-  .social-btn svg { width: 19px; height: 19px; }
-  .social-btn.linkedin { background: #0A66C2; box-shadow: 0 8px 20px -10px rgba(10,102,194,0.7); }
-  .social-btn.github { background: #24292F; border: 1px solid rgba(255,255,255,0.12); box-shadow: 0 8px 20px -10px rgba(0,0,0,0.6); }
-  .social-btn:hover { transform: translateY(-2px); filter: brightness(1.12); }
-  .social-btn.linkedin:hover { box-shadow: 0 12px 26px -10px rgba(10,102,194,0.85); }
-  .status { display: inline-flex; align-items: center; gap: 8px; font-family: 'IBM Plex Mono', monospace; font-size: 0.79rem; color: var(--signal); margin-bottom: 16px; }
-  .status .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--signal); box-shadow: 0 0 8px var(--signal); }
-
-  footer { padding: 32px 0 54px; display: flex; justify-content: space-between; color: var(--ink-faint); font-size: 0.8rem; font-family: 'IBM Plex Mono', monospace; }
-
-  /* ---- CV ---- */
-  .cv-card {
-    background: var(--panel);
-    border: 1px solid var(--line);
-    border-radius: 16px;
-    padding: 36px;
-    box-shadow: 0 12px 30px -14px var(--shadow);
-  }
-  .cv-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; flex-wrap: wrap; margin-bottom: 32px; padding-bottom: 28px; border-bottom: 1px solid var(--line); }
-  .cv-top h3 { font-size: 1.3rem; font-weight: 700; margin-bottom: 6px; }
-  .cv-role { color: var(--signal); font-size: 0.85rem; }
-  .cv-top .btn { white-space: nowrap; }
-  .cv-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
-  .cv-col h4 { font-size: 0.78rem; color: var(--ink-faint); letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 14px; }
-  .cv-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
-  .cv-list li { font-size: 0.88rem; color: var(--ink); display: flex; flex-direction: column; gap: 3px; }
-  .cv-list .cv-period { color: var(--signal); font-size: 0.75rem; }
-  .cv-list.plain li { color: var(--ink-dim); }
-  .cv-tags { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; }
-  .cv-tags li { font-size: 0.78rem; font-family: 'IBM Plex Mono', monospace; color: var(--ink-dim); background: var(--bg-soft); border: 1px solid var(--line); padding: 6px 11px; border-radius: 100px; }
-
-  /* ---- Lettre de motivation ---- */
-  .letter-card {
-    background: var(--panel);
-    border: 1px solid var(--line);
-    border-radius: 16px;
-    padding: 44px;
-    max-width: 720px;
-    margin: 0 auto;
-    box-shadow: 0 12px 30px -14px var(--shadow);
-  }
-  .letter-meta { display: flex; flex-direction: column; gap: 6px; font-size: 0.78rem; color: var(--ink-faint); margin-bottom: 26px; padding-bottom: 20px; border-bottom: 1px dashed var(--line-strong); }
-  .letter-body p { color: var(--ink-dim); font-size: 0.94rem; margin-bottom: 16px; }
-  .letter-body .letter-sign { color: var(--ink); font-weight: 600; margin-top: 20px; margin-bottom: 0; }
-  .letter-print { margin-top: 10px; }
-
-
-  @media print {
-    header, .hero-cta, #netbg, .bg-glow, .bg-grid, .bg-vignette, footer, #contact,
-    section:not(#cv):not(#lettre) { display: none !important; }
-    body { background: #fff; color: #111; }
-    .cv-card, .letter-card { box-shadow: none; border: none; }
-  }
-
-  @media (max-width: 760px) {
-    .hero { padding: 84px 0 64px; }
-    .hero-stats { gap: 24px; flex-wrap: wrap; }
-    .skills { grid-template-columns: 1fr 1fr; }
-    .projects { grid-template-columns: 1fr; }
-    .project.featured { grid-row: auto; }
-    .project.featured .project-visual { min-height: 200px; }
-    .contact-social { grid-template-columns: 1fr; }
-    .mail-btn span { display: none; }
-    .mail-btn { padding: 9px; }
-    nav a { padding: 8px 10px; }
-    header { flex-wrap: wrap; gap: 10px; }
-    nav { order: 3; width: 100%; justify-content: center; }
-    .docs-group { margin-left: auto; }
-    .doc-pill span { display: none; }
-    .doc-pill { padding: 8px; }
-    .doc-pill svg, .doc-pill-dot { margin: 0; }
-    .contact-panel { grid-template-columns: 1fr; gap: 28px; padding: 32px 26px; }
-    .contact-panel h3 { font-size: 1.55rem; }
-    footer { flex-direction: column; gap: 8px; }
-    .cv-grid { grid-template-columns: 1fr; gap: 24px; }
-    .cv-top { flex-direction: column; align-items: stretch; }
-    .cv-top .btn { width: 100%; justify-content: center; }
-    .letter-card { padding: 28px; }
-  }
-
-  :focus-visible { outline: 2px solid var(--signal); outline-offset: 3px; }
-  @media (prefers-reduced-motion: reduce) {
-    * { animation: none !important; transition: none !important; }
-    html { scroll-behavior: auto; }
-    #netbg { display: none; }
-  }
-</style>
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/accueil.css">
 </head>
 <body>
 
@@ -675,36 +65,100 @@
       <h2>Compétences</h2>
     </div>
     <div class="skills">
-      <div class="skill">
-        <h3>Réseaux</h3>
+      <div class="skill skill-reseau">
+        <div class="skill-head">
+          <span class="skill-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="5" rx="1"/><rect x="2" y="17" width="6" height="5" rx="1"/><rect x="16" y="17" width="6" height="5" rx="1"/><path d="M12 7v5M5 17v-3h14v3"/></svg></span>
+          <div class="skill-title"><h3>Réseaux</h3><span>Infra & connectivité</span></div>
+          <div class="skill-ring" style="--p:78" title="Moyenne 78%">
+            <svg viewBox="0 0 36 36"><circle cx="18" cy="18" r="15.5" pathLength="100"/><circle class="val" cx="18" cy="18" r="15.5" pathLength="100"/></svg>
+            <b>78</b>
+          </div>
+        </div>
         <ul>
-          <li>Adressage IP / VLSM<span class="bar"><span style="width:88%"></span></span></li>
-          <li>Routage &amp; VLAN<span class="bar"><span style="width:85%"></span></span></li>
-          <li>Pare-feu / ACL<span class="bar"><span style="width:60%"></span></span></li>
+          <li style="--p:88%">
+            <div class="skill-row"><span class="skill-name">Adressage IP / VLSM</span><span class="skill-lvl">Avancé</span></div>
+            <div class="skill-bar"><span></span></div>
+          </li>
+          <li style="--p:85%">
+            <div class="skill-row"><span class="skill-name">Routage &amp; VLAN</span><span class="skill-lvl">Avancé</span></div>
+            <div class="skill-bar"><span></span></div>
+          </li>
+          <li style="--p:60%">
+            <div class="skill-row"><span class="skill-name">Pare-feu / ACL</span><span class="skill-lvl">Intermédiaire</span></div>
+            <div class="skill-bar"><span></span></div>
+          </li>
         </ul>
       </div>
-      <div class="skill">
-        <h3>Systèmes</h3>
+      <div class="skill skill-systeme">
+        <div class="skill-head">
+          <span class="skill-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="7" rx="1.5"/><rect x="3" y="14" width="18" height="7" rx="1.5"/><path d="M7 6.5h.01M7 17.5h.01M11 6.5h6M11 17.5h6"/></svg></span>
+          <div class="skill-title"><h3>Systèmes</h3><span>Serveurs & postes</span></div>
+          <div class="skill-ring" style="--p:72" title="Moyenne 72%">
+            <svg viewBox="0 0 36 36"><circle cx="18" cy="18" r="15.5" pathLength="100"/><circle class="val" cx="18" cy="18" r="15.5" pathLength="100"/></svg>
+            <b>72</b>
+          </div>
+        </div>
         <ul>
-          <li>Windows Server / AD DS<span class="bar"><span style="width:82%"></span></span></li>
-          <li>Administration Linux<span class="bar"><span style="width:80%"></span></span></li>
-          <li>Scripting Bash / PS<span class="bar"><span style="width:55%"></span></span></li>
+          <li style="--p:82%">
+            <div class="skill-row"><span class="skill-name">Windows Server / AD DS</span><span class="skill-lvl">Avancé</span></div>
+            <div class="skill-bar"><span></span></div>
+          </li>
+          <li style="--p:80%">
+            <div class="skill-row"><span class="skill-name">Administration Linux</span><span class="skill-lvl">Avancé</span></div>
+            <div class="skill-bar"><span></span></div>
+          </li>
+          <li style="--p:55%">
+            <div class="skill-row"><span class="skill-name">Scripting Bash / PS</span><span class="skill-lvl">Intermédiaire</span></div>
+            <div class="skill-bar"><span></span></div>
+          </li>
         </ul>
       </div>
-      <div class="skill">
-        <h3>Sécurité</h3>
+      <div class="skill skill-securite">
+        <div class="skill-head">
+          <span class="skill-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5l-8-3Z"/><path d="m9 12 2 2 4-4"/></svg></span>
+          <div class="skill-title"><h3>Sécurité</h3><span>Protection & continuité</span></div>
+          <div class="skill-ring" style="--p:49" title="Moyenne 49%">
+            <svg viewBox="0 0 36 36"><circle cx="18" cy="18" r="15.5" pathLength="100"/><circle class="val" cx="18" cy="18" r="15.5" pathLength="100"/></svg>
+            <b>49</b>
+          </div>
+        </div>
         <ul>
-          <li>Sécurisation des accès<span class="bar"><span style="width:58%"></span></span></li>
-          <li>Supervision (Zabbix)<span class="bar"><span style="width:55%"></span></span></li>
-          <li>Sauvegarde &amp; PRA<span class="bar"><span style="width:35%"></span></span></li>
+          <li style="--p:58%">
+            <div class="skill-row"><span class="skill-name">Sécurisation des accès</span><span class="skill-lvl">Intermédiaire</span></div>
+            <div class="skill-bar"><span></span></div>
+          </li>
+          <li style="--p:55%">
+            <div class="skill-row"><span class="skill-name">Supervision (Zabbix)</span><span class="skill-lvl">Intermédiaire</span></div>
+            <div class="skill-bar"><span></span></div>
+          </li>
+          <li style="--p:35%">
+            <div class="skill-row"><span class="skill-name">Sauvegarde &amp; PRA</span><span class="skill-lvl">Notions</span></div>
+            <div class="skill-bar"><span></span></div>
+          </li>
         </ul>
       </div>
-      <div class="skill">
-        <h3>Outils</h3>
+      <div class="skill skill-outils">
+        <div class="skill-head">
+          <span class="skill-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.4-.6-.6-2.4 2.5-2.5Z"/></svg></span>
+          <div class="skill-title"><h3>Outils</h3><span>Labs & gestion de parc</span></div>
+          <div class="skill-ring" style="--p:61" title="Moyenne 61%">
+            <svg viewBox="0 0 36 36"><circle cx="18" cy="18" r="15.5" pathLength="100"/><circle class="val" cx="18" cy="18" r="15.5" pathLength="100"/></svg>
+            <b>61</b>
+          </div>
+        </div>
         <ul>
-          <li>Packet Tracer / GNS3<span class="bar"><span style="width:85%"></span></span></li>
-          <li>Proxmox<span class="bar"><span style="width:62%"></span></span></li>
-          <li>GLPI<span class="bar"><span style="width:35%"></span></span></li>
+          <li style="--p:85%">
+            <div class="skill-row"><span class="skill-name">Packet Tracer / GNS3</span><span class="skill-lvl">Avancé</span></div>
+            <div class="skill-bar"><span></span></div>
+          </li>
+          <li style="--p:62%">
+            <div class="skill-row"><span class="skill-name">Proxmox</span><span class="skill-lvl">Intermédiaire</span></div>
+            <div class="skill-bar"><span></span></div>
+          </li>
+          <li style="--p:35%">
+            <div class="skill-row"><span class="skill-name">GLPI</span><span class="skill-lvl">Notions</span></div>
+            <div class="skill-bar"><span></span></div>
+          </li>
         </ul>
       </div>
     </div>
@@ -851,302 +305,8 @@
   </footer>
 </div>
 
-<script>
-(function () {
-  // Fond "circuit imprimé" en 4 couches de profondeur.
-  // Chaque couche est un maillage de traces avec des impulsions lumineuses ;
-  // plus la couche est proche, plus les nœuds sont gros, flous et rapides.
-  // Les couches défilent à des vitesses différentes (parallaxe au scroll + souris)
-  // et se répètent à l'infini : le fond couvre toute la page, de haut en bas.
-  var canvas = document.getElementById('netbg');
-  if (!canvas) return;
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+<script src="js/background.js"></script>
 
-  var ctx = canvas.getContext('2d');
-  var root = document.documentElement;
-  var lightMQ = window.matchMedia('(prefers-color-scheme: light)');
-  var TAU = Math.PI * 2;
-  var w, h, dpr;
-  var sy = window.pageYOffset || 0;
-  var mx = 0, my = 0, tmx = 0, tmy = 0, last = 0;
-  var layers = [];
-
-  var COLORS = {
-    signal: '95,211,163',
-    amber: '224,166,73',
-    violet: '139,127,232',
-    inkD: '238,242,246',
-    inkL: '21,32,43'
-  };
-
-  // cell : taille de maille · par : parallaxe au scroll · drift : dérive (px/s)
-  // line/lw : opacité/épaisseur des traces · nr/na : rayon/opacité des nœuds
-  // halo/ha : rayon/opacité du halo des nœuds · hs : rayon du halo des impulsions
-  // tail : longueur de traînée · sp : vitesse · keep : densité des traces
-  // pf : quantité d'impulsions · on : proportion de nœuds actifs
-  var LAYERS = [
-    { cell: 84,  par: 0.05, drift: 3,  line: 0.05, lw: 0.6, nr: 0.9, na: 0.22, halo: 0,  ha: 0,    hs: 9,  tail: 14, sp: 0.5, keep: 0.55, pf: 0.05, on: 0.5 },
-    { cell: 130, par: 0.16, drift: 6,  line: 0.09, lw: 1,   nr: 1.8, na: 0.34, halo: 16, ha: 0.30, hs: 17, tail: 32, sp: 0.9, keep: 0.50, pf: 0.07, on: 0.5 },
-    { cell: 230, par: 0.42, drift: 11, line: 0.13, lw: 1.8, nr: 3.4, na: 0.48, halo: 40, ha: 0.55, hs: 36, tail: 76, sp: 1.5, keep: 0.42, pf: 0.10, on: 0.6 },
-    { cell: 380, par: 0.80, drift: 16, line: 0,    lw: 0,   nr: 0,   na: 0,    halo: 90, ha: 0.16, hs: 0,  tail: 0,  sp: 0,   keep: 0,    pf: 0,    on: 0.45 }
-  ];
-
-  var sprites = {};
-  Object.keys(COLORS).forEach(function (k) { sprites[k] = makeSprite(COLORS[k]); });
-
-  function makeSprite(rgb) {
-    var s = document.createElement('canvas');
-    s.width = s.height = 64;
-    var g = s.getContext('2d');
-    var grad = g.createRadialGradient(32, 32, 0, 32, 32, 32);
-    grad.addColorStop(0, 'rgba(' + rgb + ',1)');
-    grad.addColorStop(0.18, 'rgba(' + rgb + ',0.55)');
-    grad.addColorStop(0.5, 'rgba(' + rgb + ',0.14)');
-    grad.addColorStop(1, 'rgba(' + rgb + ',0)');
-    g.fillStyle = grad;
-    g.fillRect(0, 0, 64, 64);
-    return s;
-  }
-
-  function pickHue() {
-    var r = Math.random();
-    return r < 0.5 ? 'signal' : (r < 0.78 ? 'violet' : 'amber');
-  }
-  function pulseHue() {
-    var r = Math.random();
-    return r < 0.72 ? 'signal' : (r < 0.86 ? 'amber' : 'violet');
-  }
-
-  function resize() {
-    dpr = Math.min(window.devicePixelRatio || 1, 2);
-    w = window.innerWidth;
-    h = window.innerHeight;
-    canvas.width = w * dpr;
-    canvas.height = h * dpr;
-    canvas.style.width = w + 'px';
-    canvas.style.height = h + 'px';
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-  }
-
-  function addEdge(L, a, b) {
-    var A = L.nodes[a], B = L.nodes[b];
-    var dx = B.x - A.x, dy = B.y - A.y;
-    if (dy < -L.tileH / 2) dy += L.tileH;
-    L.edges.push({ a: a, b: b, len: Math.sqrt(dx * dx + dy * dy) || 1, ax: 0, ay: 0, bx: 0, by: 0 });
-  }
-
-  function spawn(L, startRandom) {
-    L.pulses.push({
-      e: L.edges[(Math.random() * L.edges.length) | 0],
-      t: startRandom ? Math.random() : 0,
-      v: (0.4 + Math.random() * 0.5) * L.sp,
-      hue: pulseHue()
-    });
-  }
-
-  function build() {
-    var k = w < 760 ? 0.72 : 1;
-    layers = LAYERS.map(function (cfg) {
-      var L = {}, key;
-      for (key in cfg) L[key] = cfg[key];
-      L.cell = cfg.cell * k;
-      L.halo = cfg.halo * k;
-      var cols = Math.ceil(w / L.cell) + 3;
-      var rows = Math.ceil((h + 2 * L.cell) / L.cell) + 1;
-      L.tileH = rows * L.cell;
-      L.nodes = [];
-      L.edges = [];
-      L.pulses = [];
-
-      var grid = [], jit = L.cell * 0.32, gx, gy;
-      for (gy = 0; gy < rows; gy++) {
-        grid[gy] = [];
-        for (gx = 0; gx < cols; gx++) {
-          grid[gy][gx] = L.nodes.length;
-          L.nodes.push({
-            x: (gx - 1) * L.cell + (Math.random() - 0.5) * jit,
-            y: gy * L.cell + (Math.random() - 0.5) * jit,
-            on: Math.random() < L.on,
-            ph: Math.random() * TAU,
-            tw: 0.5 + Math.random() * 1.3,
-            hue: pickHue()
-          });
-        }
-      }
-
-      if (L.keep) {
-        for (gy = 0; gy < rows; gy++) {
-          for (gx = 0; gx < cols; gx++) {
-            var a = grid[gy][gx];
-            if (gx < cols - 1 && Math.random() < L.keep) addEdge(L, a, grid[gy][gx + 1]);
-            // la dernière rangée se raccorde à la première : la couche boucle sans coupure
-            if (Math.random() < L.keep) addEdge(L, a, grid[(gy + 1) % rows][gx]);
-          }
-        }
-      }
-
-      L.pos = new Float32Array(L.nodes.length * 2);
-      if (L.pf && L.edges.length) {
-        var count = Math.max(5, Math.round(L.edges.length * L.pf));
-        for (var i = 0; i < count; i++) spawn(L, true);
-      }
-      return L;
-    });
-  }
-
-  function draw(now, dt) {
-    var theme = root.getAttribute('data-theme');
-    var light = theme === 'light' || (theme !== 'dark' && lightMQ.matches);
-    var ink = light ? COLORS.inkL : COLORS.inkD;
-
-    ctx.clearRect(0, 0, w, h);
-    ctx.globalCompositeOperation = light ? 'source-over' : 'lighter';
-
-    for (var li = 0; li < layers.length; li++) {
-      var L = layers[li], nodes = L.nodes, edges = L.edges, P = L.pos;
-      var i, e, n, ax, ay, bx, by;
-      var off = sy * L.par + now * 0.001 * L.drift;
-      var ox = mx * L.par * 60, oy = my * L.par * 40;
-      var half = L.tileH / 2;
-
-      // position écran de chaque nœud (répétition verticale infinie)
-      for (i = 0; i < nodes.length; i++) {
-        n = nodes[i];
-        P[2 * i] = n.x + ox;
-        P[2 * i + 1] = (((n.y - off) % L.tileH) + L.tileH) % L.tileH - L.cell + oy;
-      }
-
-      // traces
-      if (L.line) {
-        ctx.lineWidth = L.lw;
-        ctx.strokeStyle = 'rgba(' + ink + ',' + L.line + ')';
-        ctx.beginPath();
-        for (i = 0; i < edges.length; i++) {
-          e = edges[i];
-          ax = P[2 * e.a]; ay = P[2 * e.a + 1];
-          bx = P[2 * e.b]; by = P[2 * e.b + 1];
-          if (by - ay > half) by -= L.tileH;
-          else if (by - ay < -half) by += L.tileH;
-          e.ax = ax; e.ay = ay; e.bx = bx; e.by = by;
-          ctx.moveTo(ax, ay);
-          ctx.lineTo(bx, by);
-        }
-        ctx.stroke();
-      }
-
-      // nœuds : petits points au loin, grosses "étoiles" à halo et scintillement au premier plan
-      var pad = L.halo + 8;
-      for (i = 0; i < nodes.length; i++) {
-        n = nodes[i];
-        if (!n.on) continue;
-        var x = P[2 * i], y = P[2 * i + 1];
-        if (x < -pad || x > w + pad || y < -pad || y > h + pad) continue;
-        var tw = 0.65 + 0.35 * Math.sin(now * 0.001 * n.tw + n.ph);
-        if (L.halo) {
-          ctx.globalAlpha = L.ha * tw;
-          ctx.drawImage(sprites[n.hue], x - L.halo, y - L.halo, L.halo * 2, L.halo * 2);
-        }
-        if (L.nr) {
-          ctx.globalAlpha = 1;
-          ctx.fillStyle = 'rgba(' + ink + ',' + (L.na * tw).toFixed(3) + ')';
-          ctx.beginPath();
-          ctx.arc(x, y, L.nr, 0, TAU);
-          ctx.fill();
-        }
-      }
-      ctx.globalAlpha = 1;
-
-      // impulsions lumineuses
-      for (i = L.pulses.length - 1; i >= 0; i--) {
-        var p = L.pulses[i];
-        e = p.e;
-        p.t += p.v * dt / e.len;
-        if (p.t >= 1) { L.pulses.splice(i, 1); spawn(L, false); continue; }
-        var fade = Math.sin(p.t * Math.PI);
-        var px = e.ax + (e.bx - e.ax) * p.t;
-        var py = e.ay + (e.by - e.ay) * p.t;
-        var tt = Math.max(0, p.t - L.tail / e.len);
-        var tx = e.ax + (e.bx - e.ax) * tt;
-        var ty = e.ay + (e.by - e.ay) * tt;
-
-        ctx.strokeStyle = 'rgba(' + COLORS[p.hue] + ',' + (0.4 * fade).toFixed(3) + ')';
-        ctx.lineWidth = L.lw + 0.8;
-        ctx.beginPath();
-        ctx.moveTo(tx, ty);
-        ctx.lineTo(px, py);
-        ctx.stroke();
-
-        ctx.globalAlpha = 0.2 + 0.8 * fade;
-        ctx.drawImage(sprites[p.hue], px - L.hs, py - L.hs, L.hs * 2, L.hs * 2);
-        ctx.globalAlpha = 1;
-      }
-    }
-    ctx.globalCompositeOperation = 'source-over';
-  }
-
-  function frame(now) {
-    var dt = last ? Math.min(3, (now - last) / 16.667) : 1;
-    last = now;
-    mx += (tmx - mx) * 0.05 * dt;
-    my += (tmy - my) * 0.05 * dt;
-    draw(now, dt);
-    requestAnimationFrame(frame);
-  }
-
-  window.addEventListener('scroll', function () {
-    sy = window.pageYOffset || 0;
-    root.style.setProperty('--sy', sy);
-  }, { passive: true });
-
-  window.addEventListener('pointermove', function (ev) {
-    if (ev.pointerType === 'touch') return;
-    tmx = (ev.clientX / w - 0.5) * 2;
-    tmy = (ev.clientY / h - 0.5) * 2;
-  }, { passive: true });
-
-  var resizeTimer;
-  window.addEventListener('resize', function () {
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(function () {
-      resize();
-      build();
-    }, 200);
-  });
-
-  root.style.setProperty('--sy', sy);
-  resize();
-  build();
-  requestAnimationFrame(frame);
-})();
-</script>
-
-<script>
-(function () {
-  var btn = document.getElementById('copyMail');
-  if (btn) btn.addEventListener('click', function () {
-    var mail = 'gueantmatheo0@gmail.com', label = btn.querySelector('span');
-    var done = function () {
-      btn.classList.add('ok'); label.textContent = 'Copié !';
-      setTimeout(function () { btn.classList.remove('ok'); label.textContent = 'Copier'; }, 1800);
-    };
-    if (navigator.clipboard && window.isSecureContext) {
-      navigator.clipboard.writeText(mail).then(done, fallback);
-    } else fallback();
-    function fallback() {
-      var t = document.createElement('textarea'); t.value = mail; t.style.position = 'fixed'; t.style.opacity = '0';
-      document.body.appendChild(t); t.select();
-      try { document.execCommand('copy'); } catch (e) {}
-      document.body.removeChild(t); done();
-    }
-  });
-  document.querySelectorAll('.project').forEach(function (card) {
-    card.addEventListener('pointermove', function (e) {
-      var r = card.getBoundingClientRect();
-      card.style.setProperty('--mx', (e.clientX - r.left) + 'px');
-      card.style.setProperty('--my', (e.clientY - r.top) + 'px');
-    });
-  });
-})();
-</script>
+<script src="js/accueil.js"></script>
 </body>
 </html>
